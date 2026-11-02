@@ -63,24 +63,6 @@ Package discovery registers the service provider. The plugin is opt-in per panel
 
 Follow the [quick start](docs/quick-start.md) for authorization, publication, and rendering examples.
 
-## Documentation
-
-The complete developer book is configured for Mintlify. Install Node.js and the Mintlify CLI, then preview the documentation from the repository root:
-
-```sh
-npm install -g mint
-mint dev
-```
-
-Open `http://localhost:3000`. The Mintlify configuration is in [`docs.json`](docs.json), the landing page is [`index.mdx`](index.mdx), and the guides are in [`docs/`](docs/). Run `mint validate` and `mint broken-links` before publishing. See [preview and publish](docs/publishing-docs.md).
-
-The same Markdown guides can also be built as an optional static book with MkDocs:
-
-```sh
-python3 -m pip install -r requirements-docs.txt
-mkdocs build --strict
-```
-
 ## Development workbench
 
 `workbench/sandbox` is a disposable Laravel host application for exercising the Composer package in a realistic Filament panel. Follow its [workbench guide](workbench/sandbox/README.md); do not expose it publicly or reuse its demo accounts and authorization rules in production.
