@@ -1,6 +1,6 @@
 <?php
 
-return [
+$translations = [
     'page' => '頁面',
     'title' => '標題',
     'text' => '文字',
@@ -240,3 +240,12 @@ return [
     'menu_submenu_indent' => '子選單縮排（px）',
     'menu_responsive_hint' => '這些尺寸適用於上方選取的裝置。摺疊模式下，子選單會自動配合可用寬度。',
 ];
+
+// Keep newer editor panels readable in every supported locale while native translations are added.
+$english = require __DIR__ . '/../en/studio.php';
+
+foreach (['editor_ui', 'media_ui', 'canvas_ui'] as $group) {
+    $translations[$group] ??= $english[$group];
+}
+
+return $translations;

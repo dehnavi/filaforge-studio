@@ -3,7 +3,7 @@
 <header class="ff-import-header"><h2 id="ff-import-title"><span class="ff-heading-icon" x-html="iconSvg('file-code')"></span>{{ __('filaforge::studio.import_html') }}</h2><button type="button" class="ff-close-button" x-on:click="htmlImportOpen=false" :disabled="htmlImportBusy" aria-label="{{ __('filaforge::studio.close') }}"><span x-html="iconSvg('xmark')"></span></button></header>
 <div class="ff-import-body"><p class="ff-import-intro">{{ __('filaforge::studio.import_intro') }}</p>
 <label class="ff-source-field"><span>{{ __('filaforge::studio.import_code') }}</span><textarea dir="ltr" x-model="htmlSource" maxlength="262144" placeholder="<section>
-  <h1>Hello / سلام</h1>
+  <h1>Hello, world!</h1>
   <p>...</p>
 </section>" :disabled="htmlImportBusy" spellcheck="false"></textarea></label>
 <details class="ff-import-help"><summary>{{ __('filaforge::studio.import_details') }}</summary><p>{{ __('filaforge::studio.import_help') }}</p></details>

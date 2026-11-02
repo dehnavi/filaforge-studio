@@ -1,6 +1,6 @@
 <?php
 
-return [
+$translations = [
     'page' => 'Page',
     'title' => 'Titre',
     'text' => 'Texte',
@@ -240,3 +240,12 @@ return [
     'menu_submenu_indent' => 'Retrait du sous-menu (px)',
     'menu_responsive_hint' => 'Ces dimensions concernent l’appareil sélectionné ci-dessus. Les sous-menus repliés s’adaptent automatiquement à la largeur disponible.',
 ];
+
+// Keep newer editor panels readable in every supported locale while native translations are added.
+$english = require __DIR__ . '/../en/studio.php';
+
+foreach (['editor_ui', 'media_ui', 'canvas_ui'] as $group) {
+    $translations[$group] ??= $english[$group];
+}
+
+return $translations;

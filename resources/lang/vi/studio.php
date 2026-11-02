@@ -1,6 +1,6 @@
 <?php
 
-return [
+$translations = [
     'page' => 'Trang',
     'title' => 'Tiêu đề',
     'text' => 'Văn bản',
@@ -240,3 +240,12 @@ return [
     'menu_submenu_indent' => 'Độ thụt menu con (px)',
     'menu_responsive_hint' => 'Các kích thước này áp dụng cho thiết bị đã chọn ở trên. Menu con trong chế độ thu gọn tự vừa với chiều rộng có sẵn.',
 ];
+
+// Keep newer editor panels readable in every supported locale while native translations are added.
+$english = require __DIR__ . '/../en/studio.php';
+
+foreach (['editor_ui', 'media_ui', 'canvas_ui'] as $group) {
+    $translations[$group] ??= $english[$group];
+}
+
+return $translations;

@@ -11,7 +11,7 @@ FilaForge separates the editor interface language from the language and directio
 
 The package includes 17 translation catalogs: English (en), Persian (fa), Arabic (ar), French (fr), German (de), Spanish (es), Turkish (tr), Simplified Chinese (zh_CN), Italian (it), Hebrew (he), Hindi (hi), Japanese (ja), Vietnamese (vi), Traditional Chinese for Taiwan (zh_TW), Malay (ms), Danish (da), and Dutch (nl).
 
-Each catalog currently contains 238 matching keys. A matching key set does not mean every editor label is fully translated: some legacy strings remain hard-coded, and complete UI RTL/LTR parity is not yet claimed. Native translation review should happen before a public release.
+The editor, media library, and canvas controls use dedicated `editor_ui`, `media_ui`, and `canvas_ui` groups. These groups are present for every catalog so a locale never displays raw translation keys. English and Persian have native translations for these groups; the other catalogs currently fall back to English for these newer controls until their translations are reviewed. Older package strings continue to use each catalog's translations.
 
 ## Set the interface locale
 
@@ -25,6 +25,14 @@ Applications can override package strings in Laravel's standard path:
     lang/vendor/filaforge/fa/studio.php
 
 Use the locale folder names exactly, including zh_CN and zh_TW.
+
+## Configure editor direction
+
+The editor detects Arabic, Persian, Hebrew, and Urdu locale codes as right-to-left. Add or remove language codes with `rtl_locales` in `config/filaforge.php`:
+
+    'rtl_locales' => ['ar', 'fa', 'he', 'ur'],
+
+Regional locale variants such as `ar-SA` and `he-IL` are matched by their language code.
 
 ## Set the page locale and direction
 

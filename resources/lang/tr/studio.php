@@ -1,6 +1,6 @@
 <?php
 
-return [
+$translations = [
     'page' => 'Sayfa',
     'title' => 'Başlık',
     'text' => 'Metin',
@@ -240,3 +240,12 @@ return [
     'menu_submenu_indent' => 'Alt menü girintisi (px)',
     'menu_responsive_hint' => 'Bu boyutlar yukarıda seçilen cihaz için geçerlidir. Daraltılmış alt menüler kullanılabilir genişliğe otomatik sığar.',
 ];
+
+// Keep newer editor panels readable in every supported locale while native translations are added.
+$english = require __DIR__ . '/../en/studio.php';
+
+foreach (['editor_ui', 'media_ui', 'canvas_ui'] as $group) {
+    $translations[$group] ??= $english[$group];
+}
+
+return $translations;

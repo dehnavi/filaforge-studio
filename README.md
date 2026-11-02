@@ -4,7 +4,43 @@
 
 FilaForge Studio stores pages as validated, versioned JSON documents. Editors work inside a Filament panel, while Laravel renders published revisions on the public site without loading the editor runtime.
 
+## Supported languages
+
+FilaForge Studio includes these 17 interface locale catalogs.
+
+| Language | Locale | Flag | Editor direction |
+| --- | --- | --- | --- |
+| Arabic | `ar` | 🇸🇦 | RTL |
+| Danish | `da` | 🇩🇰 | LTR |
+| German | `de` | 🇩🇪 | LTR |
+| English | `en` | 🇬🇧 | LTR |
+| Spanish | `es` | 🇪🇸 | LTR |
+| Persian | `fa` | 🇮🇷 | RTL |
+| French | `fr` | 🇫🇷 | LTR |
+| Hebrew | `he` | 🇮🇱 | RTL |
+| Hindi | `hi` | 🇮🇳 | LTR |
+| Italian | `it` | 🇮🇹 | LTR |
+| Japanese | `ja` | 🇯🇵 | LTR |
+| Malay | `ms` | 🇲🇾 | LTR |
+| Dutch | `nl` | 🇳🇱 | LTR |
+| Turkish | `tr` | 🇹🇷 | LTR |
+| Vietnamese | `vi` | 🇻🇳 | LTR |
+| Chinese (Simplified) | `zh_CN` | 🇨🇳 | LTR |
+| Chinese (Traditional, Taiwan) | `zh_TW` | 🇹🇼 | LTR |
+
+English and Persian have native translations for the newer editor, media library, and canvas controls. Other catalogs fall back to English for those controls until native translations are reviewed. See the [localization guide](docs/localization.md) to configure language overrides and RTL locales.
+
 [Composer package](https://packagist.org/packages/filaforge-studio/filaforge-studio) · [GitHub repository](https://github.com/dehnavi/filaforge-studio) · [Installation guide](docs/installation.md) · [Security guide](docs/security.md)
+
+## Preview
+
+An English sample page rendered by FilaForge Studio, featuring responsive sections, feature cards, pricing, and testimonials:
+
+![FilaForge Studio English page showcase](docs/assets/filaforge-studio-showcase.png)
+
+The same page open in the Filament editor, with the widget library, canvas, and settings panels:
+
+![FilaForge Studio Filament editor showcase](docs/assets/filaforge-studio-editor.png)
 
 ## Features
 

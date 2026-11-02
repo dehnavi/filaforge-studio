@@ -1,6 +1,6 @@
 <?php
 
-return [
+$translations = [
     'page' => 'Side',
     'title' => 'Titel',
     'text' => 'Tekst',
@@ -240,3 +240,12 @@ return [
     'menu_submenu_indent' => 'Undermenuens indrykning (px)',
     'menu_responsive_hint' => 'Disse mål gælder enheden valgt ovenfor. Sammenfoldede undermenuer tilpasser sig automatisk den ledige bredde.',
 ];
+
+// Keep newer editor panels readable in every supported locale while native translations are added.
+$english = require __DIR__ . '/../en/studio.php';
+
+foreach (['editor_ui', 'media_ui', 'canvas_ui'] as $group) {
+    $translations[$group] ??= $english[$group];
+}
+
+return $translations;

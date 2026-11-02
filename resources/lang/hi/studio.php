@@ -1,6 +1,6 @@
 <?php
 
-return [
+$translations = [
     'page' => 'पृष्ठ',
     'title' => 'शीर्षक',
     'text' => 'पाठ',
@@ -240,3 +240,12 @@ return [
     'menu_submenu_indent' => 'सबमेनू का इंडेंट (px)',
     'menu_responsive_hint' => 'ये आकार ऊपर चुने गए उपकरण पर लागू होते हैं। समेटे गए मेनू में सबमेनू उपलब्ध चौड़ाई में अपने आप फिट होते हैं।',
 ];
+
+// Keep newer editor panels readable in every supported locale while native translations are added.
+$english = require __DIR__ . '/../en/studio.php';
+
+foreach (['editor_ui', 'media_ui', 'canvas_ui'] as $group) {
+    $translations[$group] ??= $english[$group];
+}
+
+return $translations;

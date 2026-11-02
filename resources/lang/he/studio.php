@@ -1,6 +1,6 @@
 <?php
 
-return [
+$translations = [
     'page' => 'עמוד',
     'title' => 'כותרת',
     'text' => 'טקסט',
@@ -240,3 +240,12 @@ return [
     'menu_submenu_indent' => 'הזחת תפריט משנה (פיקסלים)',
     'menu_responsive_hint' => 'המידות חלות על המכשיר שנבחר למעלה. תפריטי משנה במצב מכווץ מותאמים אוטומטית לרוחב הזמין.',
 ];
+
+// Keep newer editor panels readable in every supported locale while native translations are added.
+$english = require __DIR__ . '/../en/studio.php';
+
+foreach (['editor_ui', 'media_ui', 'canvas_ui'] as $group) {
+    $translations[$group] ??= $english[$group];
+}
+
+return $translations;

@@ -12,6 +12,8 @@ return [
     'data_providers' => [],
     'dynamic_slots' => [],
     'company' => [],
+    // Locales whose editor chrome should use right-to-left layout.
+    'rtl_locales' => ['ar', 'fa', 'he', 'ur'],
     // Trusted font definitions: family, translated label, fallback, locales, WOFF2 sources.
     'fonts' => [
         // 'noto-hi' => [
