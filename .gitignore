@@ -15,6 +15,7 @@ Thumbs.db
 /dist/
 /.venv-docs/
 /site/
+/src/_props/
 
 /.transfer-backups/
 /workbench/sandbox/vendor/

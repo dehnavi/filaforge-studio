@@ -1,0 +1,58 @@
+{
+  "$schema": "https://mintlify.com/docs.json",
+  "theme": "maple",
+  "name": "FilaForge Studio",
+  "colors": {
+    "primary": "#6657D9"
+  },
+  "navigation": {
+    "groups": [
+      {
+        "group": "Overview",
+        "icon": "house",
+        "pages": ["index", "docs/index"]
+      },
+      {
+        "group": "Get started",
+        "icon": "rocket",
+        "pages": ["docs/installation", "docs/quick-start", "docs/configuration"]
+      },
+      {
+        "group": "Page building",
+        "icon": "panels-top-left",
+        "pages": [
+          "docs/editor",
+          "docs/widgets-and-presets",
+          "docs/media-and-fonts",
+          "docs/localization",
+          "docs/seo",
+          "docs/html-import",
+          "docs/html-output"
+        ]
+      },
+      {
+        "group": "Developer guides",
+        "icon": "code",
+        "pages": [
+          "docs/architecture",
+          "docs/dynamic-content",
+          "docs/allowed-data-sources",
+          "docs/dropdown-menu-and-page-scripts",
+          "docs/security"
+        ]
+      },
+      {
+        "group": "Project",
+        "icon": "book-open-check",
+        "pages": [
+          "docs/limitations",
+          "docs/contributor-guide",
+          "docs/publishing-docs"
+        ]
+      }
+    ]
+  },
+  "seo": {
+    "indexing": "all"
+  }
+}

@@ -31,10 +31,12 @@ publishedResponse($page) supplies the page title and includes enabled page integ
 
 If the application owns the document head, render metadata in the host layout and add the FilaForge fragment:
 
-    <title>{{ $seoTitle }}</title>
-    <meta name="description" content="{{ $seoDescription }}">
-    <link rel="canonical" href="{{ $canonicalUrl }}">
-    <main>{{ filaforge_html($revision->document, $pageLocale) }}</main>
+```blade
+<title>{{ $seoTitle }}</title>
+<meta name="description" content="{{ $seoDescription }}" />
+<link rel="canonical" href="{{ $canonicalUrl }}" />
+<main>{{ filaforge_html($revision->document, $pageLocale) }}</main>
+```
 
 Keep metadata values escaped. Add Open Graph tags, social cards, JSON-LD, and site-specific analytics through the host layout and trusted application services. FilaForge does not generate structured data or a sitemap automatically.
 

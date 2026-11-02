@@ -32,4 +32,4 @@ Register trusted widgets, fonts, dynamic data providers, filters, formatters, an
 
 ## Product status
 
-FilaForge Studio is under active development. It is not yet a stable production release or Packagist distribution. Some capabilities require explicit host application authorization and integration. Read the [current status and known limits](limitations.md) before adopting it.
+FilaForge Studio is published on Packagist as `v0.1.0` and remains under active development. Some capabilities require explicit host application authorization and integration. Read the [current status and known limits](limitations.md) before adopting it.

@@ -1,0 +1,64 @@
+---
+title: "FilaForge Studio"
+description: "Build, manage, and publish responsive Laravel pages visually inside Filament 5, with Persian and RTL support built in."
+---
+
+# Build pages visually. Keep Laravel in control.
+
+FilaForge Studio is a visual page builder for Laravel and Filament 5. Editors compose responsive pages from reusable widgets and presets; Laravel stores validated, versioned JSON and renders published pages with Blade.
+
+<CardGroup cols={2}>
+  <Card title="Install the package" icon="download" href="/docs/installation">
+    Add FilaForge Studio to a Laravel 12 application and enable it in a Filament panel.
+  </Card>
+  <Card title="Create your first page" icon="wand-sparkles" href="/docs/quick-start">
+    Configure permissions, create a page, publish a revision, and render it through Laravel.
+  </Card>
+  <Card title="Explore the visual editor" icon="panels-top-left" href="/docs/editor">
+    Learn the canvas, widget library, properties, layers, inline editing, and preview tools.
+  </Card>
+  <Card title="Review security" icon="shield-check" href="/docs/security">
+    Apply authorization, safe rendering, trusted data providers, and protected media practices.
+  </Card>
+</CardGroup>
+
+## Install
+
+```sh
+composer require filaforge-studio/filaforge-studio
+php artisan filaforge:install
+php artisan migrate
+```
+
+Register the plugin on each Filament panel that should manage pages:
+
+```php
+use FilaForge\Studio\Filament\FilaForgeStudioPlugin;
+use Filament\Panel;
+
+public function panel(Panel $panel): Panel
+{
+    return $panel->plugin(FilaForgeStudioPlugin::make());
+}
+```
+
+## What you can build
+
+- Responsive pages with containers, grids, columns, typography, buttons, media, tables, navigation, carousels, and interactive sections.
+- Ready-to-edit sections such as hero, pricing, testimonials, FAQ, call to action, progress, wizard, and dropdown navigation.
+- Persian, Arabic, English, and mixed-direction content, with page language and text direction independent from the admin UI.
+- Media-backed pages with Laravel Filesystem uploads, folders, categories, image editing, and remote media URLs.
+- Dynamic pages using explicitly registered and authorized data providers.
+- SEO-ready Blade output and HTML helpers for fragments, full documents, and HTTP responses.
+
+## How it works
+
+The editor changes a local document tree and synchronizes validated updates with Livewire. The server stores versioned JSON, applies authorization and validation, and renders the published revision with trusted Blade widget views. Public pages do not load the editor runtime.
+
+<Note>
+FilaForge Studio `v0.1.0` is published on Packagist and is under active development. Review the [current capabilities and limitations](/docs/limitations) before adopting it in production.
+</Note>
+
+## Documentation map
+
+Start with the [installation guide](/docs/installation), then follow the [quick start](/docs/quick-start). For implementation details, browse the [architecture](/docs/architecture), [dynamic content](/docs/dynamic-content), [allowed data sources](/docs/allowed-data-sources), and [security](/docs/security) guides.

@@ -43,7 +43,7 @@ nav:
       - Dropdown Menus and Page Scripts: dropdown-menu-and-page-scripts.md
       - Security: security.md
       - Current Capabilities and Limitations: limitations.md
-      - Contributing: contributing.md
+      - Contributing: contributor-guide.md
       - Documentation Publishing: publishing-docs.md
 
 plugins:

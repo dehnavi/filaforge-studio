@@ -5,6 +5,8 @@ description: Configure FilaForge Studio document limits, custom widgets, media s
 
 # Configuration
 
+Install the published package with `composer require filaforge-studio/filaforge-studio`, then publish its configuration with the command below. For local package development, follow the path or Git VCS steps in the [installation guide](installation.md).
+
 Publish `config/filaforge.php` with `php artisan filaforge:install` or `php artisan vendor:publish --tag=filaforge-config`. Keep application-specific providers and authorization in the host application.
 
 ## Document and media limits

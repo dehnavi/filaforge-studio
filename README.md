@@ -1,24 +1,28 @@
 # FilaForge Studio
 
-**Build responsive Laravel pages visually inside Filament 5.** FilaForge Studio is an RTL-aware page builder package for teams that want editable pages, reusable layouts, media, and server-rendered output in the Laravel application they already maintain.
+**A visual page builder for Laravel and Filament 5, with Persian and RTL authoring built in.** Create responsive pages with drag and drop, reusable sections, media, dynamic data, and server-rendered Blade output.
 
-Compose a page from containers, headings, grids, buttons, media, navigation, tables, carousels, pricing sections, FAQs, and other reusable presets. Edit content on the canvas, work in Persian or English, and render the published document with Blade. The public renderer does not load the editor runtime.
+FilaForge Studio stores pages as validated, versioned JSON documents. Editors work inside a Filament panel, while Laravel renders published revisions on the public site without loading the editor runtime.
 
-> **Development status:** The package is under active development and is not yet a stable production release or published on Packagist. See [current capabilities and limitations](docs/limitations.md) before adopting it.
+[Composer package](https://packagist.org/packages/filaforge-studio/filaforge-studio) · [GitHub repository](https://github.com/dehnavi/filaforge-studio) · [Installation guide](docs/installation.md) · [Security guide](docs/security.md)
 
-## Why FilaForge Studio
+## Features
 
-- **Laravel and Filament native:** Composer package discovery, Filament 5 panel plugin, Livewire editor, Eloquent persistence, Laravel Filesystem media, and Blade rendering.
-- **Visual editing:** iframe-isolated canvas, drag and drop, layers, inline rich text, undo and redo, responsive settings, and reusable page sections.
-- **RTL-aware authoring:** Persian and English content can use independent language and direction settings; the editor includes Persian translations and configurable fonts.
-- **Designed to extend:** register widgets, data providers, presets, fonts, and shortcode-backed components from host application code.
-- **Controlled publishing:** versioned JSON documents, draft and published revisions, permission checks, and server-side validation.
+- **Visual editing:** iframe-isolated canvas, drag and drop, nested layouts, layers, inline rich text, undo and redo, responsive settings, preview, and context actions.
+- **Widgets and presets:** containers, grids, columns, typography, buttons, icons, images, video, tables, navigation, carousels, pricing, testimonials, FAQ, progress, wizard, and dropdown menus.
+- **Persian and RTL:** independent editor language and page direction, mixed RTL/LTR content, locale catalogs, and configurable fonts.
+- **Media library:** Laravel Filesystem uploads, stable media references, folders, categories, metadata, image editing, and remote image/video URLs.
+- **Dynamic content:** explicitly registered providers, allowlisted fields and filters, bounded query loops, and conditional content.
+- **Blade output:** render an HTML fragment, a complete HTML document, an HTTP response, or a published page revision.
+- **Extensibility:** register trusted widgets, presets, fonts, and Laravel data providers from the host application.
+
+See [widgets and presets](docs/widgets-and-presets.md), [media and fonts](docs/media-and-fonts.md), and [current capabilities and limitations](docs/limitations.md) for the implemented behavior and coverage.
 
 ## Requirements
 
 - PHP 8.2 or newer
 - Laravel 12
-- Filament 5 (and its compatible Livewire version)
+- Filament 5 and its compatible Livewire version
 - PHP extensions: DOM, Fileinfo, GD, and mbstring
 - A database driver supported by the host Laravel application
 - `pdo_sqlite` to run the package test suite
@@ -26,28 +30,15 @@ Compose a page from containers, headings, grids, buttons, media, navigation, tab
 
 ## Install
 
-FilaForge Studio is not published on Packagist yet. For the current development checkout, install it through a Composer path repository. See the [complete installation guide](docs/installation.md) for both a local checkout and a Git VCS source.
-
-```json
-{
-  "repositories": [
-    { "type": "path", "url": "../filaforge-studio", "options": { "symlink": true } }
-  ],
-  "require": {
-    "filaforge-studio/filaforge-studio": "@dev"
-  }
-}
-```
-
-Then run:
+Install the package from Packagist and run its setup and migrations:
 
 ```sh
-composer update filaforge-studio/filaforge-studio
+composer require filaforge-studio/filaforge-studio
 php artisan filaforge:install
 php artisan migrate
 ```
 
-Register the plugin on each Filament panel where the builder should appear:
+Register the plugin on each Filament panel where the page builder should be available:
 
 ```php
 use FilaForge\Studio\Filament\FilaForgeStudioPlugin;
@@ -59,45 +50,40 @@ public function panel(Panel $panel): Panel
 }
 ```
 
-Package discovery registers the service provider. The plugin is opt-in per panel; it does not claim your public website routes or replace the panel theme.
+Package discovery registers the service provider. The plugin is opt-in per panel. Configure host authorization before allowing editors to create, update, publish, or moderate pages and comments. See the [complete installation guide](docs/installation.md) and [security guide](docs/security.md).
 
-## Build your first page
+## Create your first page
 
-1. Define page-management permissions in the host application.
+1. Define page-management abilities in the host application.
 2. Open **Pages** in the selected Filament panel and create a page with its language and direction.
-3. Open the editor, add a section or container, then drag a heading, image, button, or preset into the canvas.
-4. Select an element to edit its properties. Use preview to inspect the page before publishing.
-5. Save the draft and publish when ready.
-6. Render only the page's published revision in your website route.
+3. Add a section or container, then drag widgets or presets onto the canvas.
+4. Select an element to edit its content, typography, colors, background, and responsive settings.
+5. Preview the page, save a draft, and publish when it is ready.
+6. Render the published revision from a host-owned Laravel route.
 
-The [quick start](docs/quick-start.md) includes the required authorization and rendering examples.
-
-## Feature highlights
-
-| Area | Included |
-| --- | --- |
-| Editor | Drag and drop, nested layout, inline rich text, layers, context actions, undo and redo, responsive preview |
-| Widgets | 30 built-in widget types, including layout, content, media, navigation, interaction, dynamic data, progress and wizard |
-| Presets | 18 built-in page sections, including hero, pricing, navbar, features, testimonials, FAQ, CTA, carousel and dropdown menu |
-| Media | Laravel Filesystem uploads, stable media references, image editing, folders, categories, remote image/video URLs |
-| Dynamic content | Explicit data providers, allowlisted fields and filters, query loops, conditional content, safe shortcode-to-widget conversion |
-| Localization | 17 translation catalogs; page language and direction can be chosen separately |
-| Output | Blade fragment, complete HTML document, response helper, published-revision rendering |
-
-Counts describe the current implementation and may change before the first stable release. See the [full capability and release checklist](docs/limitations.md).
+Follow the [quick start](docs/quick-start.md) for authorization, publication, and rendering examples.
 
 ## Documentation
 
-The complete developer book is built with MkDocs. Read it online after deployment, or preview it locally:
+The complete developer book is configured for Mintlify. Install Node.js and the Mintlify CLI, then preview the documentation from the repository root:
 
 ```sh
-python3 -m venv .venv-docs
-. .venv-docs/bin/activate
-python -m pip install -r requirements-docs.txt
-mkdocs serve
+npm install -g mint
+mint dev
 ```
 
-Then open `http://127.0.0.1:8000`. Browse the [installation](docs/installation.md), [editor guide](docs/editor.md), [widgets and presets](docs/widgets-and-presets.md), [security guide](docs/security.md), and [API guides](docs/).
+Open `http://localhost:3000`. The Mintlify configuration is in [`docs.json`](docs.json), the landing page is [`index.mdx`](index.mdx), and the guides are in [`docs/`](docs/). Run `mint validate` and `mint broken-links` before publishing. See [preview and publish](docs/publishing-docs.md).
+
+The same Markdown guides can also be built as an optional static book with MkDocs:
+
+```sh
+python3 -m pip install -r requirements-docs.txt
+mkdocs build --strict
+```
+
+## Development workbench
+
+`workbench/sandbox` is a disposable Laravel host application for exercising the Composer package in a realistic Filament panel. Follow its [workbench guide](workbench/sandbox/README.md); do not expose it publicly or reuse its demo accounts and authorization rules in production.
 
 ## Tests
 
@@ -106,8 +92,12 @@ composer install
 vendor/bin/phpunit -c phpunit.xml
 ```
 
-The current checkout has a backend suite covering documents, rendering, Filament integration, permissions, media, dynamic data, scripts, and localization. Test results and their boundaries are listed in [project status](docs/limitations.md). The package is not yet verified against a complete Laravel/Filament version matrix or production host setup.
+The backend suite covers document validation, rendering, Filament integration, permissions, media, dynamic data, scripts, and localization. See [verification and limitations](docs/limitations.md) for the tested environment and remaining coverage gaps.
+
+## Contributing and security
+
+Read [CONTRIBUTING.md](CONTRIBUTING.md) before making changes. Report vulnerabilities privately using the instructions in [SECURITY.md](SECURITY.md).
 
 ## License
 
-FilaForge Studio is distributed under the [MIT License](LICENSE), using the copyright holder specified for this project. Third-party assets may have separate terms; see their bundled notices.
+FilaForge Studio is distributed under the [MIT License](LICENSE). Third-party assets may have separate terms; see their bundled notices.

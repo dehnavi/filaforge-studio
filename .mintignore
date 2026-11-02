@@ -1,0 +1,12 @@
+/vendor/
+/workbench/
+/src/_props/
+/.git/
+/.github/
+/CHANGELOG.md
+/CONTRIBUTING.md
+/LICENSE
+/README.md
+/SECURITY.md
+/mkdocs.yml
+/requirements-docs.txt

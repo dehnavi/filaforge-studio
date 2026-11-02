@@ -29,7 +29,7 @@ The suite used an available PHP runtime configuration with `pdo_sqlite`; the def
 
 ## Not yet verified or complete
 
-- Stable 1.0 API, public Packagist release, compatibility matrix, and a clean public archive installation.
+- Stable 1.0 API, compatibility matrix, and a clean public archive installation.
 - Complete GrapesJS feature parity or unrestricted CSS editing.
 - Full translation coverage and UI direction across every locale, dark mode, and customized Filament themes.
 - Host-specific tenant authorization, private routes, and tenant-aware comment/media lists.

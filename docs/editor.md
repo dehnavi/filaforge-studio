@@ -1,6 +1,6 @@
 ---
 title: Visual Editor Guide | FilaForge Studio
-description: Learn the FilaForge visual editor: canvas, drag and drop, inline editing, layers, responsive controls, history, preview, media, and RTL page authoring.
+description: "Learn the FilaForge visual editor: canvas, drag and drop, inline editing, layers, responsive controls, history, preview, media, and RTL page authoring."
 ---
 
 # Visual Editor
