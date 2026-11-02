@@ -1,6 +1,6 @@
 {
     "$schema": "https://getcomposer.org/schema.json",
-    "name": "filaforge/studio-workbench",
+    "name": "filaforge-studio/workbench",
     "type": "project",
     "description": "The skeleton application for the Laravel framework.",
     "keywords": [
@@ -12,7 +12,7 @@
         "php": "^8.2",
         "laravel/framework": "^12.0",
         "laravel/tinker": "^2.10.1",
-        "filaforge/studio": "dev-main"
+        "filaforge-studio/filaforge-studio": "dev-main"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
@@ -95,7 +95,7 @@
             "options": {
                 "symlink": false,
                 "versions": {
-                    "filaforge/studio": "dev-main"
+                    "filaforge-studio/filaforge-studio": "dev-main"
                 }
             }
         }

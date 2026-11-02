@@ -34,13 +34,13 @@ In your host application's composer.json, add a path repository and package requ
         }
       ],
       "require": {
-        "filaforge/studio": "@dev"
+        "filaforge-studio/filaforge-studio": "@dev"
       }
     }
 
 Then install and run setup:
 
-    composer update filaforge/studio
+    composer update filaforge-studio/filaforge-studio
     php artisan filaforge:install
     php artisan migrate
 
@@ -58,7 +58,7 @@ Replace the placeholders with the actual repository location and branch:
         }
       ],
       "require": {
-        "filaforge/studio": "dev-main"
+        "filaforge-studio/filaforge-studio": "dev-main"
       }
     }
 
@@ -112,6 +112,6 @@ See [Configuration](configuration.md) for available settings.
 
 Once a tagged release is published and indexed, installation will use:
 
-    composer require filaforge/studio
+    composer require filaforge-studio/filaforge-studio
 
 That command is not available until publication.

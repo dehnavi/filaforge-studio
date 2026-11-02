@@ -34,7 +34,7 @@ FilaForge Studio is not published on Packagist yet. For the current development 
     { "type": "path", "url": "../filaforge-studio", "options": { "symlink": true } }
   ],
   "require": {
-    "filaforge/studio": "@dev"
+    "filaforge-studio/filaforge-studio": "@dev"
   }
 }
 ```
@@ -42,7 +42,7 @@ FilaForge Studio is not published on Packagist yet. For the current development 
 Then run:
 
 ```sh
-composer update filaforge/studio
+composer update filaforge-studio/filaforge-studio
 php artisan filaforge:install
 php artisan migrate
 ```

@@ -1,5 +1,5 @@
 {
-    "name": "filaforge/studio",
+    "name": "filaforge-studio/filaforge-studio",
     "description": "RTL-first visual page builder for Filament 5",
     "type": "library",
     "license": "MIT",

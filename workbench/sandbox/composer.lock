@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7350eefd92142e93c0606f3ddd0a3c34",
+    "content-hash": "2765c6c8b110417389e4fffa464ac811",
     "packages": [
         {
             "name": "anourvalar/eloquent-serialize",
@@ -1139,26 +1139,29 @@
             "time": "2025-03-06T22:45:56+00:00"
         },
         {
-            "name": "filaforge/studio",
+            "name": "filaforge-studio/filaforge-studio",
             "version": "dev-main",
             "dist": {
                 "type": "path",
                 "url": "../..",
-                "reference": null
+                "reference": "0f69339e5b0ba99c1186232c2707a1212937c6f0"
             },
             "require": {
-                "php": "^8.2",
-                "filament/filament": "^5.0",
-                "illuminate/support": "^12.0",
                 "ext-dom": "*",
                 "ext-fileinfo": "*",
                 "ext-gd": "*",
                 "ext-mbstring": "*",
+                "filament/filament": "^5.0",
+                "illuminate/support": "^12.0",
+                "php": "^8.2",
                 "symfony/html-sanitizer": "^7.0"
             },
             "require-dev": {
                 "orchestra/testbench": "^10.0",
                 "phpunit/phpunit": "^11.0"
+            },
+            "suggest": {
+                "ext-intl": "Persian calendar date formatting (persian_date)"
             },
             "type": "library",
             "extra": {
@@ -1178,13 +1181,35 @@
                     "FilaForge\\Studio\\Tests\\": "tests/"
                 }
             },
+            "archive": {
+                "exclude": [
+                    "/.transfer-backups",
+                    "/workbench",
+                    "/tests",
+                    "/.github"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
             "description": "RTL-first visual page builder for Filament 5",
+            "homepage": "https://github.com/dehnavi/filaforge-studio",
+            "keywords": [
+                "filament",
+                "filament-5",
+                "laravel",
+                "page-builder",
+                "persian",
+                "rtl",
+                "visual-editor"
+            ],
+            "support": {
+                "issues": "https://github.com/dehnavi/filaforge-studio/issues",
+                "source": "https://github.com/dehnavi/filaforge-studio"
+            },
             "transport-options": {
                 "symlink": false,
                 "relative": true
-            },
-            "suggest": {
-                "ext-intl": "Persian calendar date formatting (persian_date)"
             }
         },
         {
@@ -10891,7 +10916,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "filaforge/studio": 20
+        "filaforge-studio/filaforge-studio": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,
