@@ -1,0 +1,1 @@
+<div data-node="{{ $node['id'] }}" style="display:grid;grid-template-columns:repeat({{ $props['columns'] }},minmax(0,1fr));gap:{{ $props['gap'] }}px">{!! $children !!}</div>

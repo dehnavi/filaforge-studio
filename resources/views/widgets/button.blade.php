@@ -1,0 +1,1 @@
+<a data-node="{{ $node['id'] }}" href="{{ $props['url'] }}" style="display:inline-block;padding:12px 24px;background:#4f46e5;color:white;border-radius:8px;text-decoration:none;align-self:flex-start">{!! \FilaForge\Studio\Rendering\RichText::field($props, 'text') !!}</a>

@@ -1,0 +1,1 @@
+<details data-node="{{ $node['id'] }}" style="padding:20px;border:1px solid #e4e2f3;border-radius:10px;background:white"><summary style="cursor:pointer;font-weight:600">{!! \FilaForge\Studio\Rendering\RichText::field($props, 'question') !!}</summary><p style="margin-top:16px">{!! \FilaForge\Studio\Rendering\RichText::field($props, 'answer') !!}</p></details>

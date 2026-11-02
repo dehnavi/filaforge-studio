@@ -1,0 +1,28 @@
+<?php
+namespace FilaForge\Studio\Media;
+use FilaForge\Studio\Models\Media;
+use FilaForge\Studio\Models\MediaFolder;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
+final class MediaController {
+ public function index(Request $request,MediaRepository $repo){
+  $data=$request->validate(['search'=>'nullable|string|max:200','kind'=>'nullable|in:image,video','page'=>'nullable|integer|min:1','ids'=>'nullable|string|max:30000','folder'=>'nullable|string|max:300','category'=>'nullable|string|max:80']);
+  $q=Media::query()->latest();if($request->filled('search'))$q->where(fn($q)=>$q->where('name','like','%'.$data['search'].'%')->orWhere('caption','like','%'.$data['search'].'%')->orWhere('alt','like','%'.$data['search'].'%'));if($request->filled('kind'))$q->where('mime','like',$data['kind'].'/%');if($request->filled('folder'))$q->where('folder',$data['folder']);if($request->filled('category'))$q->where('category',$data['category']);
+  $items=$q->paginate(24);$ids=array_filter(explode(',',$data['ids']??''),fn($id)=>preg_match('/^[0-9A-HJKMNP-TV-Z]{26}$/iD',$id));
+  return ['items'=>$items->map(fn($m)=>$repo->describe($m))->all(),'page'=>$items->currentPage(),'lastPage'=>$items->lastPage(),'total'=>$items->total(),'folders'=>MediaFolder::query()->orderBy('path')->pluck('path')->merge(Media::query()->whereNotNull('folder')->where('folder','!=','')->distinct()->orderBy('folder')->pluck('folder'))->unique()->values(),'categories'=>Media::query()->whereNotNull('category')->where('category','!=','')->distinct()->orderBy('category')->pluck('category'),'resolved'=>Media::whereIn('id',array_slice($ids,0,1000))->get()->map(fn($m)=>$repo->describe($m))];
+ }
+ public function upload(Request $request,MediaRepository $repo){$data=$request->validate(['file'=>'required|file|max:51200','folder'=>'nullable|string|max:300','category'=>'nullable|string|max:80']);$folder=$this->normalizeFolder($data['folder']??'');$category=trim($data['category']??'');return response()->json($repo->describe($repo->store($request->file('file'),$folder,$category)),201);}
+ public function update(Request $request,Media $media,MediaRepository $repo){$data=$request->validate(['name'=>'required|string|max:200','alt'=>'nullable|string|max:255','caption'=>'nullable|string|max:2000','folder'=>'nullable|string|max:300','category'=>'nullable|string|max:80']);if(array_key_exists('alt',$data))$data['alt']=$data['alt']??'';$data['folder']=$this->normalizeFolder($data['folder']??'');$data['category']=trim($data['category']??'');$media->update($data);return $repo->describe($media->fresh());}
+ public function bulk(Request $request){$data=$request->validate(['ids'=>'required|array|min:1|max:100','ids.*'=>'required|string|size:26','folder'=>'nullable|string|max:300','category'=>'nullable|string|max:80']);$changes=[];if($request->exists('folder'))$changes['folder']=$this->normalizeFolder($data['folder']??'');if($request->exists('category'))$changes['category']=trim($data['category']??'');abort_if(!$changes,422,'هیچ تغییری انتخاب نشده است.');$count=Media::whereIn('id',$data['ids'])->update($changes);return ['updated'=>$count];}
+ public function createFolder(Request $request){$data=$request->validate(['path'=>'required|string|max:300']);$path=$this->normalizeFolder($data['path']);abort_if(!$path,422,'نام پوشه را وارد کنید.');$current='';foreach(explode('/',$path) as $part){$current=$current===''?$part:$current.'/'.$part;MediaFolder::firstOrCreate(['path'=>$current]);}return ['folders'=>MediaFolder::query()->orderBy('path')->pluck('path'),'path'=>$path];}
+ public function deleteFolder(Request $request){$data=$request->validate(['path'=>'required|string|max:300']);$path=$this->normalizeFolder($data['path']);abort_if(!$path,422,'پوشهٔ اصلی قابل حذف نیست.');abort_if(MediaFolder::where('path','like',$path.'/%')->exists()||Media::where('folder',$path)->exists(),409,'پوشه باید خالی باشد و زیرپوشه‌ای نداشته باشد.');$deleted=MediaFolder::where('path',$path)->delete();abort_unless($deleted,404);return response()->noContent();}
+ private function normalizeFolder(string $folder): string {$folder=trim(str_replace('\\','/',$folder)," /\t\n\r\0\x0B");$parts=array_values(array_filter(explode('/',$folder),fn($p)=>$p!==''&&$p!=='.'));abort_if(count($parts)>5||collect($parts)->contains(fn($p)=>$p==='..'||mb_strlen($p)>60||!preg_match('/^[\pL\pN _-]+$/u',$p)),422,'مسیر پوشه معتبر نیست.');return implode('/',$parts);}
+ public function edit(Request $request,Media $media,MediaRepository $repo){$data=$request->validate(['x'=>'required|integer|min:0','y'=>'required|integer|min:0','crop_width'=>'required|integer|min:1|max:20000','crop_height'=>'required|integer|min:1|max:20000','width'=>'nullable|integer|min:1|max:5000','rotate'=>['required','integer',Rule::in([0,90,180,270])]]);return response()->json($repo->describe($repo->editImage($media,$data)),201);}
+ public function destroy(Media $media){
+  $reference='media:'.$media->id;
+  foreach([\FilaForge\Studio\Models\PageLocale::query()->select('draft_document'),\FilaForge\Studio\Models\Revision::query()->select('document')] as $q)foreach($q->cursor() as $row)if(str_contains(json_encode($row->getAttributes()),$reference))abort(409,'این فایل در یک صفحه یا نسخهٔ منتشرشده استفاده می‌شود.');
+  $media->delete();return response()->noContent();
+ }
+ public function file(Media $media){$disk=Storage::disk($media->disk);abort_unless($disk->exists($media->path),404);return response()->file($disk->path($media->path),['Content-Type'=>$media->mime,'X-Content-Type-Options'=>'nosniff','Cache-Control'=>'private, max-age=3600']);}
+}

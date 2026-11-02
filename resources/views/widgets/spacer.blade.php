@@ -1,0 +1,1 @@
+<div data-node="{{ $node['id'] }}" style="height:{{ $props['height'] }}px" aria-hidden="true"></div>

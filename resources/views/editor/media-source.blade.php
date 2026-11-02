@@ -1,0 +1,5 @@
+<div class="ff-inspector-source" x-show="['src','poster'].includes(key)">
+<div class="ff-source-selected" x-show="String(draftProps[key]).startsWith('media:')"><span class="ff-button-icon" x-html="iconSvg('circle-check')"></span><span>{{ __('filaforge::studio.media_selected') }}</span></div>
+<label class="ff-source-field" x-show="!String(draftProps[key]).startsWith('media:')"><span class="ff-sr-only">{{ __('filaforge::studio.remote_url') }}</span><input type="url" dir="ltr" :value="String(draftProps[key]).startsWith('media:')?'':draftProps[key]" x-on:input="draftProps[key]=$event.target.value" placeholder="https://example.com/media.jpg"><small>{{ __('filaforge::studio.media_url_hint') }}</small></label>
+<div class="ff-source-actions"><button type="button" class="ff-btn" x-on:click="openMedia(key)"><span class="ff-button-icon" x-html="iconSvg('images')"></span>{{ __('filaforge::studio.media_pick') }}</button><button type="button" class="ff-source-link" x-show="String(draftProps[key]).startsWith('media:')" x-on:click="draftProps[key]=''">{{ __('filaforge::studio.media_use_url') }}</button></div>
+</div>

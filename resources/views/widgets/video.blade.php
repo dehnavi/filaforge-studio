@@ -1,0 +1,1 @@
+@if($props['src'])<video data-node="{{ $node['id'] }}" src="{{ $props['src'] }}" @if($props['poster']) poster="{{ $props['poster'] }}" @endif @if($props['controls']) controls @endif preload="metadata" style="max-width:100%;width:100%"></video>@endif

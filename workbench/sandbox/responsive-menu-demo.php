@@ -1,0 +1,8 @@
+<?php
+require __DIR__.'/vendor/autoload.php';$app=require __DIR__.'/bootstrap/app.php';$app->make(Illuminate\Contracts\Console\Kernel::class)->bootstrap();
+use FilaForge\Studio\Models\{Page,PageLocale};use FilaForge\Studio\Core\DocumentValidator;use FilaForge\Studio\Presets\PresetRegistry;
+auth()->login(App\Models\User::where('email','admin@filaforge.test')->firstOrFail());
+foreach(['rtl','ltr'] as $direction){$slug='responsive-menu-'.$direction;$page=PageLocale::where('slug',$slug)->first();if(!$page){$d=DocumentValidator::empty('fa',$direction);$menu=app(PresetRegistry::class)->instantiate('dropdown-menu');$menu['props']['brand']='FilaForge Responsive';$menu['props']['collapseAt']='tablet';$menu['responsive']=['desktop'=>['submenuWidth'=>260,'menuGap'=>16],'tablet'=>['submenuIndent'=>12,'menuGap'=>8],'mobile'=>['submenuIndent'=>8,'menuGap'=>4]];
+$design=$menu['children'][1]['children'][0];$design['props']['label']='Design & multilingual services';$packages=$design;$packages['id']=(string)Illuminate\Support\Str::ulid();$packages['props']['label']='Packages and detailed options';$packages['children']=[];
+for($i=1;$i<=20;$i++){$leaf=$design;$leaf['id']=(string)Illuminate\Support\Str::ulid();$leaf['props']['label']='Option '.$i.' — Detailed responsive navigation with a long descriptive label';$leaf['children']=[];$packages['children'][]=$leaf;}
+$design['children']=[$packages];$menu['children'][1]['children'][0]=$design;$d['root']['children']=[$menu];$page=PageLocale::create(['page_id'=>Page::create()->id,'locale'=>'fa','title'=>'Responsive menu '.$direction,'slug'=>$slug,'direction'=>$direction,'draft_document'=>$d]);app(FilaForge\Studio\Documents\PageDocuments::class)->publish($page,0);}echo $direction.' '.$page->id."\n";}

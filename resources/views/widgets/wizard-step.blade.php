@@ -1,0 +1,1 @@
+<section data-node="{{ $node['id'] }}" data-ff-step id="ff-step-{{ $node['id'] }}" aria-label="{{ $props['title'] }}" tabindex="-1" style="padding-block:24px;outline-offset:4px">{!! $children !!}</section>

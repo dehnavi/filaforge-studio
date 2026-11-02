@@ -1,0 +1,2 @@
+@php($icon=\FilaForge\Studio\Widgets\Icons::get($props['name']))
+<svg data-node="{{ $node['id'] }}" aria-hidden="true" width="{{ $props['size'] }}" height="{{ $props['size'] }}" viewBox="0 0 {{ $icon['w'] }} {{ $icon['h'] }}" fill="{{ (['indigo'=>'#4f46e5','red'=>'#b42318','green'=>'#15803d','dark'=>'#18212f'])[$props['color']] ?? $props['color'] }}"><path d="{{ $icon['path'] }}"/></svg>

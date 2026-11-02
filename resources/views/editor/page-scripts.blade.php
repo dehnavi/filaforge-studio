@@ -1,0 +1,10 @@
+<div x-show="scriptsOpen" x-cloak>
+<div class="ff-picker-current"><h2>{{ __('filaforge::studio.scripts_title') }}</h2><button type="button" class="ff-source-link" x-on:click="scriptsOpen=false">{{ __('filaforge::studio.close') }}</button></div>
+<p class="ff-muted">{{ __('filaforge::studio.scripts_preview_note') }}</p>
+<p class="ff-picker-error" x-show="!scriptPermissions.manage">{{ __('filaforge::studio.scripts_denied') }}</p>
+<div class="ff-data-group"><label class="ff-source-field"><span>{{ __('filaforge::studio.scripts_gtm') }}</span><input x-ref="gtmInput" x-on:input="dirty=true" type="text" dir="ltr" maxlength="24" placeholder="GTM-XXXXXXX" :disabled="!scriptPermissions.manage||!scriptPermissions.gtm" :value="document.integrations?.gtm||''" x-on:change="setPageScript('gtm',$event.target.value.trim().toUpperCase())"></label><p class="ff-muted">{{ __('filaforge::studio.scripts_gtm_help') }}</p></div>
+<div class="ff-data-group"><p class="ff-muted">{{ __('filaforge::studio.scripts_help') }}</p><p class="ff-picker-error" x-show="!scriptPermissions.custom">{{ __('filaforge::studio.scripts_disabled') }}</p>
+<label class="ff-source-field"><span>{{ __('filaforge::studio.scripts_head') }}</span><textarea x-ref="scriptHead" x-on:input="dirty=true" dir="ltr" rows="7" maxlength="20000" spellcheck="false" :disabled="!scriptPermissions.manage||!scriptPermissions.custom" :value="document.integrations?.head||''" x-on:change="setPageScript('head',$event.target.value)"></textarea></label>
+<label class="ff-source-field"><span>{{ __('filaforge::studio.scripts_body_end') }}</span><textarea x-ref="scriptBodyEnd" x-on:input="dirty=true" dir="ltr" rows="7" maxlength="20000" spellcheck="false" :disabled="!scriptPermissions.manage||!scriptPermissions.custom" :value="document.integrations?.bodyEnd||''" x-on:change="setPageScript('bodyEnd',$event.target.value)"></textarea></label>
+</div><button type="button" class="ff-btn ff-primary ff-picker-launch" x-on:click="save()" :disabled="busy||!dirty">{{ __('filaforge::studio.save') }}</button>
+</div>

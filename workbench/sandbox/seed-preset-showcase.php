@@ -1,0 +1,5 @@
+<?php
+require __DIR__.'/vendor/autoload.php';$app=require __DIR__.'/bootstrap/app.php';$app->make(Illuminate\Contracts\Console\Kernel::class)->bootstrap();
+Illuminate\Support\Facades\Auth::login(App\Models\User::where('email','admin@filaforge.test')->firstOrFail());
+$p=FilaForge\Studio\Models\PageLocale::where('slug','presets-showcase')->first();if(!$p){$doc=FilaForge\Studio\Core\DocumentValidator::empty('fa','rtl');$r=app(FilaForge\Studio\Presets\PresetRegistry::class);foreach(['navbar','hero','features','pricing','slider','carousel','faq','cta','comments','footer'] as $key)$doc['root']['children'][]=$r->instantiate($key);$page=FilaForge\Studio\Models\Page::create();$p=FilaForge\Studio\Models\PageLocale::create(['page_id'=>$page->id,'locale'=>'fa','title'=>'نمونهٔ بخش‌های آمادهٔ FilaForge','slug'=>'presets-showcase','direction'=>'rtl','draft_document'=>$doc]);app(FilaForge\Studio\Documents\PageDocuments::class)->publish($p,0);}
+echo 'Editor: http://127.0.0.1:8875/admin/pages/'.$p->id.'/edit'.PHP_EOL;echo 'Preview: http://127.0.0.1:8875/preview/presets-showcase'.PHP_EOL;

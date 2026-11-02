@@ -1,0 +1,49 @@
+<?php
+namespace FilaForge\Studio\Presets;
+use Illuminate\Support\Str;
+use FilaForge\Studio\Core\WidgetRegistry;
+final class PresetRegistry {
+ private array $presets=[];
+ public function __construct(private WidgetRegistry $widgets){$this->builtins();if(\Illuminate\Support\Facades\Schema::hasTable(config('filaforge.table_prefix').'presets'))foreach(\FilaForge\Studio\Models\Preset::query()->latest()->get() as $preset)$this->register('custom-'.strtolower($preset->id),$preset->label,$preset->category,$preset->root);foreach(config('filaforge.presets',[]) as $key=>$definition)$this->register($key,$definition['label'],$definition['category'],$definition['root']);}
+ public function register(string $key,string $label,string $category,array $root):void {
+  if(!preg_match('/^[a-z][a-z0-9-]*$/D',$key)||isset($this->presets[$key]))throw new \InvalidArgumentException('Invalid or duplicate preset.');
+  $document=\FilaForge\Studio\Core\DocumentValidator::empty();$document['root']['id']='preset-envelope-'.Str::ulid();$document['root']['children']=[$root];app(\FilaForge\Studio\Core\DocumentValidator::class)->validate($document);
+  $this->presets[$key]=compact('key','label','category','root');
+ }
+ public function all():array{return array_values($this->presets);}
+ public function instantiate(string $key):array {$root=$this->presets[$key]['root']??throw new \InvalidArgumentException('Unknown preset.');$ids=function(array $n)use(&$ids):array{$n['id']=(string)Str::ulid();$n['children']=array_map($ids,$n['children']);return $n;};return $ids($root);}
+ private function n(string $type,array $props=[],array $children=[]):array{return ['id'=>(string)Str::ulid(),'type'=>$type,'widgetVersion'=>1,'props'=>array_replace($this->widgets->get($type)->defaults(),$props),'styles'=>[],'responsive'=>[],'bindings'=>[],'visibility'=>[],'meta'=>[],'children'=>$children];}
+ private function builtins():void {
+  $n=$this->n(...);
+  $this->register('dropdown-menu',__('filaforge::studio.menu_preset'),__('filaforge::studio.menu_category'),$n('dropdown-menu',[],[
+   $n('menu-item',['label'=>__('filaforge::studio.menu_home'),'url'=>'#home']),
+   $n('menu-item',['label'=>__('filaforge::studio.menu_services'),'url'=>'#services'],[$n('menu-item',['label'=>__('filaforge::studio.menu_design'),'url'=>'#design']),$n('menu-item',['label'=>__('filaforge::studio.menu_support'),'url'=>'#support'])]),
+   $n('menu-item',['label'=>__('filaforge::studio.menu_contact'),'url'=>'#contact']),
+  ]));
+  $this->register('progress',__('filaforge::studio.progress_preset'),__('filaforge::studio.flow_category'),$n('section',['tone'=>'white'],[$n('heading',['text'=>__('filaforge::studio.progress_heading'),'tag'=>'h2']),$n('progress')]));
+  $wizardSteps=[];foreach(['wizard_intro','wizard_details','wizard_review'] as $key)$wizardSteps[]=$n('wizard-step',['title'=>__('filaforge::studio.'.$key)],[$n('heading',['text'=>__('filaforge::studio.'.$key),'tag'=>'h2']),$n('text',['text'=>__('filaforge::studio.wizard_content')])]);
+  $this->register('wizard',__('filaforge::studio.wizard_preset'),__('filaforge::studio.flow_category'),$n('section',['tone'=>'white'],[$n('wizard',[],$wizardSteps)]));
+  $this->register('hero','هیرو؛ شروع تأثیرگذار','شروع صفحه',$n('section',['anchor'=>'home','padding'=>64,'align'=>'center'],[$n('heading',['text'=>'ایدهٔ بعدی شما، همین‌جا شروع می‌شود.','tag'=>'h1']),$n('text',['text'=>'یک تجربهٔ ساده و زیبا برای معرفی محصول، خدمات و داستان شما. تمام بخش‌ها را مطابق برند خودتان ویرایش کنید.']),$n('button',['text'=>'شروع کنید','url'=>'#pricing'])]));
+  $plans=[];foreach([['شروع','رایگان','برای شروع یک ایده'],['حرفه‌ای','۴۹۰ هزار تومان','برای تیم‌های در حال رشد'],['سازمانی','تماس بگیرید','برای نیازهای اختصاصی']] as [$title,$price,$desc])$plans[]=$n('card',['align'=>'center'],[$n('heading',['text'=>$title,'tag'=>'h3']),$n('heading',['text'=>$price,'tag'=>'h2']),$n('text',['text'=>$desc]),$n('rich-text',['html'=>'<ul><li>پشتیبانی و راهنمای شروع</li><li>امکانات قابل توسعه</li><li>به‌روزرسانی منظم</li></ul>']),$n('button',['text'=>'انتخاب این طرح','url'=>'#contact'])]);
+  $this->register('pricing','قیمت‌گذاری سه‌پلنه','فروش',$n('section',['anchor'=>'pricing','align'=>'center'],[$n('heading',['text'=>'پلن مناسب خودتان را انتخاب کنید.','tag'=>'h2']),$n('text',['text'=>'عنوان، قیمت و امکانات هر طرح را تغییر دهید.']),$n('grid',['columns'=>3],$plans)]));
+  $this->register('navbar','ناوبری و منوی سایت','ناوبری',$n('navigation',['brand'=>'نام برند شما'],[$n('link',['text'=>'خانه','url'=>'#home']),$n('link',['text'=>'خدمات','url'=>'#services']),$n('link',['text'=>'قیمت‌ها','url'=>'#pricing']),$n('link',['text'=>'تماس','url'=>'#contact'])]));
+  $this->register('comments','باکس ثبت دیدگاه','تعامل',$n('section',['tone'=>'white'],[$n('comments')]));
+  $slides=[];foreach(['معرفی محصول','داستان برند','پیشنهاد ویژه'] as $i=>$title)$slides[]=$n('card',['align'=>'center','padding'=>48],[$n('icon',['name'=>['rocket','lightbulb','gift'][$i],'size'=>56]),$n('heading',['text'=>$title,'tag'=>'h2']),$n('text',['text'=>'متن این اسلاید را ویرایش کنید یا عکس خود را از کتابخانه اضافه کنید.']),$n('button',['text'=>'بیشتر بدانید','url'=>'#'])]);
+  $this->register('slider','اسلایدر معرفی','رسانه',$n('slider',[],$slides));
+  $cards=[];foreach(['طراحی','توسعه','پشتیبانی','رشد'] as $i=>$title)$cards[]=$n('card',[],[$n('icon',['name'=>['palette','code','headset','chart-line'][$i]]),$n('heading',['text'=>$title,'tag'=>'h3']),$n('text',['text'=>'توضیح کوتاه و کاربردی این خدمت را اینجا بنویسید.'])]);
+  $this->register('carousel','کاروسل خدمات','رسانه',$n('section',[],[$n('heading',['text'=>'برای هر قدم، کنار شما هستیم.','tag'=>'h2']),$n('carousel',[],$cards)]));
+  $this->register('features','معرفی امکانات','محتوا',$n('section',['anchor'=>'services','tone'=>'white'],[$n('heading',['text'=>'هر چیزی که برای شروع نیاز دارید.','tag'=>'h2']),$n('grid',['columns'=>3],array_slice($cards,0,3))]));
+  $this->register('faq','سؤالات متداول','تعامل',$n('section',[],[$n('heading',['text'=>'پاسخ سؤال‌های شما','tag'=>'h2']),$n('faq-item',['question'=>'چطور شروع کنم؟','answer'=>'یک بخش آماده انتخاب کنید و محتوا را تغییر دهید.']),$n('faq-item',['question'=>'آیا می‌توانم ساختار را تغییر دهم؟','answer'=>'بله، تمام اجزا از ویجت‌های FilaForge ساخته شده‌اند.']),$n('faq-item',['question'=>'تصویر و ویدیو چطور اضافه می‌شود؟','answer'=>'از کتابخانهٔ رسانه فایل را انتخاب یا آپلود کنید.'])]));
+  $testimonials=[];foreach([['مریم احمدی','همکاری با این تیم تجربهٔ خرید را برای ما ساده‌تر کرد.'],['رضا کاظمی','پشتیبانی سریع و نتیجه‌ای فراتر از انتظار گرفتیم.'],['سارا نوری','راه‌اندازی آسان بود و از روز اول ارزش ایجاد کرد.']] as [$author,$text])$testimonials[]=$n('card',['align'=>'start'],[$n('quote',['text'=>$text,'author'=>$author])]);
+  $this->register('testimonials','نظر مشتریان','بازخورد',$n('section',['align'=>'center','tone'=>'soft'],[$n('heading',['text'=>'مشتریان ما چه می‌گویند؟','tag'=>'h2']),$n('text',['text'=>'تجربهٔ افرادی که به ما اعتماد کرده‌اند.']),$n('grid',['columns'=>3],$testimonials)]));
+  $steps=[];foreach([['circle-play','۱. آشنایی','نیازتان را با ما در میان بگذارید.'],['compass','۲. برنامه‌ریزی','راهکار متناسب با هدف شما را آماده می‌کنیم.'],['circle-check','۳. اجرا و رشد','کار را شروع می‌کنیم و نتیجه را می‌سنجیم.']] as [$icon,$title,$text])$steps[]=$n('card',['align'=>'center'],[$n('icon',['name'=>$icon,'size'=>42]),$n('heading',['text'=>$title,'tag'=>'h3']),$n('text',['text'=>$text])]);
+  $this->register('process','مراحل انجام کار','کسب‌وکار',$n('section',['align'=>'center','tone'=>'soft'],[$n('heading',['text'=>'شروع همکاری در سه قدم','tag'=>'h2']),$n('grid',['columns'=>3],$steps)]));
+  $stats=[];foreach([['۱۲+','سال تجربه'],['۸۵۰+','مشتری راضی'],['۳۲','متخصص همراه'],['۹۸٪','رضایت مشتریان']] as [$value,$label])$stats[]=$n('card',['align'=>'center','padding'=>18],[$n('heading',['text'=>$value,'tag'=>'h2']),$n('text',['text'=>$label])]);
+  $this->register('stats','آمار و دستاوردها','کسب‌وکار',$n('section',['align'=>'center','tone'=>'brand'],[$n('heading',['text'=>'نتیجه‌هایی که به آن‌ها افتخار می‌کنیم.','tag'=>'h2']),$n('grid',['columns'=>4,'gap'=>16],$stats)]));
+  $serviceCards=[];foreach([['palette','طراحی خلاقانه'],['code','توسعهٔ اختصاصی'],['headset','پشتیبانی همراه'],['chart-line','رشد کسب‌وکار']] as [$icon,$title])$serviceCards[]=$n('card',[],[$n('icon',['name'=>$icon,'size'=>36]),$n('heading',['text'=>$title,'tag'=>'h3']),$n('text',['text'=>'راهکاری متناسب با نیاز شما، با کیفیت و پشتیبانی قابل اتکا.']),$n('link',['text'=>'جزئیات بیشتر','url'=>'#contact'])]);
+  $this->register('services','کارت‌های معرفی خدمات','محتوا',$n('section',['anchor'=>'services','align'=>'center'],[$n('heading',['text'=>'خدماتی برای پیشرفت شما','tag'=>'h2']),$n('text',['text'=>'هر آنچه برای رسیدن به هدف نیاز دارید، یک‌جا پیدا کنید.']),$n('grid',['columns'=>4,'gap'=>18],$serviceCards)]));
+  $this->register('contact-cta','دعوت به تماس','تعامل',$n('section',['anchor'=>'contact','tone'=>'soft','align'=>'center','padding'=>48],[$n('icon',['name'=>'comments','size'=>40]),$n('heading',['text'=>'برای ایدهٔ بعدی‌تان آماده‌اید؟','tag'=>'h2']),$n('text',['text'=>'با ما صحبت کنید تا با هم بهترین راهکار را پیدا کنیم.']),$n('button',['text'=>'درخواست مشاوره','url'=>'#contact'])]));
+  $this->register('cta','دعوت به اقدام','فروش',$n('section',['anchor'=>'contact','tone'=>'brand','align'=>'center'],[$n('heading',['text'=>'برای قدم بعدی آماده‌اید؟','tag'=>'h2']),$n('text',['text'=>'یک جملهٔ روشن برای دعوت مخاطب به ارتباط بنویسید.']),$n('button',['text'=>'با ما در تماس باشید','url'=>'#contact'])]));
+  $this->register('footer','فوتر ساده','ناوبری',$n('section',['align'=>'center'],[$n('heading',['text'=>'نام برند شما','tag'=>'h3']),$n('text',['text'=>'جایی برای توضیح کوتاه دربارهٔ برند شما.']),$n('navigation',['brand'=>'ارتباط با ما'],[$n('link',['text'=>'دربارهٔ ما','url'=>'#about']),$n('link',['text'=>'تماس','url'=>'#contact'])]),$n('text',['text'=>'تمام حقوق محفوظ است.'])]));
+ }
+}

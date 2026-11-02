@@ -1,0 +1,50 @@
+site_name: FilaForge Studio
+site_description: Build responsive Laravel pages visually inside Filament 5. Explore the RTL-aware page builder, reusable sections, dynamic content, media library, Blade rendering, and developer APIs.
+site_dir: site
+docs_dir: docs
+
+theme:
+  name: material
+  language: en
+  features:
+    - navigation.instant
+    - navigation.sections
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - meta
+  - tables
+  - toc:
+      permalink: true
+
+nav:
+  - Home: index.md
+  - Getting Started:
+      - Installation: installation.md
+      - Quick Start: quick-start.md
+      - Visual Editor: editor.md
+  - Building Pages:
+      - Widgets and Presets: widgets-and-presets.md
+      - Media and Fonts: media-and-fonts.md
+      - SEO and Page Metadata: seo.md
+      - HTML Import: html-import.md
+      - HTML Output API: html-output.md
+  - Developer Guide:
+      - Configuration: configuration.md
+      - Architecture: architecture.md
+      - Dynamic Content: dynamic-content.md
+      - Allowed Data Sources: allowed-data-sources.md
+      - Localization: localization.md
+      - Dropdown Menus and Page Scripts: dropdown-menu-and-page-scripts.md
+      - Security: security.md
+      - Current Capabilities and Limitations: limitations.md
+      - Contributing: contributing.md
+      - Documentation Publishing: publishing-docs.md
+
+plugins:
+  - search

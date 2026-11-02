@@ -1,0 +1,1 @@
+@include('filaforge::widgets.carousel')

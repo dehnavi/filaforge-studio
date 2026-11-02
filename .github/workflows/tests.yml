@@ -1,0 +1,17 @@
+name: Tests
+on: [push, pull_request]
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php: ['8.2', '8.3', '8.4']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '${{ matrix.php }}'
+          extensions: intl, mbstring, dom, fileinfo, gd, sqlite3, pdo_sqlite
+          tools: composer:v2
+      - run: composer install --prefer-dist --no-interaction
+      - run: vendor/bin/phpunit

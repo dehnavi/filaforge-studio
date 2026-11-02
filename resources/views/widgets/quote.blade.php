@@ -1,0 +1,1 @@
+<figure data-node="{{ $node['id'] }}"><blockquote>{!! \FilaForge\Studio\Rendering\RichText::field($props, 'text') !!}</blockquote><figcaption>{!! \FilaForge\Studio\Rendering\RichText::field($props, 'author') !!}</figcaption></figure>

@@ -1,0 +1,4 @@
+<?php
+require __DIR__.'/vendor/autoload.php';$app=require __DIR__.'/bootstrap/app.php';$app->make(Illuminate\Contracts\Console\Kernel::class)->bootstrap();
+$image=imagecreatetruecolor(800,450);$bg=imagecolorallocate($image,79,70,229);imagefill($image,0,0,$bg);$text=imagecolorallocate($image,255,255,255);imagestring($image,5,280,210,'FilaForge Media Test',$text);imagepng($image,'/tmp/filaforge-sandbox-20261101/fixtures/studio-test.png');imagedestroy($image);
+$p=FilaForge\Studio\Models\PageLocale::where('slug','media-presets-demo')->first();if(!$p){$page=FilaForge\Studio\Models\Page::create();$p=FilaForge\Studio\Models\PageLocale::create(['page_id'=>$page->id,'locale'=>'fa','title'=>'تست رسانه و پریست‌ها','slug'=>'media-presets-demo','direction'=>'rtl','draft_document'=>FilaForge\Studio\Core\DocumentValidator::empty('fa','rtl')]);}echo 'http://127.0.0.1:8875/admin/pages/'.$p->id.'/edit'.PHP_EOL;

@@ -1,0 +1,1 @@
+<hr data-node="{{ $node['id'] }}" style="border:0;border-top:1px solid #d8dee8;width:100%">

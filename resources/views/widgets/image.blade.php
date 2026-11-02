@@ -1,0 +1,1 @@
+@if($props['src'])<img data-node="{{ $node['id'] }}" src="{{ $props['src'] }}" alt="{{ $props['alt'] }}" style="max-width:100%;width:{{ $props['width'] }}%;height:auto" loading="lazy">@endif
