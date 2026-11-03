@@ -9,7 +9,6 @@
 Thumbs.db
 /.env
 /.env.*
-!/workbench/sandbox/.env.example
 /coverage/
 /build/
 /dist/
@@ -18,14 +17,4 @@ Thumbs.db
 /src/_props/
 
 /.transfer-backups/
-/workbench/sandbox/vendor/
-/workbench/sandbox/node_modules/
-/workbench/sandbox/.env
-/workbench/sandbox/.phpunit.cache/
-/workbench/sandbox/.phpunit.result.cache
-/workbench/sandbox/storage/
-/workbench/sandbox/database/*.sqlite*
-/workbench/sandbox/public/build/
-/workbench/sandbox/public/css/filament/
-/workbench/sandbox/public/js/filament/
-/workbench/sandbox/public/fonts/filament/
+/workbench/

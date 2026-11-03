@@ -1,58 +1,33 @@
 # FilaForge Studio
 
-**A visual page builder for Laravel and Filament 5, with Persian and RTL authoring built in.** Create responsive pages with drag and drop, reusable sections, media, dynamic data, and server-rendered Blade output.
+**A visual page builder for Laravel 12 and Filament 5, with Persian and RTL authoring built in.** Create responsive pages in a Filament panel, then render published revisions as server-generated HTML in a Laravel site.
 
-FilaForge Studio stores pages as validated, versioned JSON documents. Editors work inside a Filament panel, while Laravel renders published revisions on the public site without loading the editor runtime.
-
-## Supported languages
-
-FilaForge Studio includes these 17 interface locale catalogs.
-
-| Language | Locale | Flag | Editor direction |
-| --- | --- | --- | --- |
-| Arabic | `ar` | 🇸🇦 | RTL |
-| Danish | `da` | 🇩🇰 | LTR |
-| German | `de` | 🇩🇪 | LTR |
-| English | `en` | 🇬🇧 | LTR |
-| Spanish | `es` | 🇪🇸 | LTR |
-| Persian | `fa` | 🇮🇷 | RTL |
-| French | `fr` | 🇫🇷 | LTR |
-| Hebrew | `he` | 🇮🇱 | RTL |
-| Hindi | `hi` | 🇮🇳 | LTR |
-| Italian | `it` | 🇮🇹 | LTR |
-| Japanese | `ja` | 🇯🇵 | LTR |
-| Malay | `ms` | 🇲🇾 | LTR |
-| Dutch | `nl` | 🇳🇱 | LTR |
-| Turkish | `tr` | 🇹🇷 | LTR |
-| Vietnamese | `vi` | 🇻🇳 | LTR |
-| Chinese (Simplified) | `zh_CN` | 🇨🇳 | LTR |
-| Chinese (Traditional, Taiwan) | `zh_TW` | 🇹🇼 | LTR |
-
-English and Persian have native translations for the newer editor, media library, and canvas controls. Other catalogs fall back to English for those controls until native translations are reviewed. See the [localization guide](docs/localization.md) to configure language overrides and RTL locales.
+FilaForge stores pages as validated, versioned JSON documents. The editor and public renderer are separate: public pages do not load the editor runtime, and the host application keeps control of routes, authorization, tenants, and caching.
 
 [Composer package](https://packagist.org/packages/filaforge-studio/filaforge-studio) · [GitHub repository](https://github.com/dehnavi/filaforge-studio) · [Installation guide](docs/installation.md) · [Security guide](docs/security.md)
 
 ## Preview
 
-An English sample page rendered by FilaForge Studio, featuring responsive sections, feature cards, pricing, and testimonials:
+An English sample page rendered by FilaForge Studio:
 
 ![FilaForge Studio English page showcase](docs/assets/filaforge-studio-showcase.png)
 
-The same page open in the Filament editor, with the widget library, canvas, and settings panels:
+The page open in the Filament editor:
 
 ![FilaForge Studio Filament editor showcase](docs/assets/filaforge-studio-editor.png)
 
-## Features
+## What you can build
 
-- **Visual editing:** iframe-isolated canvas, drag and drop, nested layouts, layers, inline rich text, undo and redo, responsive settings, preview, and context actions.
-- **Widgets and presets:** containers, grids, columns, typography, buttons, icons, images, video, tables, navigation, carousels, pricing, testimonials, FAQ, progress, wizard, and dropdown menus.
-- **Persian and RTL:** independent editor language and page direction, mixed RTL/LTR content, locale catalogs, and configurable fonts.
-- **Media library:** Laravel Filesystem uploads, stable media references, folders, categories, metadata, image editing, and remote image/video URLs.
-- **Dynamic content:** explicitly registered providers, allowlisted fields and filters, bounded query loops, and conditional content.
-- **Blade output:** render an HTML fragment, a complete HTML document, an HTTP response, or a published page revision.
-- **Extensibility:** register trusted widgets, presets, fonts, and Laravel data providers from the host application.
+- **Visual authoring:** isolated canvas, drag and drop, nested layouts, layers, inline rich text, undo and redo, responsive settings, and preview.
+- **Page building blocks:** 30 built-in widget types and 18 presets for layouts, content, media, navigation, FAQs, testimonials, pricing, carousels, wizards, and more.
+- **Persian and RTL:** 17 interface locale catalogs, page language and direction, mixed RTL/LTR content, and configurable fonts.
+- **Media library:** Laravel Filesystem uploads, stable media references, folders, categories, metadata, image editing, and remote image/video references.
+- **Dynamic content:** explicitly registered providers, field and filter allowlists, bounded query loops, conditional display, and controlled shortcode-to-widget conversion.
+- **Publishing:** versioned documents, draft and published revisions, optimistic concurrency checks, and atomic publication.
+- **Server rendering:** HTML fragments for an existing layout, complete HTML documents, Laravel responses, or the exact published revision for a page locale.
+- **Extensibility:** trusted custom widgets, presets, fonts, and Laravel data providers.
 
-See [widgets and presets](docs/widgets-and-presets.md), [media and fonts](docs/media-and-fonts.md), and [current capabilities and limitations](docs/limitations.md) for the implemented behavior and coverage.
+See [widgets and presets](docs/widgets-and-presets.md), [media and fonts](docs/media-and-fonts.md), [dynamic content](docs/dynamic-content.md), and [current capabilities and limitations](docs/limitations.md) for details.
 
 ## Requirements
 
@@ -64,9 +39,7 @@ See [widgets and presets](docs/widgets-and-presets.md), [media and fonts](docs/m
 - `pdo_sqlite` to run the package test suite
 - Optional `intl` for Persian calendar date formatting
 
-## Install
-
-Install the package from Packagist and run its setup and migrations:
+## Install and register Filament
 
 ```sh
 composer require filaforge-studio/filaforge-studio
@@ -74,7 +47,7 @@ php artisan filaforge:install
 php artisan migrate
 ```
 
-Register the plugin on each Filament panel where the page builder should be available:
+Register the plugin on each panel where editors should manage pages:
 
 ```php
 use FilaForge\Studio\Filament\FilaForgeStudioPlugin;
@@ -86,31 +59,116 @@ public function panel(Panel $panel): Panel
 }
 ```
 
-Package discovery registers the service provider. The plugin is opt-in per panel. Configure host authorization before allowing editors to create, update, publish, or moderate pages and comments. See the [complete installation guide](docs/installation.md) and [security guide](docs/security.md).
+Package discovery registers the service provider. The plugin is opt-in per panel. Configure host authorization before editors create, update, publish, or moderate content. FilaForge does not create public website routes; your Laravel app owns page lookup and access rules. Follow the [installation guide](docs/installation.md) and [security guide](docs/security.md).
 
-## Create your first page
+## Render a published page in Laravel
+
+After creating a page in the Filament **Pages** resource and publishing it, resolve the locale and slug in a host-owned route. Scope the query to your tenant and visibility rules where applicable:
+
+```php
+use FilaForge\Studio\Models\PageLocale;
+use FilaForge\Studio\Rendering\HtmlRenderer;
+use Illuminate\Support\Facades\Route;
+
+Route::get('/{locale}/{slug}', function (string $locale, string $slug, HtmlRenderer $renderer) {
+    $page = PageLocale::query()
+        ->where('locale', $locale)
+        ->where('slug', $slug)
+        ->firstOrFail();
+
+    // Add tenant, visibility, and access constraints to this lookup as needed.
+    return $renderer->publishedResponse($page);
+});
+```
+
+`publishedResponse()` reads the locale's exact published revision, returns 404 when none exists, and never falls back to its draft. The default response uses private/no-store cache headers. The host remains responsible for route authorization and any tenant-aware caching policy.
+
+## Rendering helpers
+
+Laravel package discovery loads three global helpers. Each accepts a validated FilaForge document; the optional page locale supplies page context for media, comments, and dynamic rendering.
+
+### Put a fragment in an existing Blade layout
+
+Use `filaforge_html()` when your application already owns the document shell and SEO metadata:
+
+```blade
+<main>
+    {{ filaforge_html($pageLocale->publishedRevision->document, $pageLocale) }}
+</main>
+```
+
+It returns an `HtmlString` containing rendered page markup and required styles/interactions. It does not compile stored content as Blade or include the editor runtime.
+
+### Build a full document or HTTP response
+
+`filaforge_document()` returns a complete HTML document. `filaforge_response()` wraps it in a Laravel response. `HtmlOptions` lets the host supply document metadata and stylesheets:
+
+```php
+use FilaForge\Studio\Rendering\HtmlOptions;
+
+$document = $pageLocale->publishedRevision->document;
+$options = new HtmlOptions(
+    title: $pageLocale->title,
+    description: 'Explore our services.',
+    canonical: route('pages.show', [
+        'locale' => $pageLocale->locale,
+        'slug' => $pageLocale->slug,
+    ]),
+    stylesheets: ['/css/site.css'],
+);
+
+$html = filaforge_document($document, $options, $pageLocale);
+return filaforge_response($document, $options, $pageLocale);
+```
+
+Canonical and stylesheet URLs must be HTTP(S) or root-relative. Page scripts stay off for these helpers unless explicitly enabled through `HtmlOptions` and allowed by host policy and CSP.
+
+### Use the renderer service or facade
+
+For dependency injection, use `HtmlRenderer`; the `StudioHtml` facade exposes its fragment and document methods:
+
+```php
+use FilaForge\Studio\Facades\StudioHtml;
+use FilaForge\Studio\Rendering\HtmlRenderer;
+
+$fragment = app(HtmlRenderer::class)->fragment($document, $pageLocale);
+$html = StudioHtml::document($document, $options, $pageLocale);
+```
+
+### Embed a published page in a custom Filament view
+
+The Filament plugin provides page editing. If a host Filament page or widget also needs to display a published page, resolve and authorize its `PageLocale` in the host component, then render its view with the helper:
+
+```blade
+{{-- resources/views/filament/pages/site-preview.blade.php --}}
+<x-filament::section>
+    <main>
+        {{ filaforge_html($pageLocale->publishedRevision->document, $pageLocale) }}
+    </main>
+</x-filament::section>
+```
+
+Here `$pageLocale` must be the authorized locale model supplied by the host Filament page or widget. Keep tenant scoping and access checks in that component; a hidden panel action or URL slug is not authorization.
+
+## Create and publish content
 
 1. Define page-management abilities in the host application.
 2. Open **Pages** in the selected Filament panel and create a page with its language and direction.
 3. Add a section or container, then drag widgets or presets onto the canvas.
-4. Select an element to edit its content, typography, colors, background, and responsive settings.
-5. Preview the page, save a draft, and publish when it is ready.
-6. Render the published revision from a host-owned Laravel route.
+4. Edit content, typography, colors, background, and responsive settings.
+5. Preview, save a draft, and publish when ready.
+6. Render the published revision from a host-owned Laravel route or Blade view.
 
-Follow the [quick start](docs/quick-start.md) for authorization, publication, and rendering examples.
+See the [quick start](docs/quick-start.md), [HTML output API](docs/html-output.md), and [SEO guide](docs/seo.md) for more examples.
 
-## Development workbench
-
-`workbench/sandbox` is a disposable Laravel host application for exercising the Composer package in a realistic Filament panel. Follow its [workbench guide](workbench/sandbox/README.md); do not expose it publicly or reuse its demo accounts and authorization rules in production.
-
-## Tests
+## Development
 
 ```sh
 composer install
 vendor/bin/phpunit -c phpunit.xml
 ```
 
-The backend suite covers document validation, rendering, Filament integration, permissions, media, dynamic data, scripts, and localization. See [verification and limitations](docs/limitations.md) for the tested environment and remaining coverage gaps.
+The package suite uses SQLite and covers validation, rendering, Filament integration, permissions, media, dynamic data, scripts, comments, and localization. For contributor workflow and documentation commands, see [CONTRIBUTING.md](CONTRIBUTING.md); for test evidence and remaining gaps, see [verification and limitations](docs/limitations.md).
 
 ## Contributing and security
 
