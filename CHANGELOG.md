@@ -4,6 +4,12 @@ All notable changes are documented here. The project is pre-1.0; breaking change
 
 ## Unreleased
 
+## [0.1.2] - 2026-11-03
+
+- **CI security:** pinned external GitHub Actions to full commit SHAs, restricted workflow permissions to read-only contents, and disabled checkout credential persistence.
+- **Dependency maintenance:** configured weekly Dependabot updates for Composer and GitHub Actions.
+- **Distribution:** excluded composer.lock from Composer and Git export archives while retaining it for package development.
+
 ## [0.1.1] - 2026-11-03
 
 - **Documentation:** refreshed the README with current capabilities and Laravel/Filament rendering helper examples; clarified contributor workflow and workbench handling.

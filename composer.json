@@ -55,6 +55,7 @@
         "exclude": [
             "/.transfer-backups",
             "/workbench",
+            "/composer.lock",
             "/tests",
             "/.github"
         ]
