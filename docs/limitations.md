@@ -23,9 +23,9 @@ Counts and UI details can change before the first stable release. Review the cor
 
 ## Verification evidence
 
-This checkout was tested on PHP 8.3.36, Laravel 12.70.2, Filament 5.11.0, Livewire 4.4.8, Testbench 10.12.0, and PHPUnit 11.5.57. The backend suite passed 77 tests and 16,620 assertions. It covers validation, rendering, policies, media, presets, dynamic data, input security, comments, scripts, fonts, localization, and menu settings.
+On 2026-11-03, the package suite passed 77 tests and 39,400 assertions independently on Laravel 12.70.2 / Testbench 10.12.0 and Laravel 13.39.0 / Testbench 11.3.0. Both runs used PHP 8.3.36, PHPUnit 11.5.57, Livewire 4.4.8, and a temporary SQLite extension. The Laravel 13 environment resolved Filament 5.11.1. Dependency audits reported no known security advisories.
 
-The suite used an available PHP runtime configuration with `pdo_sqlite`; the default CLI on the transfer machine did not have that extension enabled. Earlier browser checks were performed in a separate sandbox and are not a fresh browser run against a host application in this checkout.
+CI covers Laravel 12 on PHP 8.2–8.4 and Laravel 13 on PHP 8.3–8.5. The local runs above establish PHP 8.3 coverage; other matrix combinations depend on CI results. Earlier browser checks are not a fresh browser run against either host environment.
 
 ## Not yet verified or complete
 

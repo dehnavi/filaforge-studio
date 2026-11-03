@@ -7,7 +7,8 @@ use FilaForge\Studio\Core\DocumentValidator;
 use FilaForge\Studio\Presets\PresetRegistry;
 use FilaForge\Studio\Rendering\BladeRenderer;
 use Illuminate\Support\Facades\{Gate,Route};
-final class RealCsrf extends \Illuminate\Foundation\Http\Middleware\ValidateCsrfToken {protected function runningUnitTests(){return false;}}
+class_alias(class_exists(\Illuminate\Foundation\Http\Middleware\PreventRequestForgery::class) ? \Illuminate\Foundation\Http\Middleware\PreventRequestForgery::class : \Illuminate\Foundation\Http\Middleware\ValidateCsrfToken::class, __NAMESPACE__.'\\CsrfMiddleware');
+final class RealCsrf extends CsrfMiddleware {protected function runningUnitTests(){return false;}}
 final class DynamicSecurityTest extends TestCase
 {
     private function published(): array {
@@ -36,6 +37,7 @@ final class DynamicSecurityTest extends TestCase
     public function test_real_csrf_validation_and_origin_checks(): void {
         [$page,$body]=$this->published();
         $this->app->bind(\Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class,RealCsrf::class);$this->app->bind(\Illuminate\Foundation\Http\Middleware\ValidateCsrfToken::class,RealCsrf::class);
+        if (class_exists(\Illuminate\Foundation\Http\Middleware\PreventRequestForgery::class)) $this->app->bind(\Illuminate\Foundation\Http\Middleware\PreventRequestForgery::class,RealCsrf::class);
         $this->withSession(['_token'=>'test-csrf-token']);$this->postJson('/filaforge-comments',$body)->assertStatus(419);
         $this->postJson('/filaforge-comments',[...$body,'_token'=>'wrong'])->assertStatus(419);
         $this->withHeader('Origin','https://attacker.invalid')->postJson('/filaforge-comments',[...$body,'_token'=>'test-csrf-token'])->assertForbidden();

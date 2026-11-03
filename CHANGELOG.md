@@ -4,6 +4,13 @@ All notable changes are documented here. The project is pre-1.0; breaking change
 
 ## Unreleased
 
+## [0.1.3] - 2026-11-03
+
+- Added Laravel 13 compatibility alongside Laravel 12 and a CI matrix for both framework lines.
+- Verified 77 package tests with 39,400 assertions on each framework line using PHP 8.3.
+- Updated CSRF and nested localization test fixtures for both framework versions.
+- Added explicit three-day Dependabot cooldowns and excluded development files from Git distribution archives.
+
 ## [0.1.2] - 2026-11-03
 
 - **CI security:** pinned external GitHub Actions to full commit SHAs, restricted workflow permissions to read-only contents, and disabled checkout credential persistence.

@@ -5,9 +5,9 @@ final class LocalizationTest extends TestCase
 {
     public function test_language_catalogs_have_matching_keys_and_valid_utf8(): void
     {
-        $root=dirname(__DIR__,2).'/resources/lang';$english=require $root.'/en/studio.php';
+        $root=dirname(__DIR__,2).'/resources/lang';$english=\Illuminate\Support\Arr::dot((static fn ($path) => require $path)($root.'/en/studio.php'));
         foreach(['en','fa','ar','fr','de','es','tr','zh_CN','it','he','hi','ja','vi','zh_TW','ms','da','nl'] as $locale){
-            $catalog=require $root.'/'.$locale.'/studio.php';
+            $catalog=\Illuminate\Support\Arr::dot((static fn ($path) => require $path)($root.'/'.$locale.'/studio.php'));
             $this->assertEqualsCanonicalizing(array_keys($english),array_keys($catalog),$locale);
             foreach($catalog as $key=>$value){
                 $this->assertIsString($value,$locale.'.'.$key);

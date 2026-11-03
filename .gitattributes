@@ -1,1 +1,10 @@
 /composer.lock export-ignore
+/.github export-ignore
+/tests export-ignore
+/workbench export-ignore
+/.transfer-backups export-ignore
+/phpunit.xml export-ignore
+/CHANGELOG.md export-ignore
+/CONTRIBUTING.md export-ignore
+/mkdocs.yml export-ignore
+/requirements-docs.txt export-ignore

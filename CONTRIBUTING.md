@@ -22,7 +22,7 @@ The disposable `workbench/` directory is excluded from the Composer archive and 
 ## Pull request expectations
 
 - Keep core document validation separate from Filament-specific UI.
-- Follow Laravel 12, Filament 5, and Livewire conventions present in the package.
+- Follow Laravel 12/13, Filament 5, and Livewire conventions present in the package.
 - Include focused tests for new behavior, permissions, input validation, and rendered output.
 - Add or update English and Persian translation keys for visible UI changes.
 - Update README examples and the relevant developer guide when public APIs, installation, security requirements, or behavior changes; keep helper signatures and examples aligned with the implementation.

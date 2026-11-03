@@ -12,7 +12,7 @@ FilaForge Studio is published on Packagist as `v0.1.0`. For local package develo
 | Requirement | Supported or needed |
 | --- | --- |
 | PHP | 8.2+ |
-| Laravel | 12.x |
+| Laravel | 12.x or 13.x (PHP 8.3+ for 13.x) |
 | Filament | 5.x |
 | PHP extensions | dom, fileinfo, gd, mbstring |
 | Database | A Laravel-supported driver; package suite currently runs on SQLite |

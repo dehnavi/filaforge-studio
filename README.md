@@ -1,6 +1,6 @@
 # FilaForge Studio
 
-**A visual page builder for Laravel 12 and Filament 5, with Persian and RTL authoring built in.** Create responsive pages in a Filament panel, then render published revisions as server-generated HTML in a Laravel site.
+**A visual page builder for Laravel 12 and 13 with Filament 5, with Persian and RTL authoring built in.** Create responsive pages in a Filament panel, then render published revisions as server-generated HTML in a Laravel site.
 
 FilaForge stores pages as validated, versioned JSON documents. The editor and public renderer are separate: public pages do not load the editor runtime, and the host application keeps control of routes, authorization, tenants, and caching.
 
@@ -32,7 +32,7 @@ See [widgets and presets](docs/widgets-and-presets.md), [media and fonts](docs/m
 ## Requirements
 
 - PHP 8.2 or newer
-- Laravel 12
+- Laravel 12 or 13 (Laravel 13 requires PHP 8.3+)
 - Filament 5 and its compatible Livewire version
 - PHP extensions: DOM, Fileinfo, GD, and mbstring
 - A database driver supported by the host Laravel application
