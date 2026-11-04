@@ -10,6 +10,8 @@ return [
     'asset_prefix' => 'filaforge-studio/assets',
     'presets' => [],
     'data_providers' => [],
+    // Optional invokable host class: (authorized PageLocale, current user) => DataContext.
+    'editor_context' => null,
     'dynamic_slots' => [],
     'design_tokens' => [],
     'company' => [],

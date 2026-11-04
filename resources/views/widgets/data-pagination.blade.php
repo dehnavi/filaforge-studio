@@ -7,7 +7,7 @@ $paginationUrl = function (int $number) use ($props,$dataContext): string {
     return request()->url().'?'.http_build_query(['ff_page'=>$pages]);
 };
 @endphp
-<nav data-node="{{ $node['id'] }}" aria-label="{{ __('filaforge::studio.data_pagination') }}" style="display:flex;gap:16px;align-items:center">
+<nav data-node="{{ $node['id'] }}" aria-label="{{ __('filaforge::studio.data_pagination') }}" style="display:flex;gap:16px;align-items:center;grid-column:1 / -1">
 @if($props['page']>1)<a data-ff-loop="{{ $props['node'] }}" data-ff-page="{{ $props['page']-1 }}" rel="prev" href="{{ $paginationUrl($props['page']-1) }}">{{ __('filaforge::studio.data_previous') }}</a>@endif
 <span>{{ $props['page'] }} / {{ $props['last'] }}</span>
 @if($props['page']<$props['last'])<a data-ff-loop="{{ $props['node'] }}" data-ff-page="{{ $props['page']+1 }}" rel="next" href="{{ $paginationUrl($props['page']+1) }}">{{ __('filaforge::studio.data_next') }}</a>@endif
