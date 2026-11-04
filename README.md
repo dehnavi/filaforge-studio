@@ -28,6 +28,7 @@ The page open in the Filament editor:
 - **Reusable content:** independent published sections, linked shared sections, sanitized HTML blocks, database card repeaters, and typed shared styles.
 - **Editing workflow:** optional client locks and exposed fields, autosave, tab-local recovery, and publication history with draft restore.
 - **Extensibility:** trusted custom widgets with Filament inspectors, presets, fonts, and Laravel data providers.
+- **Developer customization:** publishable Blade views, public assets and translations; host-controlled column headings; replaceable or disabled resources per Filament panel.
 
 See [reusable sections and database repeaters](docs/reusable-sections.md), [widgets and presets](docs/widgets-and-presets.md), [media and fonts](docs/media-and-fonts.md), [dynamic content](docs/dynamic-content.md), and [current capabilities and limitations](docs/limitations.md) for details.
 
@@ -62,6 +63,50 @@ public function panel(Panel $panel): Panel
 ```
 
 Package discovery registers the service provider. The plugin is opt-in per panel. Configure host authorization before editors create, update, publish, or moderate content. FilaForge does not create public website routes; your Laravel app owns page lookup and access rules. Follow the [installation guide](docs/installation.md) and [security guide](docs/security.md).
+
+## Customize the package in your application
+
+View and asset publishing, resource replacement, and resource inheritance are available starting with `v0.2.2`. See the [changelog](CHANGELOG.md#022---2026-11-04) for release details.
+
+Publish only the files you want to own in your application:
+
+```sh
+php artisan vendor:publish --tag=filaforge-config
+php artisan vendor:publish --tag=filaforge-views
+php artisan vendor:publish --tag=filaforge-assets
+php artisan vendor:publish --tag=filaforge-translations
+```
+
+Or run `php artisan filaforge:install --views --assets --translations` to publish all four groups. Views go to `resources/views/vendor/filaforge`, public assets to `public/vendor/filaforge`, and translations to `lang/vendor/filaforge`. Set `'published_assets' => true` in `config/filaforge.php` to use the published assets; otherwise the package serves its bundled assets through allowlisted routes.
+
+Choose resources independently for each panel:
+
+```php
+use App\Filament\Resources\PageResource as CustomPageResource;
+use FilaForge\Studio\Filament\FilaForgeStudioPlugin;
+
+$panel->plugin(
+    FilaForgeStudioPlugin::make()
+        ->pageResource(CustomPageResource::class)
+        ->commentResource(null),
+);
+```
+
+Resource methods accept a Filament Resource class or `null` to disable its registration. Application-wide defaults are available under `filaforge.resources`. You can extend package resources and their page classes to customize forms, tables and navigation. When extending a resource, also override `getPages()` and bind each extended page's `$resource` to your resource, as shown in the [developer customization guide](docs/configuration.md#extend-a-resource-and-its-pages).
+
+For headings alone, configure literal labels or translation keys from your own application:
+
+```php
+// config/filaforge.php
+'resource_labels' => [
+    'pages' => ['columns' => ['title' => 'admin.pages.title']],
+    'comments' => ['columns' => ['body' => 'admin.comments.message']],
+],
+```
+
+Define those keys in your application's `lang/en/admin.php`, `lang/fa/admin.php`, or other locale catalogs. Omitted labels use package translations. See [localization](docs/localization.md#host-controlled-table-column-headings) for every available column.
+
+Published files are preserved unless you explicitly use `vendor:publish --force`. Review and merge package changes into your overrides after upgrades. Disabling an admin resource does not disable public comment endpoints or change host authorization. See [configuration and upgrade guidance](docs/configuration.md#developer-customization).
 
 ## Render a published page in Laravel
 

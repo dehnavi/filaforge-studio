@@ -63,7 +63,7 @@ php artisan filaforge:install
 php artisan migrate
 ```
 
-The install command publishes package configuration and reports the remaining steps. Package discovery loads the service provider; its migration files are applied by Laravel migrate. The package does not alter your panel registration automatically.
+The install command publishes package configuration and reports the remaining steps. Optional `--views`, `--assets`, and `--translations` flags publish customization files; see [developer customization](configuration.md#developer-customization). Package discovery loads the service provider; its migration files are applied by Laravel migrate. The package does not alter your panel registration automatically.
 
 ## Install from a Git VCS repository
 
@@ -99,7 +99,7 @@ public function panel(Panel $panel): Panel
 }
 ```
 
-The plugin registers page and comment resources in that panel. It respects the panel path and theme. It does not add public website routes; the host application owns public page lookup and routing.
+By default, the plugin registers page and comment resources in that panel. Use `pageResource(CustomResource::class)` or `commentResource(null)` to replace or disable registration; see [resource customization](configuration.md#replace-or-disable-resources). It respects the panel path and theme. It does not add public website routes; the host application owns public page lookup and routing.
 
 ## Configure authorization
 
@@ -129,10 +129,23 @@ php artisan filaforge:security-check
 
 The security command reports deployment settings and makes no changes. A local HTTP environment may fail HTTPS and secure-cookie checks by design. Create a test page, confirm unauthorized users cannot access it, publish a revision, and render it through a host-owned route as shown in the [quick start](quick-start.md).
 
-## Publish configuration
+## Publish customization files
+
+Starting with `v0.2.2`, the installer can publish optional customization groups:
+
+```sh
+php artisan filaforge:install --views --assets --translations
+```
+
+To publish individual groups instead:
 
 ```sh
 php artisan vendor:publish --tag=filaforge-config
+php artisan vendor:publish --tag=filaforge-views
+php artisan vendor:publish --tag=filaforge-assets
+php artisan vendor:publish --tag=filaforge-translations
 ```
 
-See [Configuration](configuration.md) for available settings.
+After publishing assets, set `published_assets` to `true` in `config/filaforge.php`. Views and translations use Laravel's standard package override paths automatically. Existing published files are retained unless you explicitly use `vendor:publish --force`.
+
+See [developer customization](configuration.md#developer-customization) for destinations, replacement resources, inheritance examples, and upgrade handling. These options require `v0.2.2` or later.

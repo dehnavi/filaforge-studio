@@ -66,6 +66,12 @@ final class FilaForgeServiceProvider extends ServiceProvider {
         $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
         $this->publishes([__DIR__.'/../config/filaforge.php'=>config_path('filaforge.php')],'filaforge-config');
         $this->publishes([__DIR__.'/../resources/lang'=>lang_path('vendor/filaforge')],'filaforge-translations');
+        $this->publishes([__DIR__.'/../resources/views'=>resource_path('views/vendor/filaforge')],'filaforge-views');
+        $assets = [];
+        foreach (Support\Assets::files() as $name => $source) {
+            $assets[$source] = public_path('vendor/filaforge/'.$name);
+        }
+        $this->publishes($assets, 'filaforge-assets');
         if ($this->app->runningInConsole()) $this->commands([Console\InstallCommand::class,Console\SecurityCheckCommand::class]);
     }
 }

@@ -7,7 +7,7 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\Select;
-final class CommentResource extends Resource {
+class CommentResource extends Resource {
     protected static bool $hasTitleCaseModelLabel = false;
  protected static ?string $model=\FilaForge\Studio\Models\Comment::class;
  public static function getModelLabel():string{return __('filaforge::studio.comment_single');}

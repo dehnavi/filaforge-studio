@@ -10,7 +10,7 @@ window.filaforgeEditor = (initial, wire) => ({
 
         this.readRecovery();
         this.mediaCategory='';this.mediaFolder='';this.mediaFolders=[];this.mediaCategories=[];this.mediaChecked=[];this.bulkFolder='';this.bulkCategory='';this.newMediaFolder='';this.draggedNode=null;
-        fetch(@js(route('filaforge.assets', ['asset'=>'fontawesome.json']))).then(r=>{if(!r.ok)throw new Error();return r.json()}).then(icons=>{this.iconCatalog=icons;this.iconLoading=false;if(this.port){this.port.postMessage({type:'icons',icons});this.render()}}).catch(()=>{this.iconLoading=false;this.status=@js(__('filaforge::studio.editor_ui.icons_load_failed'))});
+        fetch(@js(\FilaForge\Studio\Support\Assets::url('fontawesome.json'))).then(r=>{if(!r.ok)throw new Error();return r.json()}).then(icons=>{this.iconCatalog=icons;this.iconLoading=false;if(this.port){this.port.postMessage({type:'icons',icons});this.render()}}).catch(()=>{this.iconLoading=false;this.status=@js(__('filaforge::studio.editor_ui.icons_load_failed'))});
         this.mediaRequest('/presets').then(r=>this.presetItems=r.presets).catch(e=>this.status=e.message);
         this.loadDataCatalog();
         window.addEventListener('message',event=>{if(event.source!==this.$refs.preview?.contentWindow||event.data?.type!=='filaforge-preview-page')return;const node=this.find(event.data.node);if(node?.type!=='query-loop'||!Number.isInteger(event.data.page)||event.data.page<1||event.data.page>1000)return;this.previewPages[node.id]=event.data.page;this.loadServerPreview()});

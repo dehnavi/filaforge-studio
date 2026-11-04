@@ -3,5 +3,5 @@
 <div data-ff-step-panels>{!! $children !!}</div>
 <div data-ff-step-controls hidden style="display:flex;justify-content:space-between;gap:12px;align-items:center;padding-block-start:16px;border-top:1px solid #e4e2f0"><button type="button" data-ff-step-prev style="font:inherit;padding:10px 16px;border:1px solid #dedbe9;border-radius:8px;background:transparent;color:inherit;cursor:pointer">{{ $props['previous'] }}</button><span data-ff-step-status role="status" aria-live="polite"></span><button type="button" data-ff-step-next style="font:inherit;padding:10px 16px;border:0;border-radius:8px;background:#4f46e5;color:white;cursor:pointer">{{ $props['next'] }}</button></div>
 <style>[data-ff-wizard] [hidden]{display:none!important}[data-ff-step-button][aria-current=step]{background:#eeedff!important;color:#4338ca!important;border-color:#a69ff0!important}[data-ff-wizard] button:focus-visible{outline:2px solid #4f46e5;outline-offset:3px}[data-ff-wizard] button:disabled{opacity:.45;cursor:default!important}</style>
-<script src="{{ route('filaforge.assets',['asset'=>'components.js','v'=>$componentsVersion]) }}" defer></script>
+<script src="{{ \FilaForge\Studio\Support\Assets::url('components.js') }}" defer></script>
 </section>

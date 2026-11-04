@@ -2,6 +2,22 @@
 
 All notable changes are documented here. The project is pre-1.0; breaking changes may occur before the first stable release.
 
+## [0.2.2] - 2026-11-04
+
+### Added
+
+- Publishable Blade views and public assets with optional installer flags and versioned URLs for published files.
+- Configurable, nullable Page and Comment resource classes with per-panel plugin overrides.
+- Extensible resource and resource-page classes for host-owned Filament customization.
+
+### Documentation
+
+- Added README examples and linked installation, configuration, localization and quick-start guidance for host customization and upgrade handling.
+
+### Fixed
+
+- Resolved the editor's return link through its active resource when using a replacement resource.
+
 ## [0.2.1] - 2026-11-04
 
 ### Added

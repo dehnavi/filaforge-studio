@@ -7,7 +7,7 @@ use FilaForge\Studio\Models\PageLocale;
 use FilaForge\Studio\Documents\PageDocuments;
 use Illuminate\Support\Facades\Gate;
 use Livewire\Attributes\Locked;
-final class EditPage extends \Filament\Resources\Pages\Page {
+class EditPage extends \Filament\Resources\Pages\Page {
     protected static string $resource = \FilaForge\Studio\Filament\Resources\PageResource::class;
     protected string $view = 'filaforge::editor.page';
     #[Locked] public string $pageId;

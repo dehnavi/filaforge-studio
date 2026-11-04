@@ -21,11 +21,18 @@ Start from reusable hero, pricing, feature, testimonial, FAQ, contact, call-to-a
 
 Register trusted widgets, fonts, dynamic data providers, filters, formatters, and reusable components in Laravel. The page document stores identifiers and values; it cannot choose arbitrary model classes, tables, SQL, PHP, or Blade expressions.
 
+## Customize the integration
+
+Publish Blade views, public assets, and translation catalogs into your Laravel application. Use application translation keys for table headings, extend resource and page classes, or replace and disable resources for individual Filament panels. The host application owns its overrides; package upgrades do not automatically overwrite them.
+
+See [developer customization](configuration.md#developer-customization) for publishing commands, asset selection, resource inheritance and upgrade handling, and [localization](localization.md#host-controlled-table-column-headings) for column labels. View and asset publishing, resource replacement, and resource inheritance are available starting with `v0.2.2`.
+
 ## Start here
 
 - [Install the package](installation.md)
 - [Build and publish your first page](quick-start.md)
 - [Learn the visual editor](editor.md)
+- [Customize views, assets, and panel resources](configuration.md#developer-customization)
 - [Browse widgets and presets](widgets-and-presets.md)
 - [Connect a page to your website's SEO metadata](seo.md)
 - [Review security and current limitations](security.md) · [Capabilities and release status](limitations.md)

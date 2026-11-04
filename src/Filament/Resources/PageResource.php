@@ -7,7 +7,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Select;
 use Filament\Tables\Columns\TextColumn;
 use FilaForge\Studio\Models\PageLocale;
-final class PageResource extends Resource {
+class PageResource extends Resource {
     protected static bool $hasTitleCaseModelLabel = false;
     protected static ?string $model = PageLocale::class;
     public static function getModelLabel(): string { return __('filaforge::studio.page'); }

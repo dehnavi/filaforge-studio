@@ -57,6 +57,9 @@ The helper emits validated FilaForge markup and scoped rendering styles. It does
 
 ## Next steps
 
+- [Customize views, assets, and Filament resources](configuration.md#developer-customization)
+- [Set application-owned resource labels](localization.md#host-controlled-table-column-headings)
+
 - [Widget and preset catalog](widgets-and-presets.md)
 - [Media library and fonts](media-and-fonts.md)
 - [Dynamic data sources](allowed-data-sources.md)

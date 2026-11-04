@@ -46,4 +46,4 @@ $breakpoint=['tablet'=>1024,'mobile'=>640,'never'=>0][$collapseAt];
 [data-node="{{ $node['id'] }}"].ff-menu .ff-dropdown-panel{position:static;inline-size:auto;max-inline-size:100%;margin-inline-start:var(--ff-submenu-indent,12px);transform:none!important}
 }
 </style>
-<script src="{{ route('filaforge.assets',['asset'=>'components.js','v'=>$componentsVersion]) }}" defer></script>
+<script src="{{ \FilaForge\Studio\Support\Assets::url('components.js') }}" defer></script>

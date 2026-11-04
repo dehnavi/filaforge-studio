@@ -12,6 +12,13 @@ return [
     'widgets' => [],
     'media_disk' => 'filaforge_media',
     'media_max_bytes' => 52428800,
+    // Enable after publishing filaforge-assets to public/vendor/filaforge.
+    'published_assets' => false,
+    // Set a resource to null to disable it; panel plugin methods take precedence.
+    'resources' => [
+        'pages' => \FilaForge\Studio\Filament\Resources\PageResource::class,
+        'comments' => \FilaForge\Studio\Filament\Resources\CommentResource::class,
+    ],
     'asset_prefix' => 'filaforge-studio/assets',
     'presets' => [],
     'data_providers' => [],
