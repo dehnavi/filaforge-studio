@@ -31,11 +31,13 @@ final class FilaForgeServiceProvider extends ServiceProvider {
             $registry->register(new Widgets\DynamicWidget('shortcode'));
             $registry->register(new Widgets\PaginationWidget);
             $registry->register(new Widgets\HtmlWidget);
+            $registry->register(new Widgets\SharedSectionWidget);
             foreach(['dropdown-menu','menu-item'] as $kind)$registry->register(new Widgets\MenuWidget($kind));
             foreach(['progress','wizard','wizard-step'] as $kind)$registry->register(new Widgets\FlowWidget($kind));
             return $registry;
         });
         $this->app->singleton(\FilaForge\Studio\Presets\PresetRegistry::class);
+        $this->app->singleton(\FilaForge\Studio\Sections\SectionRegistry::class);
         $this->app->singleton(DocumentValidator::class, fn ($app) => new DocumentValidator($app->make(WidgetRegistry::class),config('filaforge.max_bytes'),config('filaforge.max_nodes'),config('filaforge.max_depth'),$app->make(\FilaForge\Studio\DynamicData\BindingValidator::class)));
     }
     public function boot(): void {

@@ -5,13 +5,14 @@ use InvalidArgumentException;
 final class DynamicEngine
 {
     private array $cache=[];
+    private array $sectionCache=[];
     private int $queries=0;
     private int $nodes=0;
     private float $started;
     public function __construct(private DataRegistry $sources,private Formatters $formatters,private WidgetRegistry $widgets,private ShortcodeRegistry $shortcodes) {}
     public function resolve(array $document,DataContext $context): array
     {
-        $this->cache=[];$this->queries=0;$this->nodes=0;$this->started=microtime(true);
+        $this->cache=[];$this->sectionCache=[];$this->queries=0;$this->nodes=0;$this->started=microtime(true);
         $roots=$this->expand($document['root'],$context,0,0,'');
         $document['root']=$roots[0]??$this->node('root','container',['direction'=>'column']);
         return $document;
@@ -83,7 +84,21 @@ final class DynamicEngine
             $node['id']=substr($original,0,45).'-'.substr(hash('sha256',$suffix.$original),0,24);
             if(isset($node['props']['anchor'])&&$node['props']['anchor']!=='')$node['props']['anchor']=$node['id'];
         }
-        if($node['type']==='query-loop'){
+        if($node['type']==='shared-section'){
+            $key = hash('sha256',json_encode([$node['props']['key'],$node['props']['values']??[],$context->locale,$context->tenantKey,$context->recordKey,$context->user?->getAuthIdentifier(),$context->publicAudience,$context->row],JSON_THROW_ON_ERROR));
+            if (!array_key_exists($key,$this->sectionCache)) {
+                if (++$this->queries > 20) throw new InvalidArgumentException('Dynamic query budget exceeded.');
+                try {
+                    $section = app(\FilaForge\Studio\Sections\SectionRegistry::class)->document($node['props']['key'], $context, $node['props']['values'] ?? []);
+                    app(DocumentValidator::class)->validate($section, true);
+                    $this->sectionCache[$key] = $section;
+                } catch (\Throwable $error) { report($error); $this->sectionCache[$key] = null; }
+            }
+            $section = $this->sectionCache[$key];
+            if ($section === null) return [];
+            $section = app(\FilaForge\Studio\Rendering\FragmentNamespace::class)->apply($section, 'shared-'.substr(hash('sha256',$suffix.$original),0,24));
+            return $this->expand($section['root'], $context, $depth + 1, $loops, '');
+        }elseif($node['type']==='query-loop'){
             if($loops>=3)throw new InvalidArgumentException('Too many nested query loops.');
             $query=$node['props']['query'];$query['page']=$context->pageNumber($original);
             $results=$this->result($node['props']['provider'],$query,$context);$children=[];
