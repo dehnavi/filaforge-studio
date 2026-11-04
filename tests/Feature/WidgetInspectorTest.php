@@ -19,6 +19,7 @@ final class WidgetInspectorTest extends AuthoringTestCase
         $page=$this->page($this->doc([$this->node('badge')]));
         $component=\Livewire\Livewire::test(EditPage::class,['record'=>$page->id])
             ->call('configureWidget','badge',['text'=>'Before'])
+            ->assertSee('Badge text')
             ->set('customSettings.text','After')
             ->call('validatedCustomSettings')->assertReturned(['text'=>'After'])
             ->set('customSettings.text','')->call('validatedCustomSettings')->assertHasErrors(['customSettings.text'=>'required']);

@@ -14,6 +14,8 @@ return [
     'editor_context' => null,
     'dynamic_slots' => [],
     'design_tokens' => [],
+    'autosave' => true,
+    'autosave_delay' => 1500,
     'company' => [],
     // Locales whose editor chrome should use right-to-left layout.
     'rtl_locales' => ['ar', 'fa', 'he', 'ur'],

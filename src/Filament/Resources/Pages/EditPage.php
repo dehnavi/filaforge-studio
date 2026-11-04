@@ -18,7 +18,7 @@ final class EditPage extends \Filament\Resources\Pages\Page {
     public function form(Schema $schema): Schema {
         return $schema->components([TextInput::make('text')->label(__('filaforge::studio.text'))->required()->maxLength(10000),Select::make('tag')->label(__('filaforge::studio.tag'))->options(array_combine(['h1','h2','h3','h4','h5','h6'],['H1','H2','H3','H4','H5','H6']))->required()])->statePath('settings');
     }
-    public function initialState(): array { $p=$this->page(); return ['document'=>$p->draft_document,'version'=>$p->lock_version]; }
+    public function initialState(): array { $p=$this->page(); return ['document'=>$p->draft_document,'version'=>$p->lock_version,'clipboardKey'=>'filaforge:clipboard:'.hash('sha256',request()->getHost().'|'.auth()->id()),'recoveryKey'=>'filaforge:'.hash('sha256',request()->getHost().'|'.auth()->id().'|'.$p->id),'autosave'=>(bool)config('filaforge.autosave',true),'autosaveDelay'=>max(500,(int)config('filaforge.autosave_delay',1500))]; }
     private function page(): PageLocale { $p=PageLocale::findOrFail($this->pageId); Gate::authorize('update',$p); return $p; }
     public function saveDocument(array $document,int $version): array {
         try { return ['version'=>app(PageDocuments::class)->save($this->page(),$document,$version)]; }
@@ -40,9 +40,37 @@ final class EditPage extends \Filament\Resources\Pages\Page {
             return ['error'=>__('filaforge::studio.'.$key)];
         }
     }
-    public function dynamicCatalog(): array {
-        $page=$this->page();
-        return ['scriptPermissions'=>['manage'=>Gate::allows('filaforge.manageScripts',$page),'gtm'=>(bool)config('filaforge.integrations.gtm_enabled',true),'custom'=>(bool)config('filaforge.integrations.custom_scripts_enabled',false)],'fonts'=>app(\FilaForge\Studio\Fonts\FontRegistry::class)->catalog(app()->getLocale()),'fontDefault'=>app(\FilaForge\Studio\Fonts\FontRegistry::class)->defaultFor($page->locale),'sources'=>app(\FilaForge\Studio\DynamicData\DataRegistry::class)->catalog(), 'formatters'=>app(\FilaForge\Studio\DynamicData\Formatters::class)->names(), 'components'=>app(\FilaForge\Studio\DynamicData\ShortcodeRegistry::class)->catalog(), 'slots'=>collect(app(\FilaForge\Studio\Core\WidgetRegistry::class)->all())->map(fn($widget,$name)=>app(\FilaForge\Studio\DynamicData\BindingValidator::class)->slots($name))->all()];
+    public function dynamicCatalog(): array
+    {
+        $page = $this->page();
+        $widgets = collect(app(\FilaForge\Studio\Core\WidgetRegistry::class)->all());
+        return [
+            'scriptPermissions' => [
+                'manage' => Gate::allows('filaforge.manageScripts', $page),
+                'gtm' => (bool) config('filaforge.integrations.gtm_enabled', true),
+                'custom' => (bool) config('filaforge.integrations.custom_scripts_enabled', false),
+            ],
+            'fonts' => app(\FilaForge\Studio\Fonts\FontRegistry::class)->catalog(app()->getLocale()),
+            'fontDefault' => app(\FilaForge\Studio\Fonts\FontRegistry::class)->defaultFor($page->locale),
+            'sources' => app(\FilaForge\Studio\DynamicData\DataRegistry::class)->catalog(),
+            'formatters' => app(\FilaForge\Studio\DynamicData\Formatters::class)->names(),
+            'components' => app(\FilaForge\Studio\DynamicData\ShortcodeRegistry::class)->catalog(),
+            'structureManager' => Gate::allows('filaforge.manageStructure', $page),
+            'tokens' => app(\FilaForge\Studio\Rendering\DesignTokens::class)->catalog(),
+            'sections' => app(\FilaForge\Studio\Sections\SectionRegistry::class)->catalog($this->editorContext()),
+            'widgets' => $widgets->reject(fn ($widget) => $widget->name() === 'data-pagination')->map(fn ($widget) => [
+                'type' => $widget->name(),
+                'label' => match ($widget->name()) {
+                    'html' => __('filaforge::studio.builder.html'),
+                    'shared-section' => __('filaforge::studio.builder.shared_section'),
+                    default => $widget->name(),
+                },
+                'props' => $widget->defaults(),
+                'children' => $widget->acceptsChildren(),
+                'inspector' => $widget instanceof \FilaForge\Studio\Contracts\InspectorWidget,
+            ])->values()->all(),
+            'slots' => $widgets->map(fn ($widget, $name) => app(\FilaForge\Studio\DynamicData\BindingValidator::class)->slots($name))->all(),
+        ];
     }
     public function previewDocument(array $document, array $pagination = []): array {
         $page=$this->page();
@@ -73,13 +101,7 @@ final class EditPage extends \Filament\Resources\Pages\Page {
         $page=$this->page();
         try { return ['document'=>app(\FilaForge\Studio\DynamicData\ShortcodeParser::class)->parse($text,$page->locale,$page->direction)]; }
         catch (\InvalidArgumentException $error) { return ['error'=>__('filaforge::studio.data_shortcode_invalid')]; }
-    }    public function sanitizeHtml(string $html): string
-    {
-        $this->page();
-        if (strlen($html) > 100000) throw new \InvalidArgumentException('HTML is too large.');
-        return app(\FilaForge\Studio\Rendering\SafeHtml::class)->clean($html);
     }
-
     private function editorContext(): \FilaForge\Studio\DynamicData\DataContext
     {
         $page = $this->page();
@@ -92,6 +114,13 @@ final class EditPage extends \Filament\Resources\Pages\Page {
         $this->page();
         try { return ['node'=>app(\FilaForge\Studio\DynamicData\DynamicElementFactory::class)->repeater($source,$fields,$query,$columns)]; }
         catch (\InvalidArgumentException) { return ['error'=>__('filaforge::studio.builder.repeater_invalid')]; }
+    }
+
+    public function sanitizeHtml(string $html): string
+    {
+        $this->page();
+        if (strlen($html) > 100000) throw new \InvalidArgumentException('HTML is too large.');
+        return app(\FilaForge\Studio\Rendering\SafeHtml::class)->clean($html);
     }
 
     public function revisionHistory(): array
@@ -140,6 +169,5 @@ final class EditPage extends \Filament\Resources\Pages\Page {
         app(\FilaForge\Studio\Core\WidgetRegistry::class)->get($this->customWidgetType)->validate($props);
         return $props;
     }
-
 
 }
