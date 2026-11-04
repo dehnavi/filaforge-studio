@@ -30,6 +30,7 @@ final class FilaForgeServiceProvider extends ServiceProvider {
             $registry->register(new Widgets\DynamicWidget('query-loop'));
             $registry->register(new Widgets\DynamicWidget('shortcode'));
             $registry->register(new Widgets\PaginationWidget);
+            $registry->register(new Widgets\HtmlWidget);
             foreach(['dropdown-menu','menu-item'] as $kind)$registry->register(new Widgets\MenuWidget($kind));
             foreach(['progress','wizard','wizard-step'] as $kind)$registry->register(new Widgets\FlowWidget($kind));
             return $registry;

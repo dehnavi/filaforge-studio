@@ -70,5 +70,12 @@ final class EditPage extends \Filament\Resources\Pages\Page {
         $page=$this->page();
         try { return ['document'=>app(\FilaForge\Studio\DynamicData\ShortcodeParser::class)->parse($text,$page->locale,$page->direction)]; }
         catch (\InvalidArgumentException $error) { return ['error'=>__('filaforge::studio.data_shortcode_invalid')]; }
+    }    public function sanitizeHtml(string $html): string
+    {
+        $this->page();
+        if (strlen($html) > 100000) throw new \InvalidArgumentException('HTML is too large.');
+        return app(\FilaForge\Studio\Rendering\SafeHtml::class)->clean($html);
     }
+
+
 }
