@@ -34,3 +34,24 @@ For the documentation site:
 - Avoid claiming feature parity or production readiness without evidence.
 
 Public APIs are pre-1.0 and may change. The package currently does not provide widget or block generators. Read the root CONTRIBUTING.md for repository workflow notes.
+
+## Authoring runtime regression
+
+The PHP authoring tests can export the compiled editor runtime for deterministic JavaScript checks:
+
+```sh
+FILAFORGE_RUNTIME_OUTPUT=/tmp/filaforge-runtime.js vendor/bin/phpunit --filter AuthoringEditorTest
+node tests/Browser/authoring-runtime.cjs /tmp/filaforge-runtime.js
+```
+
+These checks cover protected editing, token resolution, recovery, concurrent saves, offline retry, cross-page clipboard and repeater insertion. They complement the PHP/Livewire suite; they do not replace authenticated end-to-end browser coverage.
+
+The authenticated layout regression checks all three canvas modes at desktop, tablet and phone browser widths, plus preview switching and HTML table rendering:
+
+```sh
+FILAFORGE_EDITOR_URL=http://127.0.0.1:8875/admin/pages/YOUR_PAGE_ID/edit \
+FILAFORGE_ACCESS_FILE=/path/to/local-test-access.txt \
+node tests/Browser/editor-layout.cjs
+```
+
+This optional check requires Playwright and Chrome. The access file contains `Email:` and `Password:` lines for a disposable local account. The current fixture expects the authoring demo's shared-section and HTML node IDs.

@@ -58,3 +58,5 @@ The built-in `company` provider exposes only `name`, `phone`, `email`, and `url`
 The comment widget does not make a page public. Comment posting and viewing require separate host gates; moderation uses dedicated per-page or global permissions. The built-in web action checks publication, native comment-widget presence, parent validity, CSRF, same-origin, rate limits, input size, and a honeypot. New comments are pending; approved names and bodies are escaped plain text.
 
 For session security, SQL injection boundaries, page scripts, media, and deployment requirements, see [Security](security.md). Do not expose private data with a public provider, trust a visibility condition, or use custom scripts as a sandbox.
+
+For a visual workflow that builds row-bound cards from registered fields, see [database repeaters](reusable-sections.md#database-repeaters).

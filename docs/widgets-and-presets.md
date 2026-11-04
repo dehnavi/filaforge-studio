@@ -21,7 +21,7 @@ The current registry includes 30 widget types:
 | Dynamic | Query loop, shortcode component, dynamic pagination |
 | Composition | Card and other section building blocks |
 
-The editor provides controls only for the properties supported by each type. Unknown widget names and properties are rejected by the document validator; adding a PHP class alone does not automatically create a custom visual inspector.
+The editor provides controls only for the properties supported by each type. Unknown widget names and properties are rejected by the document validator; custom widgets can implement `InspectorWidget` to supply trusted Filament form fields; custom client-side canvas renderers still require separate integration.
 
 ## Built-in presets
 
@@ -86,3 +86,5 @@ The `filaforge.presets` configuration accepts preset definitions validated throu
 ## Versioning custom widgets
 
 Store a stable widget name and increment `version()` when the meaning of its properties changes. The current package does not yet provide a general widget migration runner. Plan host migrations for existing documents before changing a public custom widget schema.
+
+The `html` and `shared-section` widgets, database repeater builder, and custom inspector contract are documented in [reusable sections and database repeaters](reusable-sections.md).

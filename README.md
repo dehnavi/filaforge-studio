@@ -19,15 +19,17 @@ The page open in the Filament editor:
 ## What you can build
 
 - **Visual authoring:** isolated canvas, drag and drop, nested layouts, layers, inline rich text, undo and redo, responsive settings, and preview.
-- **Page building blocks:** 30 built-in widget types and 18 presets for layouts, content, media, navigation, FAQs, testimonials, pricing, carousels, wizards, and more.
+- **Page building blocks:** 32 built-in widget types and 18 presets for layouts, content, media, navigation, FAQs, testimonials, pricing, carousels, wizards, and more.
 - **Persian and RTL:** 17 interface locale catalogs, page language and direction, mixed RTL/LTR content, and configurable fonts.
 - **Media library:** Laravel Filesystem uploads, stable media references, folders, categories, metadata, image editing, and remote image/video references.
 - **Dynamic content:** explicitly registered providers, field and filter allowlists, bounded query loops, conditional display, and controlled shortcode-to-widget conversion.
-- **Publishing:** versioned documents, draft and published revisions, optimistic concurrency checks, and atomic publication.
+- **Publishing:** versioned documents, draft and published revisions, optimistic concurrency checks, atomic publication, and draft restoration from publication history.
 - **Server rendering:** HTML fragments for an existing layout, complete HTML documents, Laravel responses, or the exact published revision for a page locale.
-- **Extensibility:** trusted custom widgets, presets, fonts, and Laravel data providers.
+- **Reusable content:** independent published sections, linked shared sections, sanitized HTML blocks, database card repeaters, and typed shared styles.
+- **Editing workflow:** optional client locks and exposed fields, autosave, tab-local recovery, and publication history with draft restore.
+- **Extensibility:** trusted custom widgets with Filament inspectors, presets, fonts, and Laravel data providers.
 
-See [widgets and presets](docs/widgets-and-presets.md), [media and fonts](docs/media-and-fonts.md), [dynamic content](docs/dynamic-content.md), and [current capabilities and limitations](docs/limitations.md) for details.
+See [reusable sections and database repeaters](docs/reusable-sections.md), [widgets and presets](docs/widgets-and-presets.md), [media and fonts](docs/media-and-fonts.md), [dynamic content](docs/dynamic-content.md), and [current capabilities and limitations](docs/limitations.md) for details.
 
 ## Requirements
 
@@ -82,6 +84,18 @@ Route::get('/{locale}/{slug}', function (string $locale, string $slug, HtmlRende
 ```
 
 `publishedResponse()` reads the locale's exact published revision, returns 404 when none exists, and never falls back to its draft. The default response uses private/no-store cache headers. The host remains responsible for route authorization and any tenant-aware caching policy.
+
+## Embed a reusable section anywhere
+
+Use a host-authorized `PageLocale` to insert its published content into any Blade view, without requiring a FilaForge layout:
+
+```blade
+<header>Your existing header</header>
+{{ filaforge_section($authorizedPageLocale) }}
+<footer>Your existing footer</footer>
+```
+
+Each instance receives isolated IDs and local anchor links. Register shared-section aliases to reuse published content inside other documents, optionally exposing selected text or image properties per instance. The visual database repeater builder creates editable cards from trusted provider fields, with sorting, filters and pagination. See [reusable sections and database repeaters](docs/reusable-sections.md) for examples, authorization, tokens, HTML sanitization, recovery and custom inspectors.
 
 ## Rendering helpers
 

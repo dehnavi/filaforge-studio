@@ -23,6 +23,7 @@
         "pages": [
           "docs/editor",
           "docs/widgets-and-presets",
+          "docs/reusable-sections",
           "docs/media-and-fonts",
           "docs/localization",
           "docs/seo",

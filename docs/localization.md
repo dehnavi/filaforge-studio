@@ -11,7 +11,7 @@ FilaForge separates the editor interface language from the language and directio
 
 The package includes 17 translation catalogs: English (en), Persian (fa), Arabic (ar), French (fr), German (de), Spanish (es), Turkish (tr), Simplified Chinese (zh_CN), Italian (it), Hebrew (he), Hindi (hi), Japanese (ja), Vietnamese (vi), Traditional Chinese for Taiwan (zh_TW), Malay (ms), Danish (da), and Dutch (nl).
 
-The editor, media library, and canvas controls use dedicated `editor_ui`, `media_ui`, and `canvas_ui` groups. These groups are present for every catalog so a locale never displays raw translation keys. English and Persian have native translations for these groups; the other catalogs currently fall back to English for these newer controls until their translations are reviewed. Older package strings continue to use each catalog's translations.
+The editor, media library, and canvas controls use dedicated `editor_ui`, `media_ui`, and `canvas_ui` groups. These groups are present for every catalog so a locale never displays raw translation keys. English and Persian have native translations for these groups; the other catalogs currently fall back to English for these newer controls until their translations are reviewed. The `builder` group has its own native entries in all 17 catalogs and is not copied from English. Older package strings continue to use each catalog's translations.
 
 ## Set the interface locale
 

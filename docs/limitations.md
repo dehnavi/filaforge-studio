@@ -11,7 +11,7 @@ FilaForge Studio is a substantial development package, but it is not yet a stabl
 
 - Opt-in Filament 5 plugin with page and comment resources and a Livewire editor host.
 - Versioned JSON documents, validation limits, draft and published revisions, optimistic save conflict checks, and atomic publication.
-- 30 registered built-in widget types and 18 composition presets.
+- 32 registered built-in widget types and 18 composition presets.
 - Iframe canvas, drag and drop, layers, inline rich text, undo/redo, responsive properties, visual preview, and media controls.
 - Laravel Filesystem media uploads, stable IDs, image editing, folders and categories, and remote image/video references.
 - Configurable font registry, 17 translation catalogs, Persian/RTL document rendering, data providers, query loops, and strict shortcode-to-widget conversion.
@@ -21,7 +21,11 @@ FilaForge Studio is a substantial development package, but it is not yet a stabl
 
 Counts and UI details can change before the first stable release. Review the corresponding guide for exact behavior.
 
+The authoring workflow also includes independent published fragments, linked sections, a visual database repeater builder, sanitized HTML blocks, design tokens, protected editing, autosave, tab-local recovery, revision comparison/restore, and custom Filament inspector schemas. See [reusable sections](reusable-sections.md) for contracts and limitations.
+
 ## Verification evidence
+
+On 2026-11-04, the expanded suite passed 95 tests and 42,892 assertions on both Laravel 12 and Laravel 13 with PHP 8.3.36. The authoring JavaScript regression also passed. An authenticated Chromium check against the local workbench verified Livewire save/reload, nine browser-width/canvas-mode combinations and three preview modes, HTML table rendering, and compact panel separation without JavaScript errors. These local checks do not establish production-host behavior.
 
 On 2026-11-03, the package suite passed 77 tests and 39,400 assertions independently on Laravel 12.70.2 / Testbench 10.12.0 and Laravel 13.39.0 / Testbench 11.3.0. Both runs used PHP 8.3.36, PHPUnit 11.5.57, Livewire 4.4.8, and a temporary SQLite extension. The Laravel 13 environment resolved Filament 5.11.1. Dependency audits reported no known security advisories.
 
@@ -35,9 +39,9 @@ CI covers Laravel 12 on PHP 8.2–8.4 and Laravel 13 on PHP 8.3–8.5. The local
 - Host-specific tenant authorization, private routes, and tenant-aware comment/media lists.
 - Cloud filesystem behavior, database matrix, physical touch devices, broad accessibility audit, and performance budgets.
 - Complete page/template/global-component/menu/font management resources.
-- General document and widget migration runner, unknown-widget recovery, and revision-restore UI.
-- Autosave/recovery guarantees, scheduled publishing, complete multilingual slug/redirect/hreflang/sitemap workflow, and render cache invalidation.
-- Custom visual inspector API and Artisan widget/block generators.
+- General document and widget migration runner and unknown-widget recovery.
+- Durable cross-device recovery guarantees, scheduled publishing, complete multilingual slug/redirect/hreflang/sitemap workflow, and render cache invalidation.
+- Artisan widget/block generators and custom client-side canvas renderers.
 - External independent security audit or production penetration test.
 
 ## Adoption guidance

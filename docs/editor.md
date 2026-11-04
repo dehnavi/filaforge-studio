@@ -38,14 +38,14 @@ Emoji search is available in supported text controls. Text direction is independ
 
 The inspector exposes the settings supported by each widget. Common settings include layout, spacing, alignment, typography, colors, backgrounds, media, opacity, hover/click actions, and responsive overrides. Collapsible groups keep long settings panels manageable.
 
-Responsive values use the configured Desktop, Tablet, and Mobile presets. Current responsive settings cover supported layout and appearance properties; they do not imply every CSS property is editable for every widget.
+Responsive values use the configured Desktop, Tablet, and Mobile presets. The active canvas stays centered inside the workspace; the inactive preview iframe does not occupy layout space. On small browser windows, the element library and inspector open as separate workspace panels instead of covering the canvas. Current responsive settings cover supported layout and appearance properties; they do not imply every CSS property is editable for every widget.
 
 ## Preview, save and publish
 
 - **Preview** renders the current document with the server renderer. Page-level scripts remain disabled in preview.
 - **Save** persists the draft and checks the current document version. A stale version is rejected so one editor cannot silently overwrite a newer save.
 - **Publish** creates a publication revision separate from the draft. Public rendering must read that published revision.
-- **Undo/redo** tracks local editing commands. Save explicitly after changes; automatic recovery and a full autosave guarantee are not implemented.
+- **Undo/redo** tracks local editing commands. Autosave is enabled by default; failed or conflicting saves pause automatic retries. Tab-local recovery can restore changes only when the server version still matches. Use **Save** to retry a failed save.
 
 ## RTL authoring
 
@@ -54,3 +54,5 @@ Choose page content locale and direction when creating the page. Use `fa` and `r
 ## Practical limitations
 
 The editor is under active development and is not a GrapesJS-equivalent general-purpose CSS authoring environment. Complex custom website CSS, arbitrary framework classes, and unsupported imported HTML need manual adaptation. Check [current capabilities and limitations](limitations.md) before planning a production workflow.
+
+Read [reusable sections and database repeaters](reusable-sections.md) for the repeater builder, HTML blocks, shared content, editing restrictions, version comparison and restore, and custom Filament inspectors.

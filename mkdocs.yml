@@ -30,6 +30,7 @@ nav:
       - Visual Editor: editor.md
   - Building Pages:
       - Widgets and Presets: widgets-and-presets.md
+      - Reusable Sections and Repeaters: reusable-sections.md
       - Media and Fonts: media-and-fonts.md
       - SEO and Page Metadata: seo.md
       - HTML Import: html-import.md
