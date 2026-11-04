@@ -56,6 +56,7 @@ const password = access.match(/^Password: (.+)$/m)[1];
             }
         }
         const canvas = page.frameLocator('iframe[x-ref="canvas"]');
+        assert.ok(await canvas.locator('[data-node="html-example"] table').count(), 'Canvas must preserve HTML tables');
         await page.locator('[data-preview-toggle]').click();
         await page.waitForFunction(() => document.querySelector('.ff-studio')._x_dataStack[0].previewMode);
         for (const device of ['desktop', 'tablet', 'mobile']) await checkFrame(390, device, true);
