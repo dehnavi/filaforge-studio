@@ -33,4 +33,11 @@ final class PageDocuments {
             return $revision;
         });
     }
+    public function restore(PageLocale $page, string $revisionId, int $expected): int
+    {
+        Gate::authorize('update', $page);
+        $revision = $page->revisions()->whereKey($revisionId)->firstOrFail();
+        return $this->save($page, $revision->document, $expected);
+    }
+
 }

@@ -92,5 +92,23 @@ final class EditPage extends \Filament\Resources\Pages\Page {
         catch (\InvalidArgumentException) { return ['error'=>__('filaforge::studio.builder.repeater_invalid')]; }
     }
 
+    public function revisionHistory(): array
+    {
+        return $this->page()->revisions()->latest('created_at')->orderByDesc('version')->limit(30)->get(['id','version','created_at'])->toArray();
+    }
+
+    public function revisionDocument(string $id): array
+    {
+        return $this->page()->revisions()->whereKey($id)->firstOrFail()->document;
+    }
+
+    public function restoreRevision(string $id, int $version): array
+    {
+        try {
+            $version = app(PageDocuments::class)->restore($this->page(),$id,$version);
+            return ['version'=>$version,'document'=>$this->page()->draft_document];
+        } catch (\InvalidArgumentException|\RuntimeException $error) { return ['error'=>$error->getMessage()]; }
+    }
+
 
 }
