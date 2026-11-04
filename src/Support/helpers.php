@@ -25,3 +25,10 @@ if (!function_exists('filaforge_response')) {
         return app(HtmlRenderer::class)->response($document, $options, $page, $context);
     }
 }
+
+if (!function_exists('filaforge_section')) {
+    function filaforge_section(PageLocale $page, ?\FilaForge\Studio\DynamicData\DataContext $context = null, ?string $instance = null, ?\FilaForge\Studio\Rendering\RenderAssets $assets = null): HtmlString
+    {
+        return app(HtmlRenderer::class)->publishedFragment($page, $context, $instance, $assets);
+    }
+}

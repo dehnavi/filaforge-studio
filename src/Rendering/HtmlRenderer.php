@@ -53,4 +53,11 @@ class HtmlRenderer
     {
         return $this->response($this->publishedDocument($page), $options ?? new HtmlOptions(title:$page->title,includePageScripts:true), $page, $context);
     }
+    /** Embed an authorized, host-resolved publication anywhere; each instance has isolated IDs. */
+    public function publishedFragment(PageLocale $page, ?\FilaForge\Studio\DynamicData\DataContext $context = null, ?string $instance = null, ?RenderAssets $assets = null): HtmlString
+    {
+        $html = $this->renderer->render($this->publishedDocument($page), $page, $context, $instance ?? 'ff-'.bin2hex(random_bytes(8)));
+        return new HtmlString($assets ? $assets->capture($html) : $html);
+    }
+
 }
