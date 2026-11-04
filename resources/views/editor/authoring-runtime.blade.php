@@ -22,4 +22,4 @@
     discardRecovery(){this.recovery=null;try{sessionStorage.removeItem(initial.recoveryKey)}catch(e){}},
     recoverDraft(){if(!this.recovery||this.recovery.version!==this.version)return;this.document=this.recovery.document;this.recovery=null;this.selected='root';this.changed()},
     scheduleAutosave(){clearTimeout(this.autosaveTimer);if(!initial.autosave||this.autosavePaused||this.recovery)return;this.autosaveTimer=setTimeout(()=>{if(this.busy){this.scheduleAutosave();return}if(this.dirty)this.save()},initial.autosaveDelay||1500)},
-    destroy(){clearTimeout(this.autosaveTimer);this.toolbarObserver?.disconnect();this.port?.close()},
+    destroy(){this.compactQuery?.removeEventListener('change',this.compactListener);clearTimeout(this.autosaveTimer);this.toolbarObserver?.disconnect();this.port?.close()},
