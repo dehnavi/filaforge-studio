@@ -11,6 +11,8 @@ final class EditPage extends \Filament\Resources\Pages\Page {
     protected static string $resource = \FilaForge\Studio\Filament\Resources\PageResource::class;
     protected string $view = 'filaforge::editor.page';
     #[Locked] public string $pageId;
+    #[Locked] public string $customWidgetType = '';
+    public array $customSettings = [];
     public array $settings = ['text'=>'','tag'=>'h2'];
     public function mount(string $record): void { $page=PageLocale::findOrFail($record); Gate::authorize('update',$page); $this->pageId=$page->id; }
     public function form(Schema $schema): Schema {
@@ -108,6 +110,35 @@ final class EditPage extends \Filament\Resources\Pages\Page {
             $version = app(PageDocuments::class)->restore($this->page(),$id,$version);
             return ['version'=>$version,'document'=>$this->page()->draft_document];
         } catch (\InvalidArgumentException|\RuntimeException $error) { return ['error'=>$error->getMessage()]; }
+    }
+
+    public function customForm(Schema $schema): Schema
+    {
+        $fields = [];
+        if ($this->customWidgetType !== '') {
+            $widget = app(\FilaForge\Studio\Core\WidgetRegistry::class)->get($this->customWidgetType);
+            if ($widget instanceof \FilaForge\Studio\Contracts\InspectorWidget) $fields = $widget->inspector();
+        }
+        return $schema->components($fields)->statePath('customSettings');
+    }
+
+    public function configureWidget(string $type, array $props): void
+    {
+        $this->page();
+        $widget = app(\FilaForge\Studio\Core\WidgetRegistry::class)->get($type);
+        abort_unless($widget instanceof \FilaForge\Studio\Contracts\InspectorWidget, 422);
+        $widget->validate($props);
+        $this->customWidgetType = $type;
+        $this->cacheSchema('customForm', null);
+        $this->customForm->fill($props);
+    }
+
+    public function validatedCustomSettings(): array
+    {
+        $this->page();
+        $props = $this->customForm->getState();
+        app(\FilaForge\Studio\Core\WidgetRegistry::class)->get($this->customWidgetType)->validate($props);
+        return $props;
     }
 
 
