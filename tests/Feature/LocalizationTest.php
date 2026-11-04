@@ -27,4 +27,18 @@ final class LocalizationTest extends TestCase
             $this->assertNotSame('filaforge::studio.data_preview_failed',__('filaforge::studio.data_preview_failed'));
         }
     }
+    public function test_builder_has_native_translations_in_every_catalog(): void
+    {
+        $root=dirname(__DIR__,2).'/resources/lang';
+        $english=(static fn($path)=>require $path)($root.'/en/studio.php');
+        foreach (['fa','ar','fr','de','es','tr','zh_CN','it','he','hi','ja','vi','zh_TW','ms','da','nl'] as $locale) {
+            $path=$root.'/'.$locale.'/studio.php';$source=file_get_contents($path);
+            $this->assertStringContainsString("'builder' => [",$source,$locale);
+            $this->assertStringNotContainsString("'canvas_ui', 'builder'",$source,$locale);
+            $catalog=(static fn($path)=>require $path)($path);
+            $this->assertEqualsCanonicalizing(array_keys($english['builder']),array_keys($catalog['builder']),$locale);
+            foreach (['repeater','shared_section','repeater_help','html_help','recovery_found'] as $key) $this->assertNotSame($english['builder'][$key],$catalog['builder'][$key],$locale.'.'.$key);
+        }
+    }
+
 }
