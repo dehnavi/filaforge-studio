@@ -191,3 +191,9 @@ Read [CONTRIBUTING.md](CONTRIBUTING.md) before making changes. Report vulnerabil
 ## License
 
 FilaForge Studio is distributed under the [MIT License](LICENSE). Third-party assets may have separate terms; see their bundled notices.
+
+Woman . Life . Freedom
+
+Stand with people of Iran
+
+![Flag of Iran](assets/iran-flag.png)
