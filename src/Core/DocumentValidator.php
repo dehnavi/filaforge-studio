@@ -30,9 +30,12 @@ final class DocumentValidator
                 $responsive[$key] = app(\FilaForge\Studio\Rendering\DesignTokens::class)->values($values);
             }
             $this->validateResponsive($responsive,$node['type']);
-            foreach (['meta'] as $field) {
-                if (($node[$field] ?? null) !== []) throw new InvalidArgumentException('Unsupported node field: '.$field);
-            }
+            $meta = $node['meta'] ?? [];
+            if (!is_array($meta) || array_diff(array_keys($meta), ['label','locked','editable'])) throw new InvalidArgumentException('Invalid editing rules.');
+            if (array_key_exists('label', $meta) && (!is_string($meta['label']) || mb_strlen($meta['label']) > 100)) throw new InvalidArgumentException('Invalid layer label.');
+            if (array_key_exists('locked', $meta) && !is_bool($meta['locked'])) throw new InvalidArgumentException('Invalid layer lock.');
+            if (array_key_exists('editable', $meta) && (!is_array($meta['editable']) || !array_is_list($meta['editable']) || count($meta['editable']) > 30)) throw new InvalidArgumentException('Invalid editable fields.');
+            foreach ($meta['editable'] ?? [] as $field) if (!is_string($field) || !array_key_exists($field, $node['props']) || $field === 'formatted') throw new InvalidArgumentException('Unknown editable field.');
             $widget->validate($node['props']);
             if($node['type']==='dropdown-menu'){
                 if(count($node['children'])<1||count($node['children'])>30)throw new InvalidArgumentException('Menu requires 1–30 top-level items.');

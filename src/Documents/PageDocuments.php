@@ -14,6 +14,7 @@ final class PageDocuments {
         if ($document['locale'] !== $page->locale || $document['direction'] !== $page->direction) throw new \InvalidArgumentException('Document locale mismatch.');
         $fresh=PageLocale::findOrFail($page->id);
         if($fresh->lock_version!==$expected)throw new \RuntimeException('Document conflict. Reload before saving.');
+        app(EditingRules::class)->authorize($fresh,$fresh->draft_document,$document);
         app(\FilaForge\Studio\Integrations\PageIntegrations::class)->authorizeChange($fresh,$fresh->draft_document,$document);
         $affected = PageLocale::query()->whereKey($page->id)->where('lock_version',$expected)->update(['draft_document'=>json_encode($document, JSON_THROW_ON_ERROR),'lock_version'=>$expected+1,'updated_at'=>now()]);
         if (!$affected) throw new \RuntimeException('Document conflict. Reload before saving.');
