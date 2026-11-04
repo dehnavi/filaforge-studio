@@ -1,5 +1,10 @@
 <?php
 return [
+    // Host column headings: literal text or Laravel translation keys.
+    'resource_labels' => [
+        'pages' => ['columns' => []],
+        'comments' => ['columns' => []],
+    ],
     'table_prefix' => 'filaforge_',
     'max_bytes' => 1048576,
     'max_nodes' => 1000,

@@ -65,6 +65,7 @@ final class FilaForgeServiceProvider extends ServiceProvider {
         $this->loadTranslationsFrom(__DIR__.'/../resources/lang','filaforge');
         $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
         $this->publishes([__DIR__.'/../config/filaforge.php'=>config_path('filaforge.php')],'filaforge-config');
+        $this->publishes([__DIR__.'/../resources/lang'=>lang_path('vendor/filaforge')],'filaforge-translations');
         if ($this->app->runningInConsole()) $this->commands([Console\InstallCommand::class,Console\SecurityCheckCommand::class]);
     }
 }

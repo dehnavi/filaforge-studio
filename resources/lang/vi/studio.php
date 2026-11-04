@@ -1,6 +1,17 @@
 <?php
 
 $translations = [
+    'resources' => [
+        'pages' => 'Trang',
+        'slug' => 'Đường dẫn',
+        'locale' => 'Ngôn ngữ',
+        'direction' => 'Hướng',
+        'version' => 'Phiên bản',
+        'edit_page' => 'Sửa trang',
+        'directions' => ['ltr' => 'Trái sang phải', 'rtl' => 'Phải sang trái'],
+        'locales' => ['en' => 'English', 'fa' => 'فارسی'],
+    ],
+
     'builder' => [
         'repeater' => 'Bộ lặp cơ sở dữ liệu',
         'repeater_help' => 'Chọn nguồn và các trường để tạo thẻ lặp. Thiết lập bộ lọc và thứ tự trong cài đặt dữ liệu.',

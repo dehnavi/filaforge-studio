@@ -14,6 +14,7 @@ final class EditPage extends \Filament\Resources\Pages\Page {
     #[Locked] public string $customWidgetType = '';
     public array $customSettings = [];
     public array $settings = ['text'=>'','tag'=>'h2'];
+    public function getTitle(): string { return __('filaforge::studio.resources.edit_page'); }
     public function mount(string $record): void { $page=PageLocale::findOrFail($record); Gate::authorize('update',$page); $this->pageId=$page->id; }
     public function form(Schema $schema): Schema {
         return $schema->components([TextInput::make('text')->label(__('filaforge::studio.text'))->required()->maxLength(10000),Select::make('tag')->label(__('filaforge::studio.tag'))->options(array_combine(['h1','h2','h3','h4','h5','h6'],['H1','H2','H3','H4','H5','H6']))->required()])->statePath('settings');

@@ -1,6 +1,17 @@
 <?php
 
 $translations = [
+    'resources' => [
+        'pages' => 'Pagina’s',
+        'slug' => 'URL-naam',
+        'locale' => 'Taal',
+        'direction' => 'Richting',
+        'version' => 'Versie',
+        'edit_page' => 'Pagina bewerken',
+        'directions' => ['ltr' => 'Van links naar rechts', 'rtl' => 'Van rechts naar links'],
+        'locales' => ['en' => 'English', 'fa' => 'فارسی'],
+    ],
+
     'builder' => [
         'repeater' => 'Databaseherhaler',
         'repeater_help' => 'Kies een bron en velden voor een herhaalde kaart. Stel filters en sortering in bij de gegevensinstellingen.',

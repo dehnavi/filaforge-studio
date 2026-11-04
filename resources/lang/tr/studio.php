@@ -1,6 +1,17 @@
 <?php
 
 $translations = [
+    'resources' => [
+        'pages' => 'Sayfalar',
+        'slug' => 'URL adı',
+        'locale' => 'Dil',
+        'direction' => 'Yön',
+        'version' => 'Sürüm',
+        'edit_page' => 'Sayfayı düzenle',
+        'directions' => ['ltr' => 'Soldan sağa', 'rtl' => 'Sağdan sola'],
+        'locales' => ['en' => 'English', 'fa' => 'فارسی'],
+    ],
+
     'builder' => [
         'repeater' => 'Veritabanı yineleyicisi',
         'repeater_help' => 'Yinelenen kart için kaynak ve alanları seçin. Filtreleri ve sıralamayı veri ayarlarında düzenleyin.',

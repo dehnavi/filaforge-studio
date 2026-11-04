@@ -24,6 +24,34 @@ Applications can override package strings in Laravel's standard path:
 
     lang/vendor/filaforge/fa/studio.php
 
+Publish the catalogs for customization:
+
+```bash
+php artisan vendor:publish --tag=filaforge-translations
+```
+
+The Page and Comment resources use these strings for form fields, table columns, model names, navigation, and breadcrumbs. Filament supplies its standard create/edit/save actions and validation messages in the panel locale; customize those through Filament and Laravel's own translation catalogs.
+
+In `lang/vendor/filaforge/fa/studio.php`, override `page`, `title`, the `comment_*` keys, and the `resources` group. For example:
+
+```php
+return [
+    'page' => 'صفحه',
+    'resources' => [
+        'pages' => 'صفحه‌ها',
+        'slug' => 'نشانی صفحه',
+        'locale' => 'زبان محتوا',
+        'locales' => ['en' => 'انگلیسی', 'fa' => 'فارسی', 'ar' => 'عربی'],
+        'direction' => 'جهت نمایش',
+        'directions' => ['ltr' => 'چپ به راست', 'rtl' => 'راست به چپ'],
+        'version' => 'نسخه',
+        'edit_page' => 'ویرایش صفحه',
+    ],
+];
+```
+
+`resources.locales` controls the creation form's available content languages. Locale codes and direction values are stored unchanged; translated labels only affect presentation. Existing records with other locale codes display their stored code in the table.
+
 Use the locale folder names exactly, including zh_CN and zh_TW.
 
 ## Configure editor direction
@@ -54,3 +82,25 @@ These are common defaults, not forced pairings. Text widgets can set their own d
 The current persistence model stores localized page records and separate documents per locale. It does not automatically synchronize layout across translations or manage translated slugs, SEO redirects, hreflang, or sitemaps. The host application owns locale routing and fallback policy.
 
 See [SEO and page metadata](seo.md) and [current limitations](limitations.md) before implementing a multilingual production site.
+
+## Host-controlled table column headings
+
+Developers can override individual columns in the host application's `config/filaforge.php`, independently of the package language files. Values accept literal text or keys from the host application's own Laravel catalogs:
+
+```php
+'resource_labels' => [
+    'pages' => ['columns' => [
+        'title' => 'admin.pages.title',
+        'locale' => 'admin.pages.language',
+        'lock_version' => 'admin.pages.version',
+    ]],
+    'comments' => ['columns' => [
+        'name' => 'admin.comments.author',
+        'body' => 'admin.comments.message',
+        'status' => 'admin.comments.status',
+        'created_at' => 'admin.comments.date',
+    ]],
+],
+```
+
+For example, define `pages.title` in `lang/fa/admin.php` and `lang/en/admin.php`. The current interface locale resolves the value on each request. Omitted or empty overrides use the package translation. Rebuild the application's configuration cache after changing cached configuration.

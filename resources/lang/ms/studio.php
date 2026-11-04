@@ -1,6 +1,17 @@
 <?php
 
 $translations = [
+    'resources' => [
+        'pages' => 'Halaman',
+        'slug' => 'Slug',
+        'locale' => 'Bahasa',
+        'direction' => 'Arah',
+        'version' => 'Versi',
+        'edit_page' => 'Sunting halaman',
+        'directions' => ['ltr' => 'Kiri ke kanan', 'rtl' => 'Kanan ke kiri'],
+        'locales' => ['en' => 'English', 'fa' => 'فارسی'],
+    ],
+
     'builder' => [
         'repeater' => 'Pengulang pangkalan data',
         'repeater_help' => 'Pilih sumber dan medan untuk membina kad berulang. Tetapkan penapis dan susunan dalam tetapan data.',

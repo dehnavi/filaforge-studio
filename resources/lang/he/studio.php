@@ -1,6 +1,17 @@
 <?php
 
 $translations = [
+    'resources' => [
+        'pages' => 'עמודים',
+        'slug' => 'מזהה כתובת',
+        'locale' => 'שפה',
+        'direction' => 'כיוון',
+        'version' => 'גרסה',
+        'edit_page' => 'עריכת עמוד',
+        'directions' => ['ltr' => 'משמאל לימין', 'rtl' => 'מימין לשמאל'],
+        'locales' => ['en' => 'English', 'fa' => 'فارسی'],
+    ],
+
     'builder' => [
         'repeater' => 'משכפל נתונים ממסד הנתונים',
         'repeater_help' => 'בחרו מקור ושדות ליצירת כרטיס חוזר. הגדירו סינון ומיון בהגדרות הנתונים.',

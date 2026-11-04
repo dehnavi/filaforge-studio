@@ -1,6 +1,17 @@
 <?php
 
 $translations = [
+    'resources' => [
+        'pages' => 'Pagine',
+        'slug' => 'Identificatore URL',
+        'locale' => 'Lingua',
+        'direction' => 'Direzione',
+        'version' => 'Versione',
+        'edit_page' => 'Modifica pagina',
+        'directions' => ['ltr' => 'Da sinistra a destra', 'rtl' => 'Da destra a sinistra'],
+        'locales' => ['en' => 'English', 'fa' => 'فارسی'],
+    ],
+
     'builder' => [
         'repeater' => 'Ripetitore del database',
         'repeater_help' => 'Scegli una fonte e i campi per creare una scheda ripetuta. Configura filtri e ordinamento nelle impostazioni dei dati.',

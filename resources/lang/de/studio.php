@@ -1,6 +1,17 @@
 <?php
 
 $translations = [
+    'resources' => [
+        'pages' => 'Seiten',
+        'slug' => 'URL-Kennung',
+        'locale' => 'Sprache',
+        'direction' => 'Richtung',
+        'version' => 'Version',
+        'edit_page' => 'Seite bearbeiten',
+        'directions' => ['ltr' => 'Von links nach rechts', 'rtl' => 'Von rechts nach links'],
+        'locales' => ['en' => 'English', 'fa' => 'فارسی'],
+    ],
+
     'builder' => [
         'repeater' => 'Datenbank-Repeater',
         'repeater_help' => 'Wählen Sie Quelle und Felder für eine wiederholte Karte. Filter und Sortierung finden Sie in den Dateneinstellungen.',

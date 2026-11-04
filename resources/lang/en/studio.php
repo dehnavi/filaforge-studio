@@ -1,5 +1,16 @@
 <?php
 return [
+    'resources' => [
+        'pages' => 'Pages',
+        'slug' => 'Slug',
+        'locale' => 'Language',
+        'direction' => 'Direction',
+        'version' => 'Version',
+        'edit_page' => 'Edit page',
+        'directions' => ['ltr' => 'Left to right', 'rtl' => 'Right to left'],
+        'locales' => ['en' => 'English', 'fa' => 'فارسی'],
+    ],
+
     'builder' => [
         'repeater' => 'Database repeater',
         'repeater_help' => 'Choose a source and fields to create a repeated card. Configure filters and sorting in Data settings.',

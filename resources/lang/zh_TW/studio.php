@@ -1,6 +1,17 @@
 <?php
 
 $translations = [
+    'resources' => [
+        'pages' => '頁面',
+        'slug' => '網址識別碼',
+        'locale' => '語言',
+        'direction' => '方向',
+        'version' => '版本',
+        'edit_page' => '編輯頁面',
+        'directions' => ['ltr' => '從左到右', 'rtl' => '從右到左'],
+        'locales' => ['en' => 'English', 'fa' => 'فارسی'],
+    ],
+
     'builder' => [
         'repeater' => '資料庫重複器',
         'repeater_help' => '選擇資料來源與欄位來建立重複卡片。在資料設定中調整篩選與排序。',

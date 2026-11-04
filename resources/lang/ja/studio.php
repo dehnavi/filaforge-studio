@@ -1,6 +1,17 @@
 <?php
 
 $translations = [
+    'resources' => [
+        'pages' => 'ページ',
+        'slug' => 'スラッグ',
+        'locale' => '言語',
+        'direction' => '方向',
+        'version' => 'バージョン',
+        'edit_page' => 'ページを編集',
+        'directions' => ['ltr' => '左から右', 'rtl' => '右から左'],
+        'locales' => ['en' => 'English', 'fa' => 'فارسی'],
+    ],
+
     'builder' => [
         'repeater' => 'データベースリピーター',
         'repeater_help' => 'データソースと項目を選び、繰り返し表示するカードを作成します。絞り込みと並び順はデータ設定で変更できます。',

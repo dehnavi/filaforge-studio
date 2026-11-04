@@ -1,6 +1,17 @@
 <?php
 
 $translations = [
+    'resources' => [
+        'pages' => '页面',
+        'slug' => '网址标识',
+        'locale' => '语言',
+        'direction' => '方向',
+        'version' => '版本',
+        'edit_page' => '编辑页面',
+        'directions' => ['ltr' => '从左到右', 'rtl' => '从右到左'],
+        'locales' => ['en' => 'English', 'fa' => 'فارسی'],
+    ],
+
     'builder' => [
         'repeater' => '数据库重复器',
         'repeater_help' => '选择数据源和字段以创建重复卡片。在数据设置中配置筛选和排序。',

@@ -1,6 +1,17 @@
 <?php
 
 $translations = [
+    'resources' => [
+        'pages' => 'Páginas',
+        'slug' => 'Identificador URL',
+        'locale' => 'Idioma',
+        'direction' => 'Dirección',
+        'version' => 'Versión',
+        'edit_page' => 'Editar página',
+        'directions' => ['ltr' => 'De izquierda a derecha', 'rtl' => 'De derecha a izquierda'],
+        'locales' => ['en' => 'English', 'fa' => 'فارسی'],
+    ],
+
     'builder' => [
         'repeater' => 'Repetidor de base de datos',
         'repeater_help' => 'Elige una fuente y campos para crear una tarjeta repetida. Configura los filtros y el orden en los ajustes de datos.',

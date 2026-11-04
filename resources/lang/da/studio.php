@@ -1,6 +1,17 @@
 <?php
 
 $translations = [
+    'resources' => [
+        'pages' => 'Sider',
+        'slug' => 'URL-navn',
+        'locale' => 'Sprog',
+        'direction' => 'Retning',
+        'version' => 'Version',
+        'edit_page' => 'Rediger side',
+        'directions' => ['ltr' => 'Venstre mod højre', 'rtl' => 'Højre mod venstre'],
+        'locales' => ['en' => 'English', 'fa' => 'فارسی'],
+    ],
+
     'builder' => [
         'repeater' => 'Databasegentager',
         'repeater_help' => 'Vælg en kilde og felter til et gentaget kort. Indstil filtre og sortering i dataindstillingerne.',

@@ -41,4 +41,38 @@ final class LocalizationTest extends TestCase
         }
     }
 
+    public function test_resource_labels_follow_the_current_locale_and_host_overrides(): void
+    {
+        foreach (['en' => 'Pages', 'fa' => 'صفحه‌ها', 'fr' => 'Pages'] as $locale => $pages) {
+            app()->setLocale($locale);
+            $this->assertSame($pages, \FilaForge\Studio\Filament\Resources\PageResource::getPluralModelLabel());
+            $this->assertSame(__('filaforge::studio.comment_plural'), \FilaForge\Studio\Filament\Resources\CommentResource::getPluralModelLabel());
+        }
+        app('translator')->addLines([
+            'studio.resources.pages' => 'Custom pages',
+            'studio.resources.slug' => 'Custom URL',
+            'studio.resources.locales' => ['de' => 'Deutsch'],
+        ], 'en', 'filaforge');
+        app()->setLocale('en');
+        $this->assertSame('Custom pages', \FilaForge\Studio\Filament\Resources\PageResource::getNavigationLabel());
+        $fields = \FilaForge\Studio\Filament\Resources\PageResource::form(\Filament\Schemas\Schema::make())->getComponents();
+        $this->assertSame('Custom URL', $fields[1]->getLabel());
+        $this->assertSame(['de' => 'Deutsch'], $fields[2]->getOptions());
+        $this->assertSame(__('filaforge::studio.resources.direction'), $fields[3]->getLabel());
+        $this->assertSame(__('filaforge::studio.resources.edit_page'), (new \FilaForge\Studio\Filament\Resources\Pages\EditPage)->getTitle());
+        $comments = \FilaForge\Studio\Filament\Resources\CommentResource::form(\Filament\Schemas\Schema::make())->getComponents();
+        $this->assertSame(__('filaforge::studio.comment_body'), $comments[1]->getLabel());
+    }
+
+    public function test_host_column_labels_accept_literals_and_application_translation_keys(): void
+    {
+        config(['filaforge.resource_labels.pages.columns.title' => 'Host page title',
+            'filaforge.resource_labels.comments.columns.body' => 'host.comment_body']);
+        app('translator')->addLines(['host.comment_body' => 'متن پیام میزبان'], 'fa');
+        app()->setLocale('fa');
+        $this->assertSame('Host page title', \FilaForge\Studio\Support\ResourceLabels::column('pages', 'title', 'filaforge::studio.title'));
+        $this->assertSame('متن پیام میزبان', \FilaForge\Studio\Support\ResourceLabels::column('comments', 'body', 'filaforge::studio.comment_body'));
+        $this->assertSame(__('filaforge::studio.comment_date'), \FilaForge\Studio\Support\ResourceLabels::column('comments', 'created_at', 'filaforge::studio.comment_date'));
+    }
+
 }

@@ -2,6 +2,18 @@
 
 All notable changes are documented here. The project is pre-1.0; breaking changes may occur before the first stable release.
 
+## [0.2.1] - 2026-11-04
+
+### Added
+
+- Host-configurable Page and Comment table headings using literal text or application translation keys.
+- Publishable translation catalogs through the `filaforge-translations` tag.
+
+### Fixed
+
+- Completed Page resource form, table, plural name and editor title translations across all 17 catalogs.
+- Used the comment body label consistently and preserved translated model label casing.
+
 ## [0.2.0] - 2026-11-04
 
 ### Added
