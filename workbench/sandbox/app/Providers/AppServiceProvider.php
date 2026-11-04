@@ -20,6 +20,17 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         config(['filaforge.integrations.custom_scripts_enabled'=>true]);
+        config(['filaforge.design_tokens'=>[
+            'brand-text'=>['label'=>'رنگ اصلی برند','property'=>'color','value'=>'#4338ca'],
+            'section-space'=>['label'=>'فاصلهٔ بخش‌ها','property'=>'padding','value'=>32],
+        ]]);
+        \Illuminate\Support\Facades\Gate::define('filaforge.manageStructure',fn($user,$page)=>$user->email==='admin@filaforge.test');
+        app(\FilaForge\Studio\Sections\SectionRegistry::class)->register(
+            'sandbox-guarantee', 'ضمانت خدمات مشترک',
+            fn($context)=>\FilaForge\Studio\Models\PageLocale::query()->where('locale',$context->locale)->where('slug','guarantee-source')->whereHas('page')->firstOrFail(),
+            fn($context)=>$context->publicAudience,
+            ['headline'=>['node'=>'guarantee-heading','property'=>'text','label'=>'عنوان اختصاصی این نمونه','type'=>'text']]
+        );
         \Illuminate\Support\Facades\Gate::define('filaforge.manageScripts',fn($user,$page)=>$user->email==='admin@filaforge.test');
         config(['filaforge.company'=>['name'=>'استودیوی فیلافورج','phone'=>'۰۲۱۱۲۳۴۵۶۷۸','email'=>'hello@example.test','url'=>'https://example.test']]);
         app(\FilaForge\Studio\DynamicData\DataRegistry::class)->register(new \FilaForge\Studio\DynamicData\EloquentDataProvider(

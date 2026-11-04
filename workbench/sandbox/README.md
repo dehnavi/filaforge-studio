@@ -20,6 +20,13 @@ Configure a disposable local environment in .env. Set APP_URL=http://127.0.0.1:8
 
 The seeder creates demo content and a test administrator using the local password from .env. Inspect the seeder before use and run it only against a disposable local database. Never reuse test accounts or demo authorization rules in a production or tenant application. Do not expose this host publicly.
 
+After the base seeder, prepare the database source and the current authoring demo:
+
+    php dynamic-demo.php
+    php authoring-demo.php
+
+The authoring demo includes HTML, database card repeaters, shared section instances with an exposed headline, design tokens and a protected element. Its script prints the editor, source editor, published preview and independent embedding URLs. Rerunning it preserves existing demo pages. The sandbox provider grants structure-management permission only to the disposable test administrator.
+
 Additional demo scripts create separate sample pages and data. Read each script before running; some create or replace demo-only records. The maintained package tests run from the package root, not this workbench.
 
 For consumer installation and integration instructions, see the [package developer book](../../docs/index.md).
