@@ -21,8 +21,15 @@ final class DocumentValidator
             if (($node['widgetVersion'] ?? null) !== $widget->version() || !is_array($node['props'] ?? null) || !is_array($node['children'] ?? null) || !array_is_list($node['children']) || (!$widget->acceptsChildren() && $node['children']) || array_diff(array_keys($node), ['id','type','widgetVersion','props','children','styles','responsive','bindings','visibility','meta'])) {
                 throw new InvalidArgumentException('Invalid widget structure.');
             }
-            $this->validateStyles($node['styles'] ?? []);
-            $this->validateResponsive($node['responsive'] ?? [],$node['type']);
+            if (!is_array($node['styles'] ?? [])) throw new InvalidArgumentException('Invalid styles.');
+            $this->validateStyles(app(\FilaForge\Studio\Rendering\DesignTokens::class)->values($node['styles'] ?? []));
+            $responsive = $node['responsive'] ?? [];
+            if (!is_array($responsive)) throw new InvalidArgumentException('Invalid responsive settings.');
+            foreach ($responsive as $key => $values) {
+                if (!is_array($values)) throw new InvalidArgumentException('Invalid responsive settings.');
+                $responsive[$key] = app(\FilaForge\Studio\Rendering\DesignTokens::class)->values($values);
+            }
+            $this->validateResponsive($responsive,$node['type']);
             foreach (['meta'] as $field) {
                 if (($node[$field] ?? null) !== []) throw new InvalidArgumentException('Unsupported node field: '.$field);
             }

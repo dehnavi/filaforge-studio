@@ -15,6 +15,7 @@ final class BladeRenderer {
             $context = new \FilaForge\Studio\DynamicData\DataContext(locale: $document['locale'], page: $page, pagination: $pages);
         }
         $document = app(\FilaForge\Studio\DynamicData\DynamicEngine::class)->resolve($document, $context);
+        $document = app(DesignTokens::class)->resolve($document);
         $this->validator->validate($document, true);
         $render = function (array $node) use (&$render,$page,$context): string {
             $renderedChildren=array_map($render,$node['children']);

@@ -11,6 +11,7 @@ return [
     'presets' => [],
     'data_providers' => [],
     'dynamic_slots' => [],
+    'design_tokens' => [],
     'company' => [],
     // Locales whose editor chrome should use right-to-left layout.
     'rtl_locales' => ['ar', 'fa', 'he', 'ur'],
