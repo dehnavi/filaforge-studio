@@ -2,7 +2,33 @@
 
 All notable changes are documented here. The project is pre-1.0; breaking changes may occur before the first stable release.
 
-## Unreleased
+## [0.2.0] - 2026-11-04
+
+### Added
+
+- Independent published section embeds with isolated IDs, local anchor links and an optional response-local asset collector.
+- Registered shared sections with published-source resolution and allowlisted per-instance content overrides.
+- Sanitized HTML blocks and a visual database repeater builder with editable row-bound cards, filtering, sorting, responsive columns and pagination.
+- Typed design tokens, designer-controlled element locks, exposed client fields and custom Filament inspector schemas.
+- Debounced autosave, tab-local recovery, cross-page element copying and style copying.
+- Publication history comparison and version-checked restoration to draft without automatic republication.
+- Native authoring translations in all 17 locale catalogs and feature-specific regression coverage.
+
+### Fixed
+
+- Centered the active iframe across desktop, tablet and mobile modes without allowing the inactive frame to occupy space.
+- Separated compact editor panels from the canvas and aligned authoring controls with existing icons and layout conventions.
+- Preserved safe HTML table structure in the editor canvas and shared its typography with published output.
+
+### Documentation
+
+- Documented reusable sections, database providers, override permissions, shared tokens, custom inspectors and recovery behavior.
+- Updated rendering examples, current verification evidence, localization coverage and known limitations.
+- Added the requested Iran solidarity message and a locally stored flag image with source attribution.
+
+## [0.1.4] - 2026-11-03
+
+- Updated pinned GitHub Actions references to actions/checkout 7.0.1 and actions/setup-python 7.1.0.
 
 ## [0.1.3] - 2026-11-03
 
