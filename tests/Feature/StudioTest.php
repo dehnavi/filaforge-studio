@@ -36,6 +36,9 @@ final class StudioTest extends TestCase {
             ->assertReturned(['version'=>1]);
         $this->assertArrayNotHasKey('html',$editor->effects);
         $this->assertSame($this->document(),$page->fresh()->draft_document);
+        $editor->call('previewDocument',$this->document())
+            ->assertReturned(fn ($result) => isset($result['html']) && str_contains($result['html'],'<h1'));
+        $this->assertArrayNotHasKey('html',$editor->effects,'Preview HTML must be returned without morphing either iframe.');
     }
     public function test_editor_classes_and_templates_compile(): void {
         $this->assertTrue(class_exists(\FilaForge\Studio\Filament\Resources\Pages\EditPage::class));

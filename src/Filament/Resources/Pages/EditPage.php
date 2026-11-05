@@ -76,6 +76,8 @@ class EditPage extends \Filament\Resources\Pages\Page {
             'slots' => $widgets->map(fn ($widget, $name) => app(\FilaForge\Studio\DynamicData\BindingValidator::class)->slots($name))->all(),
         ];
     }
+    // Only the preview iframe consumes this HTML; the surrounding editor must not be morphed.
+    #[Renderless]
     public function previewDocument(array $document, array $pagination = []): array {
         $page=$this->page();
         $key='filaforge-preview:'.$page->id.':'.(auth()->id()??'guest');

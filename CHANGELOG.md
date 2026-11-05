@@ -2,6 +2,13 @@
 
 All notable changes are documented here. The project is pre-1.0; breaking changes may occur before the first stable release.
 
+## [0.2.4] - 2026-11-05
+
+### Fixed
+
+- Return preview HTML without rebuilding the surrounding editor during save-to-preview transitions.
+- Isolate the canvas iframe from Livewire DOM updates and recover automatically when the canvas handshake or render acknowledgement is lost, preserving the current draft and undo history.
+
 ## [0.2.3] - 2026-11-05
 
 ### Fixed
