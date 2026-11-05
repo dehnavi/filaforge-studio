@@ -4,17 +4,17 @@
 
 FilaForge stores pages as validated, versioned JSON documents. The editor and public renderer are separate: public pages do not load the editor runtime, and the host application keeps control of routes, authorization, tenants, and caching.
 
-[Composer package](https://packagist.org/packages/filaforge-studio/filaforge-studio) · [GitHub repository](https://github.com/dehnavi/filaforge-studio) · [Installation guide](docs/installation.md) · [Security guide](docs/security.md)
+[Composer package](https://packagist.org/packages/filaforge-studio/filaforge-studio) · [GitHub repository](https://github.com/dehnavi/filaforge-studio) · [Installation guide](https://github.com/dehnavi/filaforge-studio/blob/main/docs/installation.md) · [Security guide](https://github.com/dehnavi/filaforge-studio/blob/main/docs/security.md)
 
 ## Preview
 
 An English sample page rendered by FilaForge Studio:
 
-![FilaForge Studio English page showcase](docs/assets/filaforge-studio-showcase.png)
+![FilaForge Studio English page showcase](https://raw.githubusercontent.com/dehnavi/filaforge-studio/main/docs/assets/filaforge-studio-showcase.png)
 
 The page open in the Filament editor:
 
-![FilaForge Studio Filament editor showcase](docs/assets/filaforge-studio-editor.png)
+![FilaForge Studio Filament editor showcase](https://raw.githubusercontent.com/dehnavi/filaforge-studio/main/docs/assets/filaforge-studio-editor.png)
 
 ## What you can build
 
@@ -30,7 +30,7 @@ The page open in the Filament editor:
 - **Extensibility:** trusted custom widgets with Filament inspectors, presets, fonts, and Laravel data providers.
 - **Developer customization:** publishable Blade views, public assets and translations; host-controlled column headings; replaceable or disabled resources per Filament panel.
 
-See [reusable sections and database repeaters](docs/reusable-sections.md), [widgets and presets](docs/widgets-and-presets.md), [media and fonts](docs/media-and-fonts.md), [dynamic content](docs/dynamic-content.md), and [current capabilities and limitations](docs/limitations.md) for details.
+See [reusable sections and database repeaters](https://github.com/dehnavi/filaforge-studio/blob/main/docs/reusable-sections.md), [widgets and presets](https://github.com/dehnavi/filaforge-studio/blob/main/docs/widgets-and-presets.md), [media and fonts](https://github.com/dehnavi/filaforge-studio/blob/main/docs/media-and-fonts.md), [dynamic content](https://github.com/dehnavi/filaforge-studio/blob/main/docs/dynamic-content.md), and [current capabilities and limitations](https://github.com/dehnavi/filaforge-studio/blob/main/docs/limitations.md) for details.
 
 ## Requirements
 
@@ -62,11 +62,11 @@ public function panel(Panel $panel): Panel
 }
 ```
 
-Package discovery registers the service provider. The plugin is opt-in per panel. Configure host authorization before editors create, update, publish, or moderate content. FilaForge does not create public website routes; your Laravel app owns page lookup and access rules. Follow the [installation guide](docs/installation.md) and [security guide](docs/security.md).
+Package discovery registers the service provider. The plugin is opt-in per panel. Configure host authorization before editors create, update, publish, or moderate content. FilaForge does not create public website routes; your Laravel app owns page lookup and access rules. Follow the [installation guide](https://github.com/dehnavi/filaforge-studio/blob/main/docs/installation.md) and [security guide](https://github.com/dehnavi/filaforge-studio/blob/main/docs/security.md).
 
 ## Customize the package in your application
 
-View and asset publishing, resource replacement, and resource inheritance are available starting with `v0.2.2`. See the [changelog](CHANGELOG.md#022---2026-11-04) for release details.
+View and asset publishing, resource replacement, and resource inheritance are available starting with `v0.2.2`. See the [changelog](https://github.com/dehnavi/filaforge-studio/blob/main/CHANGELOG.md#022---2026-11-04) for release details.
 
 Publish only the files you want to own in your application:
 
@@ -92,7 +92,7 @@ $panel->plugin(
 );
 ```
 
-Resource methods accept a Filament Resource class or `null` to disable its registration. Application-wide defaults are available under `filaforge.resources`. You can extend package resources and their page classes to customize forms, tables and navigation. When extending a resource, also override `getPages()` and bind each extended page's `$resource` to your resource, as shown in the [developer customization guide](docs/configuration.md#extend-a-resource-and-its-pages).
+Resource methods accept a Filament Resource class or `null` to disable its registration. Application-wide defaults are available under `filaforge.resources`. You can extend package resources and their page classes to customize forms, tables and navigation. When extending a resource, also override `getPages()` and bind each extended page's `$resource` to your resource, as shown in the [developer customization guide](https://github.com/dehnavi/filaforge-studio/blob/main/docs/configuration.md#extend-a-resource-and-its-pages).
 
 For headings alone, configure literal labels or translation keys from your own application:
 
@@ -104,9 +104,9 @@ For headings alone, configure literal labels or translation keys from your own a
 ],
 ```
 
-Define those keys in your application's `lang/en/admin.php`, `lang/fa/admin.php`, or other locale catalogs. Omitted labels use package translations. See [localization](docs/localization.md#host-controlled-table-column-headings) for every available column.
+Define those keys in your application's `lang/en/admin.php`, `lang/fa/admin.php`, or other locale catalogs. Omitted labels use package translations. See [localization](https://github.com/dehnavi/filaforge-studio/blob/main/docs/localization.md#host-controlled-table-column-headings) for every available column.
 
-Published files are preserved unless you explicitly use `vendor:publish --force`. Review and merge package changes into your overrides after upgrades. Disabling an admin resource does not disable public comment endpoints or change host authorization. See [configuration and upgrade guidance](docs/configuration.md#developer-customization).
+Published files are preserved unless you explicitly use `vendor:publish --force`. Review and merge package changes into your overrides after upgrades. Disabling an admin resource does not disable public comment endpoints or change host authorization. See [configuration and upgrade guidance](https://github.com/dehnavi/filaforge-studio/blob/main/docs/configuration.md#developer-customization).
 
 ## Render a published page in Laravel
 
@@ -140,7 +140,7 @@ Use a host-authorized `PageLocale` to insert its published content into any Blad
 <footer>Your existing footer</footer>
 ```
 
-Each instance receives isolated IDs and local anchor links. Register shared-section aliases to reuse published content inside other documents, optionally exposing selected text or image properties per instance. The visual database repeater builder creates editable cards from trusted provider fields, with sorting, filters and pagination. See [reusable sections and database repeaters](docs/reusable-sections.md) for examples, authorization, tokens, HTML sanitization, recovery and custom inspectors.
+Each instance receives isolated IDs and local anchor links. Register shared-section aliases to reuse published content inside other documents, optionally exposing selected text or image properties per instance. The visual database repeater builder creates editable cards from trusted provider fields, with sorting, filters and pagination. See [reusable sections and database repeaters](https://github.com/dehnavi/filaforge-studio/blob/main/docs/reusable-sections.md) for examples, authorization, tokens, HTML sanitization, recovery and custom inspectors.
 
 ## Rendering helpers
 
@@ -218,7 +218,7 @@ Here `$pageLocale` must be the authorized locale model supplied by the host Fila
 5. Preview, save a draft, and publish when ready.
 6. Render the published revision from a host-owned Laravel route or Blade view.
 
-See the [quick start](docs/quick-start.md), [HTML output API](docs/html-output.md), and [SEO guide](docs/seo.md) for more examples.
+See the [quick start](https://github.com/dehnavi/filaforge-studio/blob/main/docs/quick-start.md), [HTML output API](https://github.com/dehnavi/filaforge-studio/blob/main/docs/html-output.md), and [SEO guide](https://github.com/dehnavi/filaforge-studio/blob/main/docs/seo.md) for more examples.
 
 ## Development
 
@@ -227,18 +227,18 @@ composer install
 vendor/bin/phpunit -c phpunit.xml
 ```
 
-The package suite uses SQLite and covers validation, rendering, Filament integration, permissions, media, dynamic data, scripts, comments, and localization. For contributor workflow and documentation commands, see [CONTRIBUTING.md](CONTRIBUTING.md); for test evidence and remaining gaps, see [verification and limitations](docs/limitations.md).
+The package suite uses SQLite and covers validation, rendering, Filament integration, permissions, media, dynamic data, scripts, comments, and localization. For contributor workflow and documentation commands, see [CONTRIBUTING.md](https://github.com/dehnavi/filaforge-studio/blob/main/CONTRIBUTING.md); for test evidence and remaining gaps, see [verification and limitations](https://github.com/dehnavi/filaforge-studio/blob/main/docs/limitations.md).
 
 ## Contributing and security
 
-Read [CONTRIBUTING.md](CONTRIBUTING.md) before making changes. Report vulnerabilities privately using the instructions in [SECURITY.md](SECURITY.md).
+Read [CONTRIBUTING.md](https://github.com/dehnavi/filaforge-studio/blob/main/CONTRIBUTING.md) before making changes. Report vulnerabilities privately using the instructions in [SECURITY.md](https://github.com/dehnavi/filaforge-studio/blob/main/SECURITY.md).
 
 ## License
 
-FilaForge Studio is distributed under the [MIT License](LICENSE). Third-party assets may have separate terms; see their bundled notices.
+FilaForge Studio is distributed under the [MIT License](https://github.com/dehnavi/filaforge-studio/blob/main/LICENSE). Third-party assets may have separate terms; see their bundled notices.
 
 Woman . Life . Freedom
 
 Stand with people of Iran
 
-![Flag of Iran](assets/iran-flag.png)
+![Flag of Iran](https://raw.githubusercontent.com/dehnavi/filaforge-studio/main/assets/iran-flag.png)
