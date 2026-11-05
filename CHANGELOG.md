@@ -2,6 +2,12 @@
 
 All notable changes are documented here. The project is pre-1.0; breaking changes may occur before the first stable release.
 
+## [Unreleased]
+
+### Fixed
+
+- Reconnect the editor canvas after repeated iframe connections and avoid rebuilding the editor during draft autosaves.
+
 ## [0.2.2] - 2026-11-04
 
 ### Added

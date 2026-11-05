@@ -30,10 +30,12 @@ final class StudioTest extends TestCase {
         \Filament\Facades\Filament::setCurrentPanel($panel);
         \Illuminate\Support\Facades\Route::name('filament.test.')->group(fn () => \FilaForge\Studio\Filament\Resources\PageResource::registerRoutes($panel));
         $page=$this->page();
-        \Livewire\Livewire::test(\FilaForge\Studio\Filament\Resources\Pages\EditPage::class,['record'=>$page->id])
+        $editor=\Livewire\Livewire::test(\FilaForge\Studio\Filament\Resources\Pages\EditPage::class,['record'=>$page->id])
             ->assertSee('Page canvas')
             ->call('saveDocument',$this->document(),0)
             ->assertReturned(['version'=>1]);
+        $this->assertArrayNotHasKey('html',$editor->effects);
+        $this->assertSame($this->document(),$page->fresh()->draft_document);
     }
     public function test_editor_classes_and_templates_compile(): void {
         $this->assertTrue(class_exists(\FilaForge\Studio\Filament\Resources\Pages\EditPage::class));

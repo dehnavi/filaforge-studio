@@ -7,6 +7,7 @@ use FilaForge\Studio\Models\PageLocale;
 use FilaForge\Studio\Documents\PageDocuments;
 use Illuminate\Support\Facades\Gate;
 use Livewire\Attributes\Locked;
+use Livewire\Attributes\Renderless;
 class EditPage extends \Filament\Resources\Pages\Page {
     protected static string $resource = \FilaForge\Studio\Filament\Resources\PageResource::class;
     protected string $view = 'filaforge::editor.page';
@@ -21,6 +22,8 @@ class EditPage extends \Filament\Resources\Pages\Page {
     }
     public function initialState(): array { $p=$this->page(); return ['document'=>$p->draft_document,'version'=>$p->lock_version,'clipboardKey'=>'filaforge:clipboard:'.hash('sha256',request()->getHost().'|'.auth()->id()),'recoveryKey'=>'filaforge:'.hash('sha256',request()->getHost().'|'.auth()->id().'|'.$p->id),'autosave'=>(bool)config('filaforge.autosave',true),'autosaveDelay'=>max(500,(int)config('filaforge.autosave_delay',1500))]; }
     private function page(): PageLocale { $p=PageLocale::findOrFail($this->pageId); Gate::authorize('update',$p); return $p; }
+    // The document and save status are owned by Alpine; morphing the editor can reset its iframe.
+    #[Renderless]
     public function saveDocument(array $document,int $version): array {
         try { return ['version'=>app(PageDocuments::class)->save($this->page(),$document,$version)]; }
         catch (\InvalidArgumentException|\RuntimeException $e) { return ['error'=>$e->getMessage()]; }
