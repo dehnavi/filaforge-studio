@@ -2,6 +2,12 @@
 
 All notable changes are documented here. The project is pre-1.0; breaking changes may occur before the first stable release.
 
+## [0.2.5] - 2026-11-18
+
+### Changed
+
+- Allow Composer to resolve Filament 4 or newer and Illuminate Support 12 or newer instead of restricting installation to specific major releases.
+
 ## [0.2.4] - 2026-11-05
 
 ### Fixed
