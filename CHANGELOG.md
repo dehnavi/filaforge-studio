@@ -8,6 +8,11 @@ All notable changes are documented here. The project is pre-1.0; breaking change
 
 - Added host-deny authorization configuration, opt-in authenticated fallback, per-panel authorization mode, resource enable/disable helpers, and richer install/security diagnostics.
 - Documented the difference between resource registration, Filament navigation visibility, and authorization.
+- Added column add/remove (1–6 columns) for column groups, an inline layout toolbar for sections, cards, and column groups in the canvas, and matching quick controls in the inspector.
+
+### Fixed
+
+- Quick tone and spacing changes are no longer reverted by the inspector's **Apply changes** button. Removing a column only deletes an empty column container, so legacy column groups keep their content widgets, and a removal rejected by editing rules no longer reports success.
 
 ### Security
 

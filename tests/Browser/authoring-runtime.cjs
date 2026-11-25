@@ -41,5 +41,25 @@ function editor(wire={saveDocument:async()=>({version:++calls})}) {
  state=editor();state.structureManager=true;state.copy();const second=editor();second.structureManager=true;second.paste();assert.equal(second.document.root.children.length,2);assert.notEqual(second.document.root.children[1].id,'text');
  let repeaterCalls=0;state=editor({makeRepeater:async(source,fields,query,columns)=>{repeaterCalls++;assert.equal(source,'catalog');assert.equal(columns,3);return {node:{...node('loop'),type:'query-loop',props:{provider:'catalog',query,emptyText:''},children:[node('row')]}}}});
  state.repeaterSource='catalog';state.repeaterFields=['title'];state.sources=[{name:'catalog',maxLimit:12}];await state.addRepeater();assert.equal(repeaterCalls,1);assert.equal(state.selected,'loop');assert.equal(state.repeaterBusy,false);
- console.log('PASS: protected edits, token resolution, recovery, stale recovery, in-flight saves, conflicts, offline retry, cross-page clipboard and repeater insertion.');
+ // Column groups: only an empty column container is removable, the group controls follow a selected column, and quick changes keep the inspector draft in step.
+ const column=(id,children=[])=>({...node(id),type:'container',props:{direction:'column'},children});
+ const card={...node('card'),type:'card',props:{tone:'white',padding:24,align:'start'},children:[node('card-text')]};
+ const group={...node('group'),type:'columns',props:{columns:2,gap:24},children:[column('c1',[node('c1-text')]),column('c2',[node('c2-text')])]};
+ const legacy={...node('legacy'),type:'columns',props:{columns:2,gap:24},children:[{...node('old-heading'),type:'heading',props:{text:'Heading',tag:'h2'}},node('old-text')]};
+ state=editor();state.document.root.children=[clone(group),legacy,clone(card)];
+ state.selected='legacy';state.removeColumn();assert.equal(state.find('legacy').children.length,2,'legacy content widgets must not count as empty columns');assert.match(state.status,/empty columns/);
+ state.selected='group';state.removeColumn();assert.equal(state.find('group').children.length,2,'a group without an empty column keeps its columns');assert.match(state.status,/empty columns/);
+ state.addColumn();assert.equal(state.find('group').children.length,3);assert.equal(state.find('group').props.columns,3);assert.equal(state.find(state.selected).type,'container');
+ for(let i=0;i<5;i++)state.addColumn();assert.equal(state.find('group').children.length,6,'the inspector button keeps adding while the new column is selected, up to six');assert.equal(state.find('group').props.columns,6);
+ state.addColumn();assert.equal(state.find('group').children.length,6);
+ state.removeColumn();assert.equal(state.find('group').children.length,5,'the last empty column is removed');assert.equal(state.find('group').props.columns,5);assert.equal(state.selected,'group');assert.equal(state.status,'Column removed.');
+ state=editor();state.document.root.children=[clone(group)];state.selected='group';state.addColumn();state.moveNode(state.find('group').children[2].id,'c2','before');
+ state.selected='group';state.removeColumn();assert.deepEqual(state.find('group').children.map(c=>c.id),['c1','c2'],'an empty column is removed even when the last column has content');
+ state=editor();state.document.root.children=[clone(group)];state.structureManager=true;state.selected='group';state.addColumn();state.select(state.find('group').children[2].id);state.setLayerMeta('locked',true);state.structureManager=false;
+ state.selected='group';state.removeColumn();assert.equal(state.find('group').children.length,3,'a locked column is not removed');assert.notEqual(state.status,'Column removed.','a rejected removal must not report success');
+ state=editor();state.document.root.children=[clone(card)];state.selected='card';state.visualAction('card','tone:soft');state.visualAction('card','padding-up');
+ assert.equal(state.find('card').props.tone,'soft');assert.equal(state.draftProps.tone,'soft','quick changes reach the inspector draft');assert.equal(state.draftProps.padding,32);
+ state.draftProps.anchor='intro';state.applyProps();assert.equal(state.find('card').props.tone,'soft');assert.equal(state.find('card').props.padding,32,'Apply changes must not revert quick changes');
+ for(let i=0;i<20;i++)state.visualAction('card','padding-up');assert.equal(state.find('card').props.padding,96);for(let i=0;i<20;i++)state.visualAction('card','padding-down');assert.equal(state.find('card').props.padding,8);
+ console.log('PASS: protected edits, token resolution, recovery, stale recovery, in-flight saves, conflicts, offline retry, cross-page clipboard, repeater insertion, column groups and quick layout changes.');
 })().catch(error=>{console.error(error);process.exitCode=1});

@@ -371,6 +371,9 @@ return [
         'upload_size_error' => 'Each file must be no larger than 50 MB.',
         'background_image_only' => 'Choose an image for the background.', 'media_type_mismatch' => 'This file type does not match the selected element.',
         'media_in_use' => 'This file is being used on the current page and cannot be deleted.',
+        'visual_layout_title' => 'Visual layout', 'visual_layout_hint' => 'Tune this section or column group without leaving the canvas settings.',
+        'spacing_up' => 'Increase spacing', 'spacing_down' => 'Decrease spacing', 'remove_column' => 'Remove column',
+        'columns_count' => 'columns', 'column_removed' => 'Column removed.', 'column_not_empty' => 'Only empty columns can be removed. Move or delete the content inside a column first.',
     ],
     'media_ui' => [
         'title' => 'Media library', 'hint' => 'Upload, edit, and organize files for your pages.', 'close_library' => 'Close media library',
