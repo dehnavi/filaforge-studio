@@ -32,6 +32,10 @@ final class EmbedCode
     public static function sanitize(string $code, string $defaultTitle = ''): array
     {
         if (strlen($code) > self::MAX_LENGTH) throw new InvalidArgumentException('too_large');
+        $code = trim($code);
+        if (preg_match('~^(?:https?:)?//~i', $code) === 1) {
+            $code = self::open('iframe', ['src' => $code]).'</iframe>';
+        }
         $dom = new DOMDocument;
         $previous = libxml_use_internal_errors(true);
         try { $dom->loadHTML('<?xml encoding="utf-8" ?><div>'.$code.'</div>', LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD); }
@@ -74,6 +78,7 @@ final class EmbedCode
             foreach (['scripts_disabled', 'iframes_disabled'] as $reason) if (isset($notices[$reason])) throw new InvalidArgumentException($reason);
             throw new InvalidArgumentException('nothing');
         }
+        if (strlen($html) > self::MAX_LENGTH) throw new InvalidArgumentException('too_large');
         return ['code' => $html, 'kind' => $kind, 'host' => $host, 'notices' => array_keys($notices)];
     }
 

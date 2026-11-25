@@ -123,6 +123,7 @@ class EditPage extends \Filament\Resources\Pages\Page {
         catch (\InvalidArgumentException) { return ['error'=>__('filaforge::studio.builder.repeater_invalid')]; }
     }
 
+    #[Renderless]
     public function sanitizeHtml(string $html): string
     {
         $this->page();
@@ -131,6 +132,7 @@ class EditPage extends \Filament\Resources\Pages\Page {
     }
 
     /** Returns the part of a pasted embed code that may be stored, or the reason why none of it may. */
+    #[Renderless]
     public function sanitizeEmbed(string $code): array
     {
         $this->page();

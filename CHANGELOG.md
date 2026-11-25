@@ -2,6 +2,18 @@
 
 All notable changes are documented here. The project is pre-1.0; breaking changes may occur before the first stable release.
 
+## [Unreleased]
+
+### Added
+
+- Accept direct iframe URLs alongside iframe and script snippets in the **Embed code** widget. The inspector shows validation feedback and opens **Preview page** after the embed is applied.
+- Add an **Insert HTML tag** menu to the HTML block. Insert semantic tags such as `article`, `section`, `p`, and `span` at the cursor or wrap a selection.
+
+### Fixed
+
+- Allow Embed code widgets to be inserted before the widget catalog finishes loading.
+- Apply Embed code and HTML block changes without rebuilding the editor during server validation.
+
 ## [0.2.6] - 2026-11-25
 
 ### Added

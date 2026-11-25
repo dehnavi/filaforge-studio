@@ -8,6 +8,14 @@ use FilaForge\Studio\Tests\AuthoringTestCase;
 
 final class HtmlBlockTest extends AuthoringTestCase
 {
+    public function test_semantic_tags_are_preserved_in_rendered_html_blocks(): void
+    {
+        $html = '<article><header><h2>Title</h2></header><p>Some <span>text</span></p><footer>Footer</footer></article>';
+        $result = app(BladeRenderer::class)->render($this->doc([$this->node('html', ['html' => $html])]));
+
+        $this->assertStringContainsString($html, $result);
+    }
+
     public function test_html_block_preserves_markup_and_never_executes_scripts_blade_or_php(): void
     {
         $html='<table><tr><td>Safe</td></tr></table><script>alert(1)</script><img src="/ok.jpg" onerror="alert(2)"><a href="javascript:alert(3)">Link</a><div style="position:fixed">{{ 7*7 }} <?php echo "EXECUTED"; ?></div>';

@@ -62,7 +62,7 @@ Custom scripts are disabled by default. Enabling scripts permits actual JavaScri
 
 ## Third-party embeds
 
-The **Embed code** element accepts iframe and external-script codes pasted by page editors:
+The **Embed code** element accepts direct iframe URLs, iframe snippets, and script snippets pasted by page editors:
 
 ```php
 'embeds' => [
@@ -73,7 +73,7 @@ The **Embed code** element accepts iframe and external-script codes pasted by pa
 ],
 ```
 
-`iframes` and `scripts` decide which parts of a pasted code may be stored and rendered. `inline_scripts` additionally allows JavaScript written inside the code. `allowed_hosts` lists exact host names, or `*.example.com` for a domain and its subdomains; an empty list accepts any HTTPS host. A script embed executes in the site's own origin, so enabling `scripts` needs the considerations in the [security guide](security.md#third-party-embeds).
+`iframes` and `scripts` decide which parts of a pasted code may be stored and rendered. `inline_scripts` additionally allows JavaScript written inside the code. `allowed_hosts` lists exact host names, or `*.example.com` for subdomains; an empty list accepts any HTTPS host. A script embed executes in the site's own origin, so enabling `scripts` needs the considerations in the [security guide](security.md#third-party-embeds).
 
 ## Translation overrides
 

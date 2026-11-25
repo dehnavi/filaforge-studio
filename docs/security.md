@@ -47,7 +47,7 @@ Custom page JavaScript is disabled by default. When explicitly enabled, scripts 
 
 ## Third-party embeds
 
-The **Embed code** element stores an iframe or an external script from any provider (Aparat, YouTube, Vimeo, and others). On every request the renderer rebuilds the kept parts of that code: an HTTPS address in `src`, the container element, sizing-only inline styles, and external scripts. Styles, event handlers, `srcdoc`, inline code, and every other element are never emitted, and the editor canvas never builds the code.
+The **Embed code** element accepts direct iframe URLs, iframe snippets, and script snippets. Direct URLs and iframe snippets use the same validation rules. On every render, FilaForge rebuilds the allowed markup, including HTTPS addresses, supported container elements and sizing styles, and explicitly enabled scripts. The editing canvas displays a text placeholder. The page preview renders the sanitized embed inside its sandboxed frame.
 
 An iframe runs the provider's page in the provider's own origin. A script embed runs the provider's JavaScript **in the site's own origin**, where it can read and change the page and act as the signed-in visitor. `embeds.scripts` is therefore `false` until the host enables it; from then on anyone who may edit a page may add script embeds. Enable it only when every page editor is trusted, name the accepted providers in `embeds.allowed_hosts`, and keep `embeds.inline_scripts` off unless a provider needs code written inside the snippet.
 

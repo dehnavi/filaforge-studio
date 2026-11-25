@@ -25,6 +25,7 @@ The page open in the Filament editor:
 - **Dynamic content:** explicitly registered providers, field and filter allowlists, bounded query loops, conditional display, and controlled shortcode-to-widget conversion.
 - **Publishing:** versioned documents, draft and published revisions, optimistic concurrency checks, atomic publication, and draft restoration from publication history.
 - **Server rendering:** HTML fragments for an existing layout, complete HTML documents, Laravel responses, or the exact published revision for a page locale.
+- **Embeds and markup:** direct iframe URLs, iframe and opt-in script snippets, page preview, and a semantic tag picker for HTML blocks.
 - **Reusable content:** independent published sections, linked shared sections, sanitized HTML blocks, database card repeaters, and typed shared styles.
 - **Editing workflow:** optional client locks and exposed fields, autosave, tab-local recovery, and publication history with draft restore.
 - **Extensibility:** trusted custom widgets with Filament inspectors, presets, fonts, and Laravel data providers.

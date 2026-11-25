@@ -3,7 +3,7 @@
     styleValue(property){const value=this.find(this.selected)?.styles?.[property];return value?.token?this.designTokens[value.token]?.value:value},
     copyStyle(){const node=this.find(this.selected);if(node)this.styleClipboard=JSON.parse(JSON.stringify({styles:node.styles,responsive:node.responsive}))},
     pasteStyle(){const node=this.find(this.selected);if(node&&this.styleClipboard)this.commit(()=>{node.styles=JSON.parse(JSON.stringify(this.styleClipboard.styles));node.responsive=JSON.parse(JSON.stringify(this.styleClipboard.responsive));if(!['dropdown-menu','menu-item'].includes(node.type))for(const values of Object.values(node.responsive))for(const key of ['menuGap','submenuWidth','submenuIndent'])delete values[key]})},
-    insertNative(type,props){const parent=this.insertionParent();if(!parent)return;const node={id:crypto.randomUUID(),type,widgetVersion:1,props:JSON.parse(JSON.stringify(props)),children:[],styles:[],responsive:[],bindings:[],visibility:[],meta:[]};if(this.commit(()=>parent.children.push(node)))this.select(node.id)},
+    insertNative(type,props,parentId=this.selected){const parent=this.insertionParent(parentId);if(!parent)return;const node={id:crypto.randomUUID(),type,widgetVersion:1,props:JSON.parse(JSON.stringify(props)),children:[],styles:[],responsive:[],bindings:[],visibility:[],meta:[]};if(this.commit(()=>parent.children.push(node)))this.select(node.id)},
     canStructure(node=this.find(this.selected)){return this.structureManager||(!node?.meta?.locked&&!Array.isArray(node?.meta?.editable))},
     respectsRules(old,node){if(!node||JSON.stringify(old.meta)!==JSON.stringify(node.meta))return false;if(old.meta?.locked)return JSON.stringify(old)===JSON.stringify(node);if(Array.isArray(old.meta?.editable)){const expected=JSON.parse(JSON.stringify(old));for(const key of old.meta.editable){expected.props[key]=node.props[key];if(expected.props.formatted)delete expected.props.formatted[key];if(node.props.formatted?.[key]!==undefined){expected.props.formatted??={};expected.props.formatted[key]=node.props.formatted[key]}}if(expected.props.formatted&&Object.keys(expected.props.formatted).length===0&&!node.props.formatted)delete expected.props.formatted;return JSON.stringify(expected)===JSON.stringify(node)}const hasRules=n=>Object.keys(n.meta||{}).length>0||n.children.some(hasRules);const protectedNode=n=>n.meta?.locked||Array.isArray(n.meta?.editable)||n.children.some(protectedNode);for(let i=0;i<old.children.length;i++){const child=old.children[i],next=node.children.find(n=>n.id===child.id);if(protectedNode(child)&&node.children[i]?.id!==child.id)return false;if(next&&!this.respectsRules(child,next))return false;if(!next&&protectedNode(child))return false}return !node.children.some(n=>!old.children.some(c=>c.id===n.id)&&hasRules(n))},
     setLayerMeta(key,value){if(!this.structureManager)return;const node=this.find(this.selected);this.commit(()=>{node.meta={...node.meta};if(value===null||value==='')delete node.meta[key];else node.meta[key]=value})},
@@ -11,9 +11,38 @@
     tokensFor(property){return Object.entries(this.designTokens).filter(([,token])=>token.property===property)},
     resolvedCanvasDocument(){const doc=JSON.parse(JSON.stringify(this.document));const resolve=values=>Object.fromEntries(Object.entries(values||{}).map(([key,value])=>[key,value?.token?this.designTokens[value.token]?.value:value]));const walk=n=>{n.styles=resolve(n.styles);for(const key of Object.keys(n.responsive||{}))n.responsive[key]=resolve(n.responsive[key]);n.children.forEach(walk)};walk(doc.root);return doc},
     async addRepeater(){if(this.repeaterBusy||!this.repeaterFields.length)return;this.repeaterBusy=true;try{const result=await wire.makeRepeater(this.repeaterSource,Array.from(this.repeaterFields),{limit:Math.min(6,this.source(this.repeaterSource)?.maxLimit||6)},Number(this.repeaterColumns));if(result.error){this.status=result.error;return}const parent=this.insertionParent();if(parent&&this.commit(()=>parent.children.push(result.node))){this.select(result.node.id);this.repeaterOpen=false}}catch(e){this.status=@js(__('filaforge::studio.builder.action_failed'))}finally{this.repeaterBusy=false}},
+    insertHtmlTag(tag){
+        if(!/^[a-z][a-z0-9]*$/.test(tag))return;
+        const field=this.$refs.htmlSourceEditor;
+        const start=field.selectionStart,end=field.selectionEnd;
+        const opening='<'+tag+'>',closing='</'+tag+'>';
+        if(field.value.length+opening.length+closing.length>field.maxLength)return;
+        field.setRangeText(opening+field.value.slice(start,end)+closing,start,end);
+        this.draftProps.html=field.value;
+        field.focus();
+        field.setSelectionRange(start+opening.length,end+opening.length);
+    },
     async applyHtml(){const node=this.find(this.selected),html=this.draftProps.html;if(node?.type!=='html')return;try{const safe=await wire.sanitizeHtml(html);if(this.find(node.id)===node){this.commit(()=>node.props.html=safe);if(this.selected===node.id)this.draftProps.html=safe}}catch(e){this.status=@js(__('filaforge::studio.builder.action_failed'))}},
     // The server decides what an embed code may keep; the editor stores and shows only that result.
-    async applyEmbed(){const node=this.find(this.selected);if(!node||node.type!=='embed'||this.embedBusy)return;this.embedBusy=true;this.embedError='';this.embedNotice='';try{const result=await wire.sanitizeEmbed(this.draftProps.code||'');if(result.error){this.embedError=result.error;return}const title=(this.draftProps.title||'').trim();if(this.find(node.id)===node&&this.selected===node.id&&this.commit(()=>{node.props.code=result.code;node.props.title=title})){this.draftProps=JSON.parse(JSON.stringify(node.props));this.embedNotice=result.notice||''}}catch(e){this.embedError=@js(__('filaforge::studio.builder.action_failed'))}finally{this.embedBusy=false}},
+    async applyEmbed(){
+        const node=this.find(this.selected),draft=this.draftProps;
+        if(node?.type!=='embed'||this.embedBusy)return;
+        const code=draft.code||'',title=(draft.title||'').trim();
+        this.embedBusy=true;
+        this.embedError='';
+        this.embedNotice='';
+        try{
+            const result=await wire.sanitizeEmbed(code);
+            if(this.find(node.id)!==node||this.selected!==node.id||this.draftProps!==draft)return;
+            if(result.error){this.embedError=result.error;return}
+            if(this.commit(()=>{node.props.code=result.code;node.props.title=title})){
+                this.draftProps=JSON.parse(JSON.stringify(node.props));
+                this.embedNotice=result.notice||'';
+            }
+        }catch(e){
+            if(this.draftProps===draft)this.embedError=@js(__('filaforge::studio.builder.action_failed'));
+        }finally{this.embedBusy=false}
+    },
     async applyCustom(){const id=this.selected;try{const props=await wire.validatedCustomSettings();if(this.selected===id)this.commit(()=>this.find(id).props=props)}catch(e){this.status=@js(__('filaforge::studio.builder.action_failed'))}},
     async openRevisions(){try{this.revisionItems=await wire.revisionHistory();this.revisionOpen=true;this.revisionCompare=null}catch(e){this.status=@js(__('filaforge::studio.builder.action_failed'))}},
     async compareRevision(id){try{const document=await wire.revisionDocument(id);this.revisionCompare={id,before:JSON.stringify(document,null,2),after:JSON.stringify(this.document,null,2)}}catch(e){this.status=@js(__('filaforge::studio.builder.action_failed'))}},

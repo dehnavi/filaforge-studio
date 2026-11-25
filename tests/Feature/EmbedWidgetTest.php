@@ -17,6 +17,21 @@ final class EmbedWidgetTest extends AuthoringTestCase
     private const SCRIPT_KEPT = '<div id="80008716930"><script src="https://www.aparat.com/embed/gywe525?data[rnddiv]=80008716930&amp;data[responsive]=yes&amp;muted=true&amp;titleShow=true&amp;startTime=4&amp;recom=self" data-ff-embed=""></script></div>';
     private const IFRAME_KEPT = '<iframe src="https://www.aparat.com/video/video/embed/videohash/gywe525/vt/frame?titleShow=true&amp;startTime=4&amp;muted=true&amp;recom=self" allowfullscreen loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>';
 
+    public function test_iframe_urls_use_the_same_validation_and_rendering_as_snippets(): void
+    {
+        $url = 'https://player.vimeo.com/video/76979871?autoplay=0&muted=1';
+        $snippet = '<iframe src="https://player.vimeo.com/video/76979871?autoplay=0&amp;muted=1"></iframe>';
+
+        $this->assertSame(EmbedCode::sanitize($snippet), EmbedCode::sanitize("  $url\n"));
+        $this->assertSame(EmbedCode::render($snippet, 'Video'), EmbedCode::render($url, 'Video'));
+        $this->assertSame('nothing', $this->rejected('https://player.vimeo.com/video/1"><iframe src="https://example.com">'));
+
+        config(['filaforge.embeds.allowed_hosts' => ['www.aparat.com']]);
+        $this->assertSame('nothing', $this->rejected($url));
+        config(['filaforge.embeds.iframes' => false]);
+        $this->assertSame('iframes_disabled', $this->rejected($url));
+    }
+
     public function test_script_embed_keeps_its_holder_and_external_script_in_order_only_when_enabled(): void
     {
         // Off by default: nothing of the script reaches visitors and the editor learns why.

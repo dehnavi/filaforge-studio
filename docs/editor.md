@@ -36,7 +36,12 @@ Emoji search is available in supported text controls. Text direction is independ
 
 ## Embed a video or another iframe
 
-Add **Embed code** to any section, card, or column and paste the iframe or script code copied from the video service, then choose **Apply**. The panel reports what was kept, what was removed, and when the site has turned a kind of embed off. The canvas shows a placeholder with the provider's host. **Preview** shows the frame at its real size, but a provider's player can stay blank there because the preview is isolated from other sites; it plays on the published page.
+1. Add **Embed code** to the page and paste the provider's direct iframe URL, complete iframe snippet, or supported script snippet into **Iframe URL or embed code**. For a URL, use the address the provider puts in the iframe's `src`.
+2. Optionally enter a title for screen readers. If an iframe snippet already has a title, that title takes precedence.
+3. Choose **Apply embed**. The inspector reports whether it accepted the input and lists any parts it removed. Applying updates the draft.
+4. Choose **Preview page** to see the applied embed. The editing canvas shows a placeholder with the provider's host. A provider may block embedding or behave differently in the sandboxed preview.
+
+Script embeds are off by default. See [embed settings](configuration.md#third-party-embeds) and [third-party embed security](security.md#third-party-embeds). For semantic page markup, use the [HTML block](reusable-sections.md#html-block).
 
 ## Arrange and style
 
