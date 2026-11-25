@@ -46,7 +46,8 @@ final class SafeHtml
                 continue;
             }
 
-            $marker = $node->ownerDocument->createElement('span', $prefix.count($scripts));
+            $marker = $node->ownerDocument->createElement('span');
+            $marker->textContent = $prefix.count($scripts);
             $scripts['<span>'.$marker->textContent.'</span>'] = $script;
             $root->replaceChild($marker, $node);
         }
