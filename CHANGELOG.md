@@ -2,7 +2,7 @@
 
 All notable changes are documented here. The project is pre-1.0; breaking changes may occur before the first stable release.
 
-## [Unreleased]
+## [0.2.10] - 2026-11-25
 
 ### Fixed
 
