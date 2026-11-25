@@ -32,7 +32,7 @@ Use keyboard alternatives where available. Drag-and-drop coordinates are handled
 
 Select a text-bearing element and use its inline editor for common formatting such as emphasis, links, lists, alignment, and text direction. The inspector remains available for the structured properties. Saved rich text is validated against an allowlist and rendered as sanitized markup; it is not executed as Blade.
 
-Emoji search is available in supported text controls. Text direction is independent from the page's overall layout direction, so an English label can remain LTR inside a Persian page.
+Emoji search is available in supported text controls. Text direction is independent from the page's overall layout direction, so an English label can remain LTR inside a Persian page. Press a direction button with a collapsed caret to set the direction of a whole block. To keep punctuation next to an English phrase inside Persian text, select the phrase and press the direction button; the selection becomes an isolated inline run.
 
 ## Arrange and style
 

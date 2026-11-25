@@ -13,6 +13,7 @@ All notable changes are documented here. The project is pre-1.0; breaking change
 ### Fixed
 
 - Quick tone and spacing changes are no longer reverted by the inspector's **Apply changes** button. Removing a column only deletes an empty column container, so legacy column groups keep their content widgets, and a removal rejected by editing rules no longer reports success.
+- Text direction chosen in the inline toolbar is now saved for text, heading, and quote widgets, and selecting part of a block isolates the selected words as an inline run so punctuation stays next to an English phrase inside Persian text. Inline formatting marks (direction, tone, size, alignment) now render in published output for every text widget, not only rich text.
 
 ### Security
 

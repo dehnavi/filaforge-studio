@@ -28,4 +28,28 @@ final class LayoutToolsTest extends TestCase
         $this->assertStringContainsString('inset-inline-end:6px',$rule[1]);$this->assertStringContainsString('inset-block-start:6px',$rule[1]);
         $this->assertDoesNotMatchRegularExpression('/(?<![a-z-])(left|right|top):/',$rule[1]);
     }
+
+    public function test_canvas_keeps_direction_for_widgets_that_are_their_own_block():void
+    {
+        $canvas=view('filaforge::editor.canvas')->render();
+        $this->assertStringContainsString('if(button.dataset.dir)directionMark(button.dataset.dir)',$canvas);
+        // A partial selection becomes an isolated inline run; a collapsed caret on the editing root wraps its content instead of marking the root, which is never saved.
+        $this->assertStringContainsString('if(partial){inlineMark(\'data-direction\',value);return}',$canvas);
+        $this->assertStringContainsString('if(block===editing){const content=[...editing.childNodes].filter(node=>!(node.nodeType===1&&node.hasAttribute(\'data-ff-editor-only\')));',$canvas);
+        $this->assertStringContainsString('wrapper.setAttribute(\'data-direction\',value);wrapper.append(...content);editing.append(wrapper)', $canvas);
+    }
+
+    public function test_published_output_styles_inline_marks_in_every_text_widget():void
+    {
+        $text=$this->node('text','text',['text'=>'Hello world!','formatted'=>['text'=>'<span data-direction="ltr">Hello world!</span><span data-tone="red">red</span><span data-size="large">big</span>']]);
+        $heading=$this->node('heading','heading',['text'=>'Heading','tag'=>'h2','formatted'=>['text'=>'<div data-align="center">Heading</div>']]);
+        $document=DocumentValidator::empty('fa','rtl');$document['root']['children']=[$text,$heading];
+        $html=app(BladeRenderer::class)->render($document);
+        $this->assertStringContainsString('<div lang="fa" dir="rtl">',$html);
+        $this->assertStringContainsString('<span data-direction="ltr">Hello world!</span><span data-tone="red">red</span><span data-size="large">big</span>',$html,'inline marks survive sanitizing');
+        $this->assertStringNotContainsString('ff-rich',$html,'no rich-text widget is needed');
+        // An inline direction mark isolates its run: direction alone has no effect on inline elements.
+        foreach (['[data-node] [data-align=center]{text-align:center}','[data-node] [data-tone=red]{color:#b42318}','[data-node] [data-size=large]{font-size:1.3em}','[data-node] [data-direction=ltr]{direction:ltr}','[data-direction]{unicode-bidi:isolate}'] as $rule) $this->assertStringContainsString($rule,$html);
+        $this->assertStringContainsString('[data-node] [data-direction=ltr]{direction:ltr}',view('filaforge::editor.canvas')->render(),'the canvas ships the same rules');
+    }
 }
