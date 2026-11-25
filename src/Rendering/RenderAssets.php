@@ -11,7 +11,8 @@ final class RenderAssets
 
     public function capture(string $html): string
     {
-        return preg_replace_callback('~<style\b[^>]*>.*?</style>|<script\b[^>]*\bsrc="[^"]+"[^>]*>\s*</script>~si', function (array $match): string {
+        // Embed scripts stay where they are: their provider attaches them to the holder written just before them.
+        return preg_replace_callback('~<style\b[^>]*>.*?</style>|<script\b(?![^>]*\bdata-ff-embed\b)[^>]*\bsrc="[^"]+"[^>]*>\s*</script>~si', function (array $match): string {
             $this->tags[hash('sha256', $match[0])] = $match[0];
             return '';
         }, $html);

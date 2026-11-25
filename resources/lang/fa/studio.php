@@ -374,6 +374,13 @@ return [
         'visual_layout_title' => 'چیدمان بصری', 'visual_layout_hint' => 'ظاهر سکشن یا گروه ستون‌ها را سریع و بدون خروج از ویرایشگر تنظیم کنید.',
         'spacing_up' => 'افزایش فاصله', 'spacing_down' => 'کاهش فاصله', 'remove_column' => 'حذف ستون',
         'columns_count' => 'ستون', 'column_removed' => 'ستون حذف شد.', 'column_not_empty' => 'فقط ستون خالی قابل حذف است؛ ابتدا محتوای داخل ستون را جابه‌جا یا حذف کنید.',
+        'widget_embed' => 'کد embed', 'embed_code' => 'کد embed (iframe یا اسکریپت)', 'embed_title' => 'عنوان برای صفحه‌خوان‌ها', 'embed_help' => 'کدی را که از سرویس ویدیو گرفته‌اید اینجا جای‌گذاری کنید. فقط قاب، کادر آن و اسکریپت‌های بیرونی نگه داشته می‌شوند؛ استایل، رویدادها و سایر المان‌ها حذف می‌شوند. پلیر سرویس‌های بیرونی ممکن است در پیش‌نمایش ویرایشگر خالی بماند؛ روی صفحهٔ منتشرشده پخش می‌شود.',
+        'embed_saved_iframe' => 'کد iframe از :host ذخیره شد.', 'embed_saved_script' => 'کد اسکریپت از :host ذخیره شد.', 'embed_too_large' => 'کد embed خیلی بزرگ است.',
+        'embed_scripts_disabled' => 'embed اسکریپتی برای این سایت خاموش است. از کد iframe استفاده کنید.', 'embed_iframes_disabled' => 'embed با iframe برای این سایت خاموش است.',
+        'embed_nothing' => 'هیچ iframe یا اسکریپت بیرونی قابل‌استفاده‌ای در این کد پیدا نشد.', 'embed_too_many' => 'تلاش‌ها بیش از حد است. یک دقیقه بعد دوباره امتحان کنید.',
+        'embed_notice_removed' => 'بخش‌های پشتیبانی‌نشدهٔ کد حذف شدند.', 'embed_notice_inline' => 'یک اسکریپت درون‌خطی حذف شد.', 'embed_notice_https' => 'آدرس‌ها به HTTPS ارتقا یافتند.',
+        'embed_notice_host' => 'آدرسی از دامنه‌ای که مجاز نیست حذف شد.', 'embed_notice_scripts_disabled' => 'اسکریپت‌ها حذف شدند، چون embed اسکریپتی خاموش است.', 'embed_notice_iframes_disabled' => 'iframeها حذف شدند، چون embed با iframe خاموش است.',
+        'embed_empty' => 'کد embed را در تنظیمات المان جای‌گذاری کنید.', 'embed_default_title' => 'محتوای جاسازی‌شده',
     ],
     'media_ui' => [
         'title' => 'کتابخانهٔ رسانه', 'hint' => 'فایل‌ها را برای صفحه‌ها آپلود، ویرایش و دسته‌بندی کنید.', 'close_library' => 'بستن کتابخانهٔ رسانه',

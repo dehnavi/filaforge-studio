@@ -34,6 +34,10 @@ Select a text-bearing element and use its inline editor for common formatting su
 
 Emoji search is available in supported text controls. Text direction is independent from the page's overall layout direction, so an English label can remain LTR inside a Persian page. Press a direction button with a collapsed caret to set the direction of a whole block. To keep punctuation next to an English phrase inside Persian text, select the phrase and press the direction button; the selection becomes an isolated inline run.
 
+## Embed a video or another iframe
+
+Add **Embed code** to any section, card, or column and paste the iframe or script code copied from the video service, then choose **Apply**. The panel reports what was kept, what was removed, and when the site has turned a kind of embed off. The canvas shows a placeholder with the provider's host. **Preview** shows the frame at its real size, but a provider's player can stay blank there because the preview is isolated from other sites; it plays on the published page.
+
 ## Arrange and style
 
 The inspector exposes the settings supported by each widget. Common settings include layout, spacing, alignment, typography, colors, backgrounds, media, opacity, hover/click actions, and responsive overrides. Collapsible groups keep long settings panels manageable.

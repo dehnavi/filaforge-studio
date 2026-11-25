@@ -52,4 +52,14 @@ return [
         'gtm_enabled' => true,
         'custom_scripts_enabled' => false,
     ],
+    // Embed codes pasted by page editors: iframes from any provider, plus external scripts once enabled.
+    // A script embed runs the provider's code in the site's own origin, so it is off until the host turns it on.
+    'embeds' => [
+        'iframes' => true,
+        'scripts' => false,
+        // Allow JavaScript written directly inside the pasted code (most providers only need an external script).
+        'inline_scripts' => false,
+        // Exact host names accepted in embed addresses. Empty accepts any HTTPS host.
+        'allowed_hosts' => [],
+    ],
 ];

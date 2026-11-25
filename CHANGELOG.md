@@ -9,6 +9,7 @@ All notable changes are documented here. The project is pre-1.0; breaking change
 - Added host-deny authorization configuration, opt-in authenticated fallback, per-panel authorization mode, resource enable/disable helpers, and richer install/security diagnostics.
 - Documented the difference between resource registration, Filament navigation visibility, and authorization.
 - Added column add/remove (1–6 columns) for column groups, an inline layout toolbar for sections, cards, and column groups in the canvas, and matching quick controls in the inspector.
+- Added an **Embed code** widget for third-party iframes and external scripts (Aparat, YouTube, Vimeo, and others). The kept parts of a pasted code are rebuilt from an allowlist on every render; script embeds stay off until `embeds.scripts` is enabled in the host configuration.
 
 ### Fixed
 

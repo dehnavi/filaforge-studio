@@ -45,6 +45,14 @@ For multi-tenant moderation, scope the comment resource and policy to the tenant
 
 Custom page JavaScript is disabled by default. When explicitly enabled, scripts are executable code in visitors' browsers. Restrict configuration and the `filaforge.manageScripts` ability to trusted administrators, audit changes, and apply consent, privacy, and CSP rules. Do not use this feature as a sandbox for untrusted page authors. Preview does not execute page integrations.
 
+## Third-party embeds
+
+The **Embed code** element stores an iframe or an external script from any provider (Aparat, YouTube, Vimeo, and others). On every request the renderer rebuilds the kept parts of that code: an HTTPS address in `src`, the container element, sizing-only inline styles, and external scripts. Styles, event handlers, `srcdoc`, inline code, and every other element are never emitted, and the editor canvas never builds the code.
+
+An iframe runs the provider's page in the provider's own origin. A script embed runs the provider's JavaScript **in the site's own origin**, where it can read and change the page and act as the signed-in visitor. `embeds.scripts` is therefore `false` until the host enables it; from then on anyone who may edit a page may add script embeds. Enable it only when every page editor is trusted, name the accepted providers in `embeds.allowed_hosts`, and keep `embeds.inline_scripts` off unless a provider needs code written inside the snippet.
+
+A host Content Security Policy has to list the accepted providers, for example `frame-src https://www.aparat.com https://player.vimeo.com https://www.youtube-nocookie.com`, and for script embeds the same hosts in `script-src`. When a publication is embedded with `publishedFragment` and `RenderAssets`, embed scripts stay inside the fragment because providers attach them to the element written just before them. If the same publication appears more than once on a page, a script embed fills the first holder that carries its `id`.
+
 ## Media
 
 Uploads are validated and stored through Laravel Filesystem. Use private disks for protected content, authorize media lookup, and test signed URL lifetime and caching for the chosen driver. A media URL entered by an editor is referenced directly by visitors' browsers; review third-party privacy and availability before publishing it.

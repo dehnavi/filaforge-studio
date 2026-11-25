@@ -67,6 +67,7 @@ class EditPage extends \Filament\Resources\Pages\Page {
                 'label' => match ($widget->name()) {
                     'html' => __('filaforge::studio.builder.html'),
                     'shared-section' => __('filaforge::studio.builder.shared_section'),
+                    'embed' => __('filaforge::studio.editor_ui.widget_embed'),
                     default => $widget->name(),
                 },
                 'props' => $widget->defaults(),
@@ -127,6 +128,24 @@ class EditPage extends \Filament\Resources\Pages\Page {
         $this->page();
         if (strlen($html) > 100000) throw new \InvalidArgumentException('HTML is too large.');
         return app(\FilaForge\Studio\Rendering\SafeHtml::class)->clean($html);
+    }
+
+    /** Returns the part of a pasted embed code that may be stored, or the reason why none of it may. */
+    public function sanitizeEmbed(string $code): array
+    {
+        $this->page();
+        $key='filaforge-embed:'.$this->pageId.':'.(auth()->id()??'guest');
+        if(\Illuminate\Support\Facades\RateLimiter::tooManyAttempts($key,60))return ['error'=>__('filaforge::studio.editor_ui.embed_too_many')];
+        \Illuminate\Support\Facades\RateLimiter::hit($key,60);
+        if (trim($code) === '') return ['code'=>'','notice'=>''];
+        try {
+            $embed=\FilaForge\Studio\Rendering\EmbedCode::sanitize($code);
+            $notice=__('filaforge::studio.editor_ui.embed_saved_'.$embed['kind'],['host'=>$embed['host']]);
+            foreach ($embed['notices'] as $change) $notice.=' '.__('filaforge::studio.editor_ui.embed_notice_'.$change);
+            return ['code'=>$embed['code'],'notice'=>$notice];
+        } catch (\InvalidArgumentException $error) {
+            return ['error'=>__('filaforge::studio.editor_ui.embed_'.$error->getMessage())];
+        }
     }
 
     public function revisionHistory(): array

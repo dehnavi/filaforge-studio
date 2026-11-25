@@ -374,6 +374,13 @@ return [
         'visual_layout_title' => 'Visual layout', 'visual_layout_hint' => 'Tune this section or column group without leaving the canvas settings.',
         'spacing_up' => 'Increase spacing', 'spacing_down' => 'Decrease spacing', 'remove_column' => 'Remove column',
         'columns_count' => 'columns', 'column_removed' => 'Column removed.', 'column_not_empty' => 'Only empty columns can be removed. Move or delete the content inside a column first.',
+        'widget_embed' => 'Embed code', 'embed_code' => 'Embed code (iframe or script)', 'embed_title' => 'Title for screen readers', 'embed_help' => 'Paste the code copied from the video service. The frame, its container and external scripts are kept; styles, event handlers and other elements are removed. Third-party players may stay blank in the editor preview; they play on the published page.',
+        'embed_saved_iframe' => 'Iframe from :host saved.', 'embed_saved_script' => 'Script from :host saved.', 'embed_too_large' => 'The embed code is too large.',
+        'embed_scripts_disabled' => 'Script embeds are turned off for this site. Use an iframe code instead.', 'embed_iframes_disabled' => 'Iframe embeds are turned off for this site.',
+        'embed_nothing' => 'No usable iframe or external script was found in this code.', 'embed_too_many' => 'Too many attempts. Wait a minute and try again.',
+        'embed_notice_removed' => 'Unsupported parts of the code were removed.', 'embed_notice_inline' => 'An inline script was removed.', 'embed_notice_https' => 'Web addresses were upgraded to HTTPS.',
+        'embed_notice_host' => 'An address from a host that is not allowed was removed.', 'embed_notice_scripts_disabled' => 'Scripts were removed because script embeds are turned off.', 'embed_notice_iframes_disabled' => 'Iframes were removed because iframe embeds are turned off.',
+        'embed_empty' => 'Paste an embed code in the element settings.', 'embed_default_title' => 'Embedded content',
     ],
     'media_ui' => [
         'title' => 'Media library', 'hint' => 'Upload, edit, and organize files for your pages.', 'close_library' => 'Close media library',

@@ -60,6 +60,21 @@ The config includes:
 
 Custom scripts are disabled by default. Enabling scripts permits actual JavaScript execution in visitors' browsers after the separate `filaforge.manageScripts` ability grants access. See [dropdown menus and page scripts](dropdown-menu-and-page-scripts.md) and the [security guide](security.md).
 
+## Third-party embeds
+
+The **Embed code** element accepts iframe and external-script codes pasted by page editors:
+
+```php
+'embeds' => [
+    'iframes' => true,
+    'scripts' => false,
+    'inline_scripts' => false,
+    'allowed_hosts' => [],
+],
+```
+
+`iframes` and `scripts` decide which parts of a pasted code may be stored and rendered. `inline_scripts` additionally allows JavaScript written inside the code. `allowed_hosts` lists exact host names, or `*.example.com` for a domain and its subdomains; an empty list accepts any HTTPS host. A script embed executes in the site's own origin, so enabling `scripts` needs the considerations in the [security guide](security.md#third-party-embeds).
+
 ## Translation overrides
 
 Laravel applications can override package strings in the standard `lang/vendor/filaforge/<locale>/studio.php` location. Available catalogs and current translation limits are documented in [localization](localization.md).

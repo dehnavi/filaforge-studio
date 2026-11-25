@@ -11,7 +11,7 @@ FilaForge Studio lets an authorized editor compose website pages inside a Filame
 
 ## Create pages without leaving Laravel
 
-Use an isolated canvas to arrange containers, columns, grids, headings, rich text, buttons, icons, images, video, navigation, tables, and reusable page sections. Edit text inline, adjust responsive settings, organize layers, and preview before publishing.
+Use an isolated canvas to arrange containers, columns, grids, headings, rich text, buttons, icons, images, video, third-party embeds, navigation, tables, and reusable page sections. Edit text inline, adjust responsive settings, organize layers, and preview before publishing.
 
 ## Design for real websites
 

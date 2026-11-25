@@ -61,5 +61,16 @@ function editor(wire={saveDocument:async()=>({version:++calls})}) {
  assert.equal(state.find('card').props.tone,'soft');assert.equal(state.draftProps.tone,'soft','quick changes reach the inspector draft');assert.equal(state.draftProps.padding,32);
  state.draftProps.anchor='intro';state.applyProps();assert.equal(state.find('card').props.tone,'soft');assert.equal(state.find('card').props.padding,32,'Apply changes must not revert quick changes');
  for(let i=0;i<20;i++)state.visualAction('card','padding-up');assert.equal(state.find('card').props.padding,96);for(let i=0;i<20;i++)state.visualAction('card','padding-down');assert.equal(state.find('card').props.padding,8);
- console.log('PASS: protected edits, token resolution, recovery, stale recovery, in-flight saves, conflicts, offline retry, cross-page clipboard, repeater insertion, column groups and quick layout changes.');
+ // Embed codes: the editor stores exactly what the server returns and shows its notice; a rejected code leaves the element unchanged.
+ const kept='<div id="80008716930"><script src="https://www.aparat.com/embed/gywe525?data[rnddiv]=80008716930" data-ff-embed=""></script></div>';
+ let sent='';state=editor({sanitizeEmbed:async code=>{sent=code;return code.includes('aparat')?{code:kept,notice:'Script from www.aparat.com saved.'}:{error:'No usable iframe or external script was found in this code.'}}});
+ state.document.root.children.push({...node('embed'),type:'embed',props:{code:'',title:''}});
+ const pasted='<div id="80008716930"><script src="https://www.aparat.com/embed/gywe525?data[rnddiv]=80008716930"></script></div>';
+ state.select('embed');state.draftProps.code=pasted;state.draftProps.title='  Setup video  ';
+ await state.applyEmbed();
+ assert.equal(sent,pasted);assert.equal(state.find('embed').props.code,kept,'only the server result is stored');assert.equal(state.find('embed').props.title,'Setup video');assert.equal(state.draftProps.code,kept);assert.equal(state.embedNotice,'Script from www.aparat.com saved.');assert.equal(state.embedError,'');assert.equal(state.embedBusy,false);
+ state.draftProps.code='<p>hello</p>';await state.applyEmbed();
+ assert.equal(state.find('embed').props.code,kept,'a rejected code does not replace the stored one');assert.match(state.embedError,/No usable iframe/);assert.equal(state.embedNotice,'');assert.equal(state.embedBusy,false);
+ state.select('text');assert.equal(state.embedError,'','messages reset when another element is selected');
+ console.log('PASS: protected edits, token resolution, recovery, stale recovery, in-flight saves, conflicts, offline retry, cross-page clipboard, repeater insertion, column groups, quick layout changes and embed codes.');
 })().catch(error=>{console.error(error);process.exitCode=1});

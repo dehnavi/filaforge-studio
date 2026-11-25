@@ -4,6 +4,14 @@
 <p class="ff-muted">{{ __('filaforge::studio.builder.html_help') }}</p>
 <button type="button" class="ff-btn ff-primary" x-on:click="applyHtml()"><span class="ff-button-icon" x-html="iconSvg('check')"></span>{{ __('filaforge::studio.builder.apply_html') }}</button>
 </div>
+<div x-show="find(selected)?.type==='embed'" class="ff-data-fields">
+<label class="ff-source-field"><span>{{ __('filaforge::studio.editor_ui.embed_code') }}</span><textarea class="ff-search" rows="8" dir="ltr" spellcheck="false" maxlength="20000" x-model="draftProps.code"></textarea></label>
+<label class="ff-source-field"><span>{{ __('filaforge::studio.editor_ui.embed_title') }}</span><input maxlength="200" :value="draftProps.title" x-on:input="draftProps.title=$event.target.value"></label>
+<p class="ff-muted">{{ __('filaforge::studio.editor_ui.embed_help') }}</p>
+<p class="ff-muted" role="status" x-show="embedNotice" x-text="embedNotice"></p>
+<p class="ff-muted" role="alert" style="color:#b42318" x-show="embedError" x-text="embedError"></p>
+<button type="button" class="ff-btn ff-primary" x-on:click="applyEmbed()" :disabled="embedBusy"><span class="ff-button-icon" x-html="iconSvg('check')"></span>{{ __('filaforge::studio.apply') }}</button>
+</div>
 <div x-show="find(selected)?.type==='shared-section'" class="ff-data-fields">
 <label class="ff-source-field"><span>{{ __('filaforge::studio.builder.shared_section') }}</span><select :value="find(selected)?.props.key" x-on:change="commit(()=>{find(selected).props.key=$event.target.value;find(selected).props.values={}})"><template x-for="section in sectionItems" :key="section.key"><option :value="section.key" x-text="section.label"></option></template></select></label>
 <p class="ff-muted">{{ __('filaforge::studio.builder.shared_help') }}</p>

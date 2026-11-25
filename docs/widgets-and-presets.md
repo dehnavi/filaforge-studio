@@ -9,19 +9,34 @@ Widgets are individual document nodes. Presets are ready-to-edit compositions bu
 
 ## Built-in widget types
 
-The current registry includes 30 widget types:
+The current registry includes 33 widget types:
 
 | Group | Examples |
 | --- | --- |
 | Layout | Container, section, grid, columns, spacer, divider |
 | Content | Heading, text, rich text, button, icon, link, quote |
-| Media | Image, video, slider, carousel |
+| Media | Image, video, slider, carousel, embed code (third-party iframe or script) |
 | Website | Navigation, dropdown menu and menu item |
 | Interaction | FAQ item, comment form, progress bar, wizard and wizard step |
 | Dynamic | Query loop, shortcode component, dynamic pagination |
 | Composition | Card and other section building blocks |
 
 The editor provides controls only for the properties supported by each type. Unknown widget names and properties are rejected by the document validator; custom widgets can implement `InspectorWidget` to supply trusted Filament form fields; custom client-side canvas renderers still require separate integration.
+
+## Embed a video or another iframe
+
+Add **Embed code** wherever a widget can go and paste the iframe or script code copied from the video service, then choose **Apply**. Iframes from any provider work by default. Script embeds stay off until the host enables them:
+
+```php
+'embeds' => [
+    'iframes' => true,
+    'scripts' => false,
+    'inline_scripts' => false,
+    'allowed_hosts' => [],
+],
+```
+
+FilaForge rebuilds the kept parts of the code on every render: the iframe, its container, and external scripts over HTTPS. Styles, event handlers, and every other element are removed, and the settings panel reports what changed. The canvas shows a placeholder with the provider's host. **Preview** shows the frame at its real size, but a provider's player can stay blank there because the preview is isolated from other sites; it plays on the published page. A single iframe scales with its section at a fixed 16:9 ratio; the responsive **Height** setting gives it a fixed height per device. Read [third-party embeds](security.md#third-party-embeds) before enabling script embeds.
 
 ## Built-in presets
 
