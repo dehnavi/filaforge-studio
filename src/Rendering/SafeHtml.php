@@ -3,9 +3,55 @@
 namespace FilaForge\Studio\Rendering;
 
 use Symfony\Component\HtmlSanitizer\{HtmlSanitizer, HtmlSanitizerConfig};
+use Symfony\Component\HtmlSanitizer\Parser\{MastermindsParser, NativeParser};
 
 final class SafeHtml
 {
+    public static function cleanBlock(string $html, ?string $namespace = null): string
+    {
+        if (!config('filaforge.embeds.scripts', false) || stripos($html, '<script') === false) {
+            return self::clean($html, $namespace);
+        }
+
+        $parser = PHP_VERSION_ID < 80400 ? new MastermindsParser : new NativeParser;
+        $root = $parser->parse($html);
+        if ($root === null) return '';
+
+        $scripts = [];
+        $prefix = 'ff-script-'.bin2hex(random_bytes(16)).'-';
+        self::markScripts($root, $prefix, $scripts);
+        if ($scripts === []) return self::clean($html, $namespace);
+
+        $document = $root->ownerDocument;
+        $safe = self::clean($document->saveHTML($root));
+        $rendered = strtr($safe, $scripts);
+
+        // Provider scripts refer to the original IDs of their holders.
+        return $rendered !== $safe ? $rendered : self::clean($safe, $namespace);
+    }
+
+    private static function markScripts(\DOMNode|\Dom\Node $root, string $prefix, array &$scripts): void
+    {
+        foreach (iterator_to_array($root->childNodes) as $node) {
+            if (!$node instanceof \DOMElement && !$node instanceof \Dom\Element) continue;
+            if ($node->namespaceURI !== 'http://www.w3.org/1999/xhtml') continue;
+            if ($node->localName !== 'script') {
+                self::markScripts($node, $prefix, $scripts);
+                continue;
+            }
+
+            $script = EmbedCode::htmlBlockScript($node);
+            if ($script === null) {
+                $root->removeChild($node);
+                continue;
+            }
+
+            $marker = $node->ownerDocument->createElement('span', $prefix.count($scripts));
+            $scripts['<span>'.$marker->textContent.'</span>'] = $script;
+            $root->replaceChild($marker, $node);
+        }
+    }
+
     public static function clean(string $html, ?string $namespace = null): string
     {
         $config = (new HtmlSanitizerConfig)->allowSafeElements()

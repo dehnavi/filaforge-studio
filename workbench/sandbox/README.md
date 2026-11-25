@@ -29,4 +29,6 @@ The authoring demo includes HTML, database card repeaters, shared section instan
 
 Additional demo scripts create separate sample pages and data. Read each script before running; some create or replace demo-only records. The maintained package tests run from the package root, not this workbench.
 
+The disposable Workbench enables external and inline scripts in **Embed code** and **HTML block**. Paste a provider snippet or a `<script>` block, choose **Apply embed** or **Apply HTML**, and open the page preview. See the package's [third-party embed settings](../../docs/configuration.md#third-party-embeds) for host applications.
+
 For consumer installation and integration instructions, see the [package developer book](../../docs/index.md).

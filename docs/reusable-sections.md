@@ -114,7 +114,9 @@ Read [dynamic content](dynamic-content.md) for provider filters, access rules an
 
 ## HTML block
 
-The **HTML block** widget inserts markup at the selected container, independently from HTML-to-widget import. Place the cursor in the HTML field or select existing content, then choose a tag from **Insert HTML tag**. Tags such as `article`, `section`, `p`, and `span` are inserted as an opening and closing pair around the cursor or selection. Choose **Apply HTML** to sanitize and update the canvas. Server rendering always sanitizes again. Safe structural markup, including tables, is supported; executable scripts, event handlers, inline CSS and unsafe URLs are removed. Stored markup is never compiled as Blade or PHP. Arbitrary CSS/JavaScript embedding is not part of this widget.
+The **HTML block** widget inserts markup at the selected container, independently from HTML-to-widget import. Place the cursor in the HTML field or select existing content, then choose a tag from **Insert HTML tag**. Tags such as `article`, `section`, `p`, and `span` are inserted as an opening and closing pair around the cursor or selection. Choose **Apply HTML** to sanitize and update the canvas. Server rendering always sanitizes again. Safe structural markup, including tables, is supported. The sanitizer removes event handlers, inline CSS, and unsafe URLs. The renderer treats Blade and PHP syntax as content.
+
+The HTML block can include `<script>` alongside the markup when `embeds.scripts` is enabled. External scripts use the configured host allowlist. Inline JavaScript also requires `embeds.inline_scripts`. Scripts stay in place and run in **Preview page** and the published page. The editing canvas shows only the markup. HTML blocks with accepted scripts keep their original IDs so the scripts can find their elements. Use unique IDs across the page. See [third-party embed settings](configuration.md#third-party-embeds) and [security considerations](security.md#third-party-embeds).
 
 ## Shared design values
 

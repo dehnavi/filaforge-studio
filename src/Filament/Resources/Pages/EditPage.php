@@ -93,7 +93,8 @@ class EditPage extends \Filament\Resources\Pages\Page {
             $html=app(\FilaForge\Studio\Rendering\HtmlRenderer::class)->document($document, new \FilaForge\Studio\Rendering\HtmlOptions(title:$page->title), $page, $context)->toHtml();
             $message=json_encode(__('filaforge::studio.data_preview_only'),JSON_HEX_TAG|JSON_HEX_AMP|JSON_HEX_APOS|JSON_HEX_QUOT|JSON_THROW_ON_ERROR);
             $bridge='<script>document.addEventListener("click",function(e){var a=e.target.closest("a[data-ff-page]");if(!a)return;e.preventDefault();parent.postMessage({type:"filaforge-preview-page",node:a.dataset.ffLoop,page:Number(a.dataset.ffPage)},"*")});document.addEventListener("submit",function(e){e.preventDefault();e.stopImmediatePropagation();var s=e.target.querySelector("[data-comment-status]");if(s)s.textContent='.$message.'},true);</script>';
-            return ['html'=>str_replace('</body>',$bridge.'</body>',$html)];
+            $bodyEnd = strrpos($html, '</body>');
+            return ['html' => $bodyEnd === false ? $html.$bridge : substr_replace($html, $bridge, $bodyEnd, 0)];
         } catch (\Throwable $error) { report($error); return ['error'=>__('filaforge::studio.data_preview_failed')]; }
     }
     public function makeDynamicElement(string $kind,string $source,string $name,array $arguments=[]): array {
@@ -128,7 +129,9 @@ class EditPage extends \Filament\Resources\Pages\Page {
     {
         $this->page();
         if (strlen($html) > 100000) throw new \InvalidArgumentException('HTML is too large.');
-        return app(\FilaForge\Studio\Rendering\SafeHtml::class)->clean($html);
+        $safe = \FilaForge\Studio\Rendering\SafeHtml::cleanBlock($html);
+        if (strlen($safe) > 100000) throw new \InvalidArgumentException('HTML is too large.');
+        return $safe;
     }
 
     /** Returns the part of a pasted embed code that may be stored, or the reason why none of it may. */

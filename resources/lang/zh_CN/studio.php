@@ -25,6 +25,7 @@ $translations = [
         'shared_section' => '共享区块',
         'shared_help' => '此实例使用源区块的已发布版本。发布源区块即可更新所有关联实例。',
         'html_help' => 'HTML 会经过净化处理，脚本、事件处理器和内联样式将被移除。绝不会执行 Blade 或 PHP。',
+        'html_scripts_help' => 'HTML 会经过清理。已启用的脚本将在页面预览和已发布的页面中运行。Blade 和 PHP 不会执行。',
         'apply_html' => '应用 HTML',
         'tokens' => '共享样式',
         'editing_rules' => '客户编辑权限',

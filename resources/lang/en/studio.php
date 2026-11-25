@@ -24,6 +24,7 @@ return [
         'shared_section' => 'Shared section',
         'shared_help' => 'This instance follows the published source. Edit and publish the source page to update all linked instances.',
         'html_help' => 'HTML is sanitized. Scripts, event handlers and inline styles are removed. Blade and PHP are never executed.',
+        'html_scripts_help' => 'HTML is sanitized. Enabled scripts run in page preview and on published pages. Blade and PHP are never executed.',
         'apply_html' => 'Apply HTML',
         'tokens' => 'Shared styles',
         'editing_rules' => 'Client editing permissions',

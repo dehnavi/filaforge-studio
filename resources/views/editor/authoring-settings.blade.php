@@ -7,7 +7,7 @@
 @endforeach
 </select></label>
 <label class="ff-source-field"><span>HTML</span><textarea class="ff-search" rows="12" dir="ltr" maxlength="100000" x-ref="htmlSourceEditor" x-model="draftProps.html"></textarea></label>
-<p class="ff-muted">{{ __('filaforge::studio.builder.html_help') }}</p>
+<p class="ff-muted">{{ __(config('filaforge.embeds.scripts', false) ? 'filaforge::studio.builder.html_scripts_help' : 'filaforge::studio.builder.html_help') }}</p>
 <button type="button" class="ff-btn ff-primary" x-on:click="applyHtml()"><span class="ff-button-icon" x-html="iconSvg('check')"></span>{{ __('filaforge::studio.builder.apply_html') }}</button>
 </div>
 <div x-show="find(selected)?.type==='embed'" class="ff-data-fields">

@@ -2,6 +2,12 @@
 
 All notable changes are documented here. The project is pre-1.0; breaking changes may occur before the first stable release.
 
+## [Unreleased]
+
+### Added
+
+- Support external and inline scripts alongside markup in HTML blocks when the host enables them. Blade and PHP remain uncompiled.
+
 ## [0.2.7] - 2026-11-25
 
 ### Added

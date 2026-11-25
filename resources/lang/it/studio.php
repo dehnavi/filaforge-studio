@@ -25,6 +25,7 @@ $translations = [
         'shared_section' => 'Sezione condivisa',
         'shared_help' => 'Questa istanza segue la versione pubblicata della fonte. Pubblica la fonte per aggiornare tutte le istanze collegate.',
         'html_help' => 'Il codice HTML viene ripulito. Script, gestori di eventi e stili inline vengono rimossi. Blade e PHP non vengono mai eseguiti.',
+        'html_scripts_help' => 'Il codice HTML viene sanificato. Gli script abilitati vengono eseguiti nell’anteprima e nella pagina pubblicata. Blade e PHP non vengono mai eseguiti.',
         'apply_html' => 'Applica HTML',
         'tokens' => 'Stili condivisi',
         'editing_rules' => 'Permessi di modifica del cliente',

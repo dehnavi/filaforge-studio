@@ -25,6 +25,7 @@ $translations = [
         'shared_section' => 'Phần dùng chung',
         'shared_help' => 'Bản này sử dụng phiên bản đã xuất bản của nguồn. Xuất bản nguồn để cập nhật mọi bản được liên kết.',
         'html_help' => 'HTML được làm sạch. Mã script, trình xử lý sự kiện và kiểu nội tuyến bị loại bỏ. Blade và PHP không bao giờ được thực thi.',
+        'html_scripts_help' => 'HTML được làm sạch. Các tập lệnh được bật sẽ chạy trong bản xem trước và trên trang đã xuất bản. Blade và PHP không được thực thi.',
         'apply_html' => 'Áp dụng HTML',
         'tokens' => 'Kiểu dùng chung',
         'editing_rules' => 'Quyền chỉnh sửa của khách hàng',

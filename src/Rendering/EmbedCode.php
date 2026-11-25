@@ -46,7 +46,7 @@ final class EmbedCode
             'iframes' => (bool) config('filaforge.embeds.iframes', true),
             'scripts' => (bool) config('filaforge.embeds.scripts', false),
             'inline' => (bool) config('filaforge.embeds.inline_scripts', false),
-            'hosts' => array_map(fn ($host) => strtolower(trim((string) $host)), (array) config('filaforge.embeds.allowed_hosts', [])),
+            'hosts' => self::allowedHosts(),
             'title' => $defaultTitle,
         ];
         $html = ''; $kind = ''; $host = ''; $notices = [];
@@ -145,7 +145,25 @@ final class EmbedCode
             + ['allowfullscreen' => true, 'loading' => 'lazy', 'referrerpolicy' => 'strict-origin-when-cross-origin']).'</iframe>';
     }
 
-    private static function script(DOMElement $element, array $options, string &$host, array &$notices): ?string
+    public static function htmlBlockScript(DOMElement|\Dom\Element $element): ?string
+    {
+        if (!config('filaforge.embeds.scripts', false)) return null;
+
+        $host = '';
+        $notices = [];
+
+        return self::script($element, [
+            'inline' => (bool) config('filaforge.embeds.inline_scripts', false),
+            'hosts' => self::allowedHosts(),
+        ], $host, $notices);
+    }
+
+    private static function allowedHosts(): array
+    {
+        return array_map(fn ($host) => strtolower(trim((string) $host)), (array) config('filaforge.embeds.allowed_hosts', []));
+    }
+
+    private static function script(DOMElement|\Dom\Element $element, array $options, string &$host, array &$notices): ?string
     {
         $src = null; $addressed = false; $flags = []; $body = trim($element->textContent);
         foreach ($element->attributes as $attribute) {
@@ -162,10 +180,11 @@ final class EmbedCode
             if ($name === 'type' && !in_array(strtolower($value), self::SCRIPT_TYPES, true)) { $notices['removed'] = true; return null; }
         }
         if ($src === null) {
+            if ($addressed) return null;
             if ($body === '') { if (!$addressed) $notices['removed'] = true; return null; }
             // Inline code is JavaScript written by the editor. It stays off until the host turns it on.
             if (!$options['inline'] || preg_match('~</script|<!--~i', $body) === 1) { $notices['inline'] = true; return null; }
-            return '<script data-ff-embed="">'.$body.'</script>';
+            return self::open('script', array_intersect_key($flags, ['type' => true]) + ['data-ff-embed' => '']).$body.'</script>';
         }
         if ($body !== '') $notices['removed'] = true;
         return self::open('script', ['src' => $src[0]] + $flags + ['data-ff-embed' => '']).'</script>';

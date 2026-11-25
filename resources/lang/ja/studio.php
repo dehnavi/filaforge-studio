@@ -25,6 +25,7 @@ $translations = [
         'shared_section' => '共有セクション',
         'shared_help' => 'このインスタンスは元の公開版を表示します。元のセクションを公開すると、リンクされた全インスタンスが更新されます。',
         'html_help' => 'HTML はサニタイズされ、スクリプト、イベントハンドラー、インラインスタイルは削除されます。Blade や PHP は実行されません。',
+        'html_scripts_help' => 'HTML はサニタイズされます。有効なスクリプトはプレビューと公開ページで実行されます。Blade と PHP は実行されません。',
         'apply_html' => 'HTML を適用',
         'tokens' => '共有スタイル',
         'editing_rules' => 'クライアントの編集権限',

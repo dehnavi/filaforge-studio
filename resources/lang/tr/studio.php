@@ -25,6 +25,7 @@ $translations = [
         'shared_section' => 'Ortak bölüm',
         'shared_help' => 'Bu örnek kaynağın yayımlanmış sürümünü izler. Bağlı tüm örnekleri güncellemek için kaynağı yayımlayın.',
         'html_help' => 'HTML temizlenir. Betikler, olay işleyicileri ve satır içi stiller kaldırılır. Blade ve PHP hiçbir zaman çalıştırılmaz.',
+        'html_scripts_help' => 'HTML temizlenir. Etkin betikler sayfa önizlemesinde ve yayımlanan sayfada çalışır. Blade ve PHP hiçbir zaman çalıştırılmaz.',
         'apply_html' => 'HTML uygula',
         'tokens' => 'Ortak stiller',
         'editing_rules' => 'Müşteri düzenleme izinleri',

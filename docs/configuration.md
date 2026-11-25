@@ -75,6 +75,8 @@ The **Embed code** element accepts direct iframe URLs, iframe snippets, and scri
 
 `iframes` and `scripts` decide which parts of a pasted code may be stored and rendered. `inline_scripts` additionally allows JavaScript written inside the code. `allowed_hosts` lists exact host names, or `*.example.com` for subdomains; an empty list accepts any HTTPS host. A script embed executes in the site's own origin, so enabling `scripts` needs the considerations in the [security guide](security.md#third-party-embeds).
 
+The script settings also apply to [HTML blocks](reusable-sections.md#html-block).
+
 ## Translation overrides
 
 Laravel applications can override package strings in the standard `lang/vendor/filaforge/<locale>/studio.php` location. Available catalogs and current translation limits are documented in [localization](localization.md).

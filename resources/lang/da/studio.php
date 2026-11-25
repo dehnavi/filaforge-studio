@@ -25,6 +25,7 @@ $translations = [
         'shared_section' => 'Delt sektion',
         'shared_help' => 'Denne instans følger kildens udgivne version. Udgiv kilden for at opdatere alle tilknyttede instanser.',
         'html_help' => 'HTML renses. Scripts, hændelseshåndtering og indlejrede stilarter fjernes. Blade og PHP udføres aldrig.',
+        'html_scripts_help' => 'HTML renses. Aktiverede scripts kører i forhåndsvisningen og på den publicerede side. Blade og PHP køres aldrig.',
         'apply_html' => 'Anvend HTML',
         'tokens' => 'Delte stilarter',
         'editing_rules' => 'Kundens redigeringsrettigheder',

@@ -20,6 +20,10 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         config(['filaforge.integrations.custom_scripts_enabled'=>true]);
+        config([
+            'filaforge.embeds.scripts' => true,
+            'filaforge.embeds.inline_scripts' => true,
+        ]);
         config(['filaforge.design_tokens'=>[
             'brand-text'=>['label'=>'رنگ اصلی برند','property'=>'color','value'=>'#4338ca'],
             'section-space'=>['label'=>'فاصلهٔ بخش‌ها','property'=>'padding','value'=>32],

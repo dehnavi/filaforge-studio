@@ -25,6 +25,7 @@ $translations = [
         'shared_section' => '共用區塊',
         'shared_help' => '此實例使用來源的已發佈版本。發佈來源即可更新所有連結的實例。',
         'html_help' => 'HTML 會經過淨化處理，指令碼、事件處理常式與行內樣式將被移除。絕不執行 Blade 或 PHP。',
+        'html_scripts_help' => 'HTML 會經過清理。已啟用的指令碼會在頁面預覽及已發佈的頁面中執行。Blade 和 PHP 不會執行。',
         'apply_html' => '套用 HTML',
         'tokens' => '共用樣式',
         'editing_rules' => '客戶編輯權限',

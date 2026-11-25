@@ -25,6 +25,7 @@ $translations = [
         'shared_section' => 'Bahagian dikongsi',
         'shared_help' => 'Instans ini menggunakan versi sumber yang diterbitkan. Terbitkan sumber untuk mengemas kini semua instans yang dipautkan.',
         'html_help' => 'HTML dibersihkan. Skrip, pengendali peristiwa dan gaya sebaris dibuang. Blade dan PHP tidak pernah dilaksanakan.',
+        'html_scripts_help' => 'HTML ditapis. Skrip yang didayakan berjalan dalam pratonton dan pada halaman yang diterbitkan. Blade dan PHP tidak dilaksanakan.',
         'apply_html' => 'Gunakan HTML',
         'tokens' => 'Gaya dikongsi',
         'editing_rules' => 'Kebenaran penyuntingan pelanggan',

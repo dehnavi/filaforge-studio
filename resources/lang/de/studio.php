@@ -25,6 +25,7 @@ $translations = [
         'shared_section' => 'Gemeinsamer Abschnitt',
         'shared_help' => 'Diese Instanz folgt der veröffentlichten Quelle. Veröffentlichen Sie die Quelle, um alle verknüpften Instanzen zu aktualisieren.',
         'html_help' => 'HTML wird bereinigt. Skripte, Ereignishandler und eingebettete Stile werden entfernt. Blade und PHP werden nie ausgeführt.',
+        'html_scripts_help' => 'HTML wird bereinigt. Aktivierte Skripte laufen in der Seitenvorschau und auf veröffentlichten Seiten. Blade und PHP werden nie ausgeführt.',
         'apply_html' => 'HTML anwenden',
         'tokens' => 'Gemeinsame Stile',
         'editing_rules' => 'Bearbeitungsrechte für Kunden',

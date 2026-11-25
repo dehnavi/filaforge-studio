@@ -25,6 +25,7 @@ $translations = [
         'shared_section' => 'Gedeelde sectie',
         'shared_help' => 'Deze instantie volgt de gepubliceerde bron. Publiceer de bron om alle gekoppelde instanties bij te werken.',
         'html_help' => 'HTML wordt opgeschoond. Scripts, gebeurtenisafhandelaars en inline stijlen worden verwijderd. Blade en PHP worden nooit uitgevoerd.',
+        'html_scripts_help' => 'HTML wordt opgeschoond. Ingeschakelde scripts worden uitgevoerd in het paginavoorbeeld en op de gepubliceerde pagina. Blade en PHP worden nooit uitgevoerd.',
         'apply_html' => 'HTML toepassen',
         'tokens' => 'Gedeelde stijlen',
         'editing_rules' => 'Bewerkingsrechten voor klanten',
