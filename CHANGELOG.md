@@ -2,6 +2,17 @@
 
 All notable changes are documented here. The project is pre-1.0; breaking changes may occur before the first stable release.
 
+## [Unreleased]
+
+### Added
+
+- Added host-deny authorization configuration, opt-in authenticated fallback, per-panel authorization mode, resource enable/disable helpers, and richer install/security diagnostics.
+- Documented the difference between resource registration, Filament navigation visibility, and authorization.
+
+### Security
+
+- Preserved deny-by-default behavior and guest denial; authenticated mode is opt-in and unsuitable for role-based or multi-tenant production applications.
+
 ## [0.2.5] - 2026-11-18
 
 ### Changed

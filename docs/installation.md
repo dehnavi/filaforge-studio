@@ -114,10 +114,32 @@ public function boot(): void
     Gate::define('filaforge.create', fn ($user) => $user->can('manage-pages'));
     Gate::define('filaforge.update', fn ($user, $page) => $user->can('manage-pages'));
     Gate::define('filaforge.publish', fn ($user, $page) => $user->can('publish-pages'));
+    Gate::define('filaforge.moderateAllComments', fn ($user) => $user->can('moderate-comments'));
 }
 ```
 
 Bind these examples to real roles, ownership, and tenant access. The package does not implement host-specific tenancy. Comment creation, comment viewing, moderation, and privileged scripts use separate abilities; read the [security guide](security.md).
+
+### Why Filaforge resources are not visible in Filament navigation
+
+Registering a resource and showing it in navigation are separate concerns. The plugin registers protected resource routes, but Filament calls `canViewAny()` when building navigation. If the policy returns `false`, the navigation item is hidden even though its route is registered. FilaForge policies deny by default, so define the `filaforge.*` Gates in the host application.
+
+For a simple, controlled local application only, opt in explicitly:
+
+```php
+'authorization' => ['mode' => 'authenticated'],
+FilaForgeStudioPlugin::make()->authorizationMode('authenticated');
+```
+
+This fallback applies only to authenticated users, never guests. It is not suitable for role-based, multi-tenant, or production authorization. A registered resource with no permission remains protected and is merely hidden from navigation. A disabled resource (`pageResource(null)`, `disablePageResource()`, or a null config entry) is not registered, so it has no route or navigation item.
+
+For local development only, a deliberately broad Gate can be used instead of authenticated mode:
+
+```php
+Gate::define('filaforge.viewAny', fn ($user) => $user !== null);
+```
+
+Keep this out of production and replace it with role/permission checks before deployment.
 
 ## Verify setup
 

@@ -64,6 +64,8 @@ public function panel(Panel $panel): Panel
 
 Package discovery registers the service provider. The plugin is opt-in per panel. Configure host authorization before editors create, update, publish, or moderate content. FilaForge does not create public website routes; your Laravel app owns page lookup and access rules. Follow the [installation guide](https://github.com/dehnavi/filaforge-studio/blob/main/docs/installation.md) and [security guide](https://github.com/dehnavi/filaforge-studio/blob/main/docs/security.md).
 
+The default `filaforge.authorization.mode` is `host`: resources may be registered while navigation stays hidden until the host defines the required `filaforge.*` Gates. This is intentional deny-by-default behavior. For controlled local projects only, explicitly opt in with `FilaForgeStudioPlugin::make()->authorizationMode('authenticated')`; never use that fallback as a role or tenant boundary.
+
 ## Customize the package in your application
 
 View and asset publishing, resource replacement, and resource inheritance are available starting with `v0.2.2`. See the [changelog](https://github.com/dehnavi/filaforge-studio/blob/main/CHANGELOG.md#022---2026-11-04) for release details.

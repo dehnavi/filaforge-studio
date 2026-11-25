@@ -19,6 +19,12 @@ Treat every editor document, upload, dynamic value, URL, and comment as untruste
 
 The package `filaforge:security-check` command reports several deployment configuration problems without modifying them. It is not a penetration test and cannot inspect your reverse proxy, CDN, identity provider, or database permissions.
 
+## Why Filaforge resources are not visible in Filament navigation
+
+Resource registration, navigation visibility, and authorization are different layers. Registering Pages or Comments creates panel routes; Filament hides a resource from navigation when its `canViewAny()` policy check is false. FilaForge's default `authorization.mode` is `host`, where undefined `filaforge.*` Gates deny access. Define the Gates in the application, using role, ownership, and tenant checks.
+
+For controlled local development, `authorization.mode=authenticated` or `FilaForgeStudioPlugin::make()->authorizationMode('authenticated')` is an explicit opt-in. It permits authenticated users only when a more specific host Gate is not defined; guests remain denied. Do not use it for real multi-role or multi-tenant applications.
+
 ## Rendering and XSS
 
 Ordinary text is escaped. Rich text passes through a strict sanitizer. Stored documents cannot execute Blade/PHP expressions, choose arbitrary widget classes/views, or supply SQL. Imported HTML drops scriptable and unsupported content. Custom widgets are trusted server code: validate their properties and escape output in their Blade views.

@@ -9,6 +9,17 @@ Install the published package with `composer require filaforge-studio/filaforge-
 
 Publish `config/filaforge.php` with `php artisan filaforge:install` or `php artisan vendor:publish --tag=filaforge-config`. Keep application-specific providers and authorization in the host application.
 
+## Resource authorization
+
+`authorization.mode` defaults to `host`. In this mode the host application must define the `filaforge.*` Gates; undefined abilities deny access, and Filament hides unauthorized resources from navigation while their registered routes remain protected. `authenticated` is an explicit fallback for small controlled projects only:
+
+```php
+'authorization' => ['mode' => 'authenticated'],
+FilaForgeStudioPlugin::make()->authorizationMode('authenticated'); // per panel
+```
+
+Guests are denied in both modes. Do not use `authenticated` for role-based or multi-tenant applications.
+
 ## Document and media limits
 
 | Key | Default | Purpose |

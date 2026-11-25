@@ -14,6 +14,10 @@ return [
     'media_max_bytes' => 52428800,
     // Enable after publishing filaforge-assets to public/vendor/filaforge.
     'published_assets' => false,
+    'authorization' => [
+        // Secure default: host application Gate definitions are required.
+        'mode' => 'host',
+    ],
     // Set a resource to null to disable it; panel plugin methods take precedence.
     'resources' => [
         'pages' => \FilaForge\Studio\Filament\Resources\PageResource::class,
