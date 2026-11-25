@@ -1,14 +1,17 @@
 <style>.ff-layout-tools{display:flex;flex-wrap:wrap;gap:7px;margin-top:12px}.ff-layout-tools .ff-btn{flex:1;min-width:92px;font-size:11px}.ff-layout-tools .ff-btn[aria-pressed=true]{border-color:var(--ff-accent);background:#eeedff;color:#4338ca}</style>
 <div x-show="find(selected)?.type==='html'" class="ff-data-fields">
-<label class="ff-source-field"><span>{{ __('filaforge::studio.editor_ui.html_insert_tag') }}</span><select x-on:change="insertHtmlTag($event.target.value); $event.target.value=''">
+<label class="ff-source-field"><span>{{ __('filaforge::studio.editor_ui.html_insert_tag') }}</span><select :disabled="htmlBusy" x-on:change="insertHtmlTag($event.target.value); $event.target.value=''">
 <option value="">{{ __('filaforge::studio.editor_ui.html_choose_tag') }}</option>
 @foreach (['article', 'section', 'header', 'footer', 'aside', 'figure', 'figcaption', 'div', 'p', 'span', 'h2', 'h3', 'strong', 'em', 'ul', 'ol', 'li', 'blockquote'] as $tag)
 <option value="{{ $tag }}">&lt;{{ $tag }}&gt;</option>
 @endforeach
 </select></label>
-<label class="ff-source-field"><span>HTML</span><textarea class="ff-search" rows="12" dir="ltr" maxlength="100000" x-ref="htmlSourceEditor" x-model="draftProps.html"></textarea></label>
+<label class="ff-source-field"><span>HTML</span><textarea class="ff-search" rows="12" dir="ltr" maxlength="100000" x-ref="htmlSourceEditor" x-model="draftProps.html" :readonly="htmlBusy"></textarea></label>
 <p class="ff-muted">{{ __(config('filaforge.embeds.scripts', false) ? 'filaforge::studio.builder.html_scripts_help' : 'filaforge::studio.builder.html_help') }}</p>
-<button type="button" class="ff-btn ff-primary" x-on:click="applyHtml()"><span class="ff-button-icon" x-html="iconSvg('check')"></span>{{ __('filaforge::studio.builder.apply_html') }}</button>
+<div class="ff-actions">
+<button type="button" class="ff-btn ff-primary" x-on:click="applyHtml()" :disabled="htmlBusy"><span class="ff-button-icon" x-html="iconSvg('check')"></span>{{ __('filaforge::studio.builder.apply_html') }}</button>
+<button type="button" class="ff-btn" x-on:click="togglePreview()" :disabled="htmlBusy || previewBusy">{{ __('filaforge::studio.editor_ui.embed_preview') }}</button>
+</div>
 </div>
 <div x-show="find(selected)?.type==='embed'" class="ff-data-fields">
 <label class="ff-source-field"><span>{{ __('filaforge::studio.editor_ui.embed_code') }}</span><textarea class="ff-search" rows="5" dir="ltr" spellcheck="false" maxlength="20000" x-model="draftProps.code" :disabled="embedBusy" aria-describedby="ff-embed-help" x-on:input="embedNotice='';embedError=''"></textarea></label>

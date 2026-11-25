@@ -12,7 +12,7 @@ final class HtmlBlockTest extends AuthoringTestCase
     public function test_html_block_keeps_enabled_scripts_in_place_with_their_original_targets(): void
     {
         config(['filaforge.embeds.scripts' => true, 'filaforge.embeds.inline_scripts' => true]);
-        $html = '<article id="player"><p>سلام</p><script src="https://www.aparat.com/embed/example?data[rnddiv]=player"></script>'
+        $html = '<article id="player"><p>سلام</p><script src="https://www.aparat.com/embed/example?data[rnddiv]=player&data[responsive]=yes"></script>'
             .'<script type="module">if (1 < 2) document.getElementById("player").dataset.ready = "<style>p{color:red}</style>";</script></article>';
         $clean = SafeHtml::cleanBlock($html);
         $result = app(BladeRenderer::class)->render($this->doc([$this->node('html', ['html' => $clean])]));
@@ -20,7 +20,7 @@ final class HtmlBlockTest extends AuthoringTestCase
         $fragment = $assets->capture($result);
 
         $this->assertSame($clean, SafeHtml::cleanBlock($clean));
-        $this->assertStringContainsString('<article id="player"><p>سلام</p><script src="https://www.aparat.com/embed/example?data[rnddiv]=player" data-ff-embed=""></script>', $fragment);
+        $this->assertStringContainsString('<article id="player"><p>سلام</p><script src="https://www.aparat.com/embed/example?data[rnddiv]=player&amp;data[responsive]=yes" data-ff-embed=""></script>', $fragment);
         $this->assertStringContainsString('<script type="module" data-ff-embed="">if (1 < 2) document.getElementById("player").dataset.ready = "<style>p{color:red}</style>";</script></article>', $fragment);
         $this->assertStringNotContainsString('<script', $assets->html()->toHtml());
     }

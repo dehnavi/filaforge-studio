@@ -2,6 +2,14 @@
 
 All notable changes are documented here. The project is pre-1.0; breaking changes may occur before the first stable release.
 
+## [Unreleased]
+
+### Fixed
+
+- Apply the current HTML block before opening page preview and offer a preview button in the block inspector.
+- Keep the preview document isolated while allowing nested video players to use their provider origins. Preserve embed URL parameters through HTML sanitization.
+- Show whether scripts are enabled in the English and Persian HTML block guidance.
+
 ## [0.2.9] - 2026-11-25
 
 ### Fixed

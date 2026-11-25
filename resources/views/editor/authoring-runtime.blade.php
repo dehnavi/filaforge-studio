@@ -22,7 +22,22 @@
         field.focus();
         field.setSelectionRange(start+opening.length,end+opening.length);
     },
-    async applyHtml(){const node=this.find(this.selected),html=this.draftProps.html;if(node?.type!=='html')return;try{const safe=await wire.sanitizeHtml(html);if(this.find(node.id)===node){this.commit(()=>node.props.html=safe);if(this.selected===node.id)this.draftProps.html=safe}}catch(e){this.status=@js(__('filaforge::studio.builder.action_failed'))}},
+    async applyHtml(){
+        const node=this.find(this.selected),draft=this.draftProps;
+        if(node?.type!=='html'||this.htmlBusy)return false;
+        if(draft.html===node.props.html)return true;
+        this.htmlBusy=true;
+        try{
+            const safe=await wire.sanitizeHtml(draft.html);
+            if(this.find(node.id)!==node||this.draftProps!==draft)return false;
+            if(!this.commit(()=>node.props.html=safe))return false;
+            draft.html=safe;
+            return true;
+        }catch(e){
+            this.status=@js(__('filaforge::studio.builder.action_failed'));
+            return false;
+        }finally{this.htmlBusy=false}
+    },
     // The server decides what an embed code may keep; the editor stores and shows only that result.
     async applyEmbed(){
         const node=this.find(this.selected),draft=this.draftProps;
