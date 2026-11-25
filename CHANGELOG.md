@@ -2,6 +2,12 @@
 
 All notable changes are documented here. The project is pre-1.0; breaking changes may occur before the first stable release.
 
+## [0.2.9] - 2026-11-25
+
+### Fixed
+
+- Fix an error when applying or rendering HTML blocks with scripts on PHP 8.5.
+
 ## [0.2.8] - 2026-11-25
 
 ### Added
